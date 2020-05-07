@@ -1,0 +1,3 @@
+Путь где лежит проект контроллер для stm32:
+
+"D:\work\development\Stm32\!projects\RGB_Tape-my\"

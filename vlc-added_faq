@@ -1,0 +1,31 @@
+Steps
+
+I now did the following: 
+1. Installed VLC Media Player 1.1.7 The Luggage
+2. Registered the ActiveX component: regsvr32 "D:\Program Files\VideoLAN\VLC\axvlc.dll"
+3. Created a WinForm project in VS2010 (any other version >= 2005 should do too)
+4. Toolbox/Choose item -> select COM register -> check "VideoLan VLC Plugin V2"
+5. Drag item onto form
+6. Add two buttons to form (Play & Stop)
+7. Add the following code:
+ 
+
+public partial class Form1 : Form
+   {
+       public Form1()
+       {
+           InitializeComponent();
+           axVLC.AutoPlay =false;
+           axVLC.playlist.add(@"D:\Data\Media\Filme\Drachenzaehmen\Drachenzaehmen.avi");
+       }
+ 
+       private void button1_Click(object sender, EventArgs e)
+       {
+           axVLC.playlist.playItem(0);
+       }
+ 
+       private void button2_Click(object sender, EventArgs e)
+       {
+           axVLC.playlist.stop();
+       }
+   }

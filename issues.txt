@@ -1,0 +1,2 @@
+- implement array data for volumes of each channel, and store to eeprom.
+- implement doubleclick emulation on Vlc player window for fullscreen mode.
