@@ -139,7 +139,7 @@ namespace SmartHome_v1
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            if (formVlcPlayer == null) formVlcPlayer = new FormPlayer();
+            if (formVlcPlayer == null) formVlcPlayer = new FormPlayer(this);
             
             ManageCheckGroupBox(cbUsedGpioForVlcMask, grbVlcGpioSettings);
             ManageCheckGroupBox(cbSheduler, gbSheduler);
@@ -229,7 +229,7 @@ namespace SmartHome_v1
         public void WriteLog(RichTextBox richTextBox, string str)
         {
             String temp_str = "[" + DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss") + "]" + str + "\n";
-            rtbLogger.AppendText(temp_str);
+//            rtbLogger.AppendText(temp_str);
         }
 
         public void SendRegToDevice(byte reg_num, int data, byte dev_num)
@@ -693,10 +693,10 @@ namespace SmartHome_v1
             if (indata == "RGB_TAPE")
             {
                 rgbTapePortOpenFlag = true;
-  //              this.Invoke((MethodInvoker)delegate
-//                {
+                this.Invoke((MethodInvoker)delegate
+                {
                     tsStatusLabelRgbTape.ForeColor = Color.Green;
-//                });
+                });
                 tsStatusLabelRgbTape.Text = "RGB_TAPE CONNECTED";
                 SndComName2 = serialPortRgbTape.PortName + MainConstants.SEND_STRING;
                 RcvComName2 = serialPortRgbTape.PortName + MainConstants.RECEIVE_STRING;

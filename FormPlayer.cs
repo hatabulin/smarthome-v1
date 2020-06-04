@@ -16,10 +16,11 @@ namespace SmartHome_v1
         int vlc_volume;
         Point point;
         bool fullscreen;
-        Form1 mainForm = new Form1();
+        Form1 mainForm;
 
-        public FormPlayer()
+        public FormPlayer(Form1 main)
         {
+            mainForm = main;
             InitializeComponent();
         }
 
@@ -121,7 +122,7 @@ namespace SmartHome_v1
 
         private void axVLCPlugin21_MediaPlayerEndReached(object sender, EventArgs e)
         {
-            mainForm.WriteLog("VLC:MediaPlayerEndReached");
+            //mainForm.WriteLog("VLC:MediaPlayerEndReached");
             axVLCPlugin21.playlist.stop();
             axVLCPlugin21.playlist.play();
         }
@@ -140,7 +141,7 @@ namespace SmartHome_v1
 
         private void axVLCPlugin21_MediaPlayerEncounteredError(object sender, EventArgs e)
         {
-            mainForm.WriteLog("VLC:MediaPlayerEncounteredError");
+            //mainForm.WriteLog("VLC:MediaPlayerEncounteredError");
             axVLCPlugin21.playlist.stop();
             axVLCPlugin21.playlist.play();
         }
