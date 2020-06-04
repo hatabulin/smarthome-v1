@@ -1592,6 +1592,7 @@ namespace SmartHome_v1
             }
         }
 
+
         private void checkBoxBuzzerBits_Click(object sender, EventArgs e)
         {
             if (cbBuzzerBit0.Checked) smartHomeModel.smartHomeBeepString |= 0x01; else smartHomeModel.smartHomeBeepString &= 0xFE; // enc0
