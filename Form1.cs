@@ -126,6 +126,12 @@ namespace SmartHome_v1
         WaveIn waveIn;
         WaveFileWriter writer;
 
+        private void SystemEvents_SessionEnded(object sender, SessionEndingEventArgs e)
+        {
+            //e.Cancel = true;
+            SendStringToDevice(RgbConstants.RGB_OFF_STRING, MainConstants.DEV_RGB_TAPE_ID);
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -1591,7 +1597,6 @@ namespace SmartHome_v1
                 smartHomePortOpenFlag = false;
             }
         }
-
 
         private void checkBoxBuzzerBits_Click(object sender, EventArgs e)
         {
