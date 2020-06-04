@@ -132,22 +132,11 @@
   <metadata name="contextMenuStripPlaylist.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>153, 56</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="buttonSaveSmartHomeCfg.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABGdBTUEAALGPC/xhBQAAASRJREFUOE+9
-        lL8uBEEcx7fTCAqC1pGIUoNolCqFnLegcqUX0GuRuOLUXsDL8AIqIv58PmNmrL2dy1L4JJ/szm9+37m7
-        uZ2t/oM53MPjqPfWOrOEI/woeIuLOJE1fMBnvMAVTHhvzTl77G3Fb/IY3bBQwLnUt2yhyRDfcDeMyrhP
-        9thr5gez+I5XYVTmAJ9wEy/RjNnMIbqR22HUjou84j1O4RaaOcLMKVpcwDs0VGcf64vIDJoxmxmgxXm0
-        2ZBh8fqC9UVkGs2YzfTRoj/NZkOGz+K1uYikn2Y2kzb7Ooy+F7OxbRHxjxnbbLlBJ3bC6Ct8Hq9N7LHX
-        zBg+9ulBW7dQwLnUVzwqPex6RFZxIn6KB9P9abPToa2TXiMn0V+/Rv5AVX0CLhVQ8LErlyEAAAAASUVO
-        RK5CYII=
-</value>
-  </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>418, 17</value>
   </metadata>
-  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnPlay.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABGdBTUEAALGPC/xhBQAAAP1JREFUWEft
         1sGqQVEUxvGTmaEy9wryBuZK1xgz5QGUh3DlGS7vYWhqamhkwlRRwn/dzqrV7kjKtrfaX/2S49T66tj7
@@ -165,7 +154,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABu
-        CgAAAk1TRnQBSQFMAgEBBAEAASABAgEgAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CgAAAk1TRnQBSQFMAgEBBAEAAUABAgFAAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -212,7 +201,7 @@
         Af8B/AGBAYABgwHxAY8B+wH/Af4BgwGGAYcF/wKPAZ8M/ws=
 </value>
   </data>
-  <data name="buttonSaveCfg.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSaveCfg.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABGdBTUEAALGPC/xhBQAAASRJREFUOE+9
         lL8uBEEcx7fTCAqC1pGIUoNolCqFnLegcqUX0GuRuOLUXsDL8AIqIv58PmNmrL2dy1L4JJ/szm9+37m7
@@ -223,13 +212,24 @@
         RK5CYII=
 </value>
   </data>
-  <data name="radioButtonFavoriteVlcPlayList.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="rbFavoriteVlcPlayList.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABGdBTUEAALGPC/xhBQAAAMVJREFUOE/V
         0z0OAVEUhuER8ZNoSBQ2YBUKlUKn1tkD9qBS6NQ2IH4SElHaA52Ompr3i7gx1zGGijd5ksnknJuZSSb4
         +XJoYYwpKlBptLHEAn2UYVbFARfPECvvnpxQQ6gU9vCH3zmiAFcd1mAcDbj0/tZQHB24mrCG4tCuK48z
         rMEo2tFuKD2iNRyli6cSmMNasGhWO2ZZrGEtPtpAs5FlMIF1gGzx9F1epV9iBv+QHUr4qCRGuB+if6+I
         rxugd7v8n4LgCnsWi+AuKO7dAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="buttonSaveSmartHomeCfg.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABGdBTUEAALGPC/xhBQAAASRJREFUOE+9
+        lL8uBEEcx7fTCAqC1pGIUoNolCqFnLegcqUX0GuRuOLUXsDL8AIqIv58PmNmrL2dy1L4JJ/szm9+37m7
+        uZ2t/oM53MPjqPfWOrOEI/woeIuLOJE1fMBnvMAVTHhvzTl77G3Fb/IY3bBQwLnUt2yhyRDfcDeMyrhP
+        9thr5gez+I5XYVTmAJ9wEy/RjNnMIbqR22HUjou84j1O4RaaOcLMKVpcwDs0VGcf64vIDJoxmxmgxXm0
+        2ZBh8fqC9UVkGs2YzfTRoj/NZkOGz+K1uYikn2Y2kzb7Ooy+F7OxbRHxjxnbbLlBJ3bC6Ct8Hq9N7LHX
+        zBg+9ulBW7dQwLnUVzwqPex6RFZxIn6KB9P9abPToa2TXiMn0V+/Rv5AVX0CLhVQ8LErlyEAAAAASUVO
+        RK5CYII=
 </value>
   </data>
   <metadata name="serialPortRgbTape.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

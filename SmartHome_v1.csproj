@@ -129,9 +129,10 @@
       <DependentUpon>FormPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="INIManager.cs" />
-    <Compile Include="Models\SmartHomeModel.cs" />
+    <Compile Include="Model\models\SmartHomeModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\repository\preferences\Registry.cs" />
     <Compile Include="SampleAgregator.cs" />
     <Compile Include="Settings1.Designer.cs">
       <AutoGen>True</AutoGen>
