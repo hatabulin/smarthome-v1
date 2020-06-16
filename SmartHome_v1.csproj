@@ -11,8 +11,10 @@
     <RootNamespace>SmartHome_v1</RootNamespace>
     <AssemblyName>SmartHome_v1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+<LangVersion>8.0</LangVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -50,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>brain.ico</ApplicationIcon>
+    <ApplicationIcon>assets\brain.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>3DF39E36AED3D4BC4C7BC9A3CFA80D8AADED5AF0</ManifestCertificateThumbprint>
@@ -94,9 +95,6 @@
     <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
-    <Reference Include="NSpeex">
-      <HintPath>!libs\NAudio-master\Lib\NSpeex\NSpeex.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -117,19 +115,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Interface1.cs" />
+    <Compile Include="Views\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Views\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPlayer.cs">
+    <Compile Include="Views\FormPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPlayer.Designer.cs">
+    <Compile Include="Views\FormPlayer.Designer.cs">
       <DependentUpon>FormPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="INIManager.cs" />
+    <Compile Include="Model\repository\INIManager.cs" />
     <Compile Include="Model\models\SmartHomeModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,10 +146,10 @@
       <DependentUpon>UserControl1.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Views\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPlayer.resx">
+    <EmbeddedResource Include="Views\FormPlayer.resx">
       <DependentUpon>FormPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -167,7 +166,6 @@
       <DependentUpon>UserControl1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -212,8 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\CoreAudio.dll" />
-    <Content Include="brain.ico" />
-    <Content Include="License-LGPL.txt" />
+    <Content Include="assets\brain.ico" />
     <None Include="Resources\baseline_stop_black_18dp1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Presenter\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -365,7 +365,7 @@
             // serialPortSmartHome
             // 
             this.serialPortSmartHome.BaudRate = 115200;
-            this.serialPortSmartHome.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPortSmartHomeDevice_DataReceived);
+            this.serialPortSmartHome.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortSmartHomeDevice_DataReceived);
             // 
             // cbUsbDevicesList
             // 
@@ -385,7 +385,7 @@
             this.rtbLogger.Size = new System.Drawing.Size(743, 256);
             this.rtbLogger.TabIndex = 7;
             this.rtbLogger.Text = "";
-            this.rtbLogger.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.rtbLogger.TextChanged += new System.EventHandler(this.RTB_Logger_TextChanged);
             // 
             // statusStrip1
             // 
@@ -489,7 +489,7 @@
             this.сохранитьToolStripMenuItem});
             this.contextMenuStripPlaylist.Name = "contextMenuStripPlaylist";
             this.contextMenuStripPlaylist.Size = new System.Drawing.Size(200, 70);
-            this.contextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripPlaylist_ItemClicked);
+            this.contextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenuStripPlaylist_ItemClicked);
             // 
             // удалитьToolStripMenuItem
             // 
@@ -669,8 +669,8 @@
             0,
             0,
             0});
-            this.nudEncoder1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.numericUpDown_EncoderValue);
-            this.nudEncoder1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.numericUpDown_EncoderValue);
+            this.nudEncoder1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
+            this.nudEncoder1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
             // 
             // nudEncoder0
             // 
@@ -690,8 +690,8 @@
             0,
             0,
             0});
-            this.nudEncoder0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.numericUpDown_EncoderValue);
-            this.nudEncoder0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.numericUpDown_EncoderValue);
+            this.nudEncoder0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
+            this.nudEncoder0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
             // 
             // label3
             // 
@@ -741,7 +741,7 @@
             this.cbBuzzerBit6.TabIndex = 6;
             this.cbBuzzerBit6.Text = "дверь";
             this.cbBuzzerBit6.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit6.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit6.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit4
             // 
@@ -753,7 +753,7 @@
             this.cbBuzzerBit4.TabIndex = 5;
             this.cbBuzzerBit4.Text = "uart";
             this.cbBuzzerBit4.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit4.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit4.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit5
             // 
@@ -765,7 +765,7 @@
             this.cbBuzzerBit5.TabIndex = 4;
             this.cbBuzzerBit5.Text = "usb";
             this.cbBuzzerBit5.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit5.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit5.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit3
             // 
@@ -777,7 +777,7 @@
             this.cbBuzzerBit3.TabIndex = 3;
             this.cbBuzzerBit3.Text = "пульт ДУ";
             this.cbBuzzerBit3.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit3.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit3.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit2
             // 
@@ -789,7 +789,7 @@
             this.cbBuzzerBit2.TabIndex = 2;
             this.cbBuzzerBit2.Text = "кнопки";
             this.cbBuzzerBit2.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit2.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit2.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit1
             // 
@@ -801,7 +801,7 @@
             this.cbBuzzerBit1.TabIndex = 1;
             this.cbBuzzerBit1.Text = "энк.1";
             this.cbBuzzerBit1.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit1.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit1.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // cbBuzzerBit0
             // 
@@ -813,7 +813,7 @@
             this.cbBuzzerBit0.TabIndex = 0;
             this.cbBuzzerBit0.Text = "энк.0";
             this.cbBuzzerBit0.UseVisualStyleBackColor = true;
-            this.cbBuzzerBit0.Click += new System.EventHandler(this.checkBoxBuzzerBits_Click);
+            this.cbBuzzerBit0.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
             // buttonSaveSmartHomeCfg
             // 
@@ -826,7 +826,7 @@
             this.buttonSaveSmartHomeCfg.Size = new System.Drawing.Size(35, 25);
             this.buttonSaveSmartHomeCfg.TabIndex = 49;
             this.buttonSaveSmartHomeCfg.UseVisualStyleBackColor = true;
-            this.buttonSaveSmartHomeCfg.Click += new System.EventHandler(this.button2_Click);
+            this.buttonSaveSmartHomeCfg.Click += new System.EventHandler(this.BTN2_Click);
             // 
             // gbSensorsState
             // 
@@ -1033,7 +1033,7 @@
             this.buttonSendDataToDevice.TabIndex = 45;
             this.buttonSendDataToDevice.Text = "Send";
             this.buttonSendDataToDevice.UseVisualStyleBackColor = true;
-            this.buttonSendDataToDevice.Click += new System.EventHandler(this.buttonSendDataToDevice_Click);
+            this.buttonSendDataToDevice.Click += new System.EventHandler(this.BTN_SendDataToDevice_Click);
             // 
             // tbDataToSend
             // 
@@ -1212,7 +1212,7 @@
             this.cbHotButtonMask8.TabIndex = 35;
             this.cbHotButtonMask8.Text = "unused";
             this.cbHotButtonMask8.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask8.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask8.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask1
             // 
@@ -1223,7 +1223,7 @@
             this.cbHotButtonMask1.TabIndex = 28;
             this.cbHotButtonMask1.Text = "Top Light";
             this.cbHotButtonMask1.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask1.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask1.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask7
             // 
@@ -1234,7 +1234,7 @@
             this.cbHotButtonMask7.TabIndex = 34;
             this.cbHotButtonMask7.Text = "unused";
             this.cbHotButtonMask7.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask7.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask7.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask2
             // 
@@ -1245,7 +1245,7 @@
             this.cbHotButtonMask2.TabIndex = 29;
             this.cbHotButtonMask2.Text = "Table Lamp";
             this.cbHotButtonMask2.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask2.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask2.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask6
             // 
@@ -1256,7 +1256,7 @@
             this.cbHotButtonMask6.TabIndex = 33;
             this.cbHotButtonMask6.Text = "unused";
             this.cbHotButtonMask6.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask6.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask6.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask3
             // 
@@ -1267,7 +1267,7 @@
             this.cbHotButtonMask3.TabIndex = 30;
             this.cbHotButtonMask3.Text = "Subwoof";
             this.cbHotButtonMask3.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask3.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask3.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask5
             // 
@@ -1278,7 +1278,7 @@
             this.cbHotButtonMask5.TabIndex = 32;
             this.cbHotButtonMask5.Text = "TV monitor";
             this.cbHotButtonMask5.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask5.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask5.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // cbHotButtonMask4
             // 
@@ -1289,7 +1289,7 @@
             this.cbHotButtonMask4.TabIndex = 31;
             this.cbHotButtonMask4.Text = "Printer";
             this.cbHotButtonMask4.UseVisualStyleBackColor = true;
-            this.cbHotButtonMask4.Click += new System.EventHandler(this.checkBoxHotButtonMask_Click);
+            this.cbHotButtonMask4.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
             // panelSleepGpio
             // 
@@ -1401,7 +1401,7 @@
             this.cbSleepModeMaskPin8.Text = "резерв";
             this.cbSleepModeMaskPin8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin8.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin8.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin8.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // label7
             // 
@@ -1424,7 +1424,7 @@
             this.cbSleepModeMaskPin1.Text = "Верхний свет";
             this.cbSleepModeMaskPin1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin1.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin1.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin1.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin7
             // 
@@ -1436,7 +1436,7 @@
             this.cbSleepModeMaskPin7.Text = "резерв";
             this.cbSleepModeMaskPin7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin7.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin7.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin7.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin2
             // 
@@ -1448,7 +1448,7 @@
             this.cbSleepModeMaskPin2.Text = "Настольная лампа";
             this.cbSleepModeMaskPin2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin2.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin2.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin2.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin6
             // 
@@ -1460,7 +1460,7 @@
             this.cbSleepModeMaskPin6.Text = "резерв";
             this.cbSleepModeMaskPin6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin6.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin6.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin6.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin3
             // 
@@ -1472,7 +1472,7 @@
             this.cbSleepModeMaskPin3.Text = "Ресивер";
             this.cbSleepModeMaskPin3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin3.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin3.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin3.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin5
             // 
@@ -1484,7 +1484,7 @@
             this.cbSleepModeMaskPin5.Text = "Принтер";
             this.cbSleepModeMaskPin5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin5.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin5.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin5.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // cbSleepModeMaskPin4
             // 
@@ -1496,7 +1496,7 @@
             this.cbSleepModeMaskPin4.Text = "Монитор для VLC";
             this.cbSleepModeMaskPin4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cbSleepModeMaskPin4.UseVisualStyleBackColor = true;
-            this.cbSleepModeMaskPin4.Click += new System.EventHandler(this.checkBoxSleepModeMask_Click);
+            this.cbSleepModeMaskPin4.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
             // tabPageRGB
             // 
@@ -1573,7 +1573,7 @@
             this.cbAmbilight.Size = new System.Drawing.Size(15, 14);
             this.cbAmbilight.TabIndex = 56;
             this.cbAmbilight.UseVisualStyleBackColor = true;
-            this.cbAmbilight.Click += new System.EventHandler(this.checkBoxAmbilight_Click);
+            this.cbAmbilight.Click += new System.EventHandler(this.CHB_Ambilight_Click);
             // 
             // gbSheduler
             // 
@@ -1657,7 +1657,7 @@
             this.btnColor15.Size = new System.Drawing.Size(22, 20);
             this.btnColor15.TabIndex = 48;
             this.btnColor15.UseVisualStyleBackColor = false;
-            this.btnColor15.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor15.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // textBox20
             // 
@@ -1776,7 +1776,7 @@
             this.btnColor12.Size = new System.Drawing.Size(22, 20);
             this.btnColor12.TabIndex = 2;
             this.btnColor12.UseVisualStyleBackColor = false;
-            this.btnColor12.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor12.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor13
             // 
@@ -1787,7 +1787,7 @@
             this.btnColor13.Size = new System.Drawing.Size(22, 20);
             this.btnColor13.TabIndex = 14;
             this.btnColor13.UseVisualStyleBackColor = false;
-            this.btnColor13.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor13.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor14
             // 
@@ -1798,7 +1798,7 @@
             this.btnColor14.Size = new System.Drawing.Size(22, 20);
             this.btnColor14.TabIndex = 15;
             this.btnColor14.UseVisualStyleBackColor = false;
-            this.btnColor14.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor14.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor16
             // 
@@ -1809,7 +1809,7 @@
             this.btnColor16.Size = new System.Drawing.Size(22, 20);
             this.btnColor16.TabIndex = 49;
             this.btnColor16.UseVisualStyleBackColor = false;
-            this.btnColor16.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor16.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor17
             // 
@@ -1820,7 +1820,7 @@
             this.btnColor17.Size = new System.Drawing.Size(22, 20);
             this.btnColor17.TabIndex = 50;
             this.btnColor17.UseVisualStyleBackColor = false;
-            this.btnColor17.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor17.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor18
             // 
@@ -1831,7 +1831,7 @@
             this.btnColor18.Size = new System.Drawing.Size(22, 20);
             this.btnColor18.TabIndex = 51;
             this.btnColor18.UseVisualStyleBackColor = false;
-            this.btnColor18.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor18.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor19
             // 
@@ -1842,7 +1842,7 @@
             this.btnColor19.Size = new System.Drawing.Size(22, 20);
             this.btnColor19.TabIndex = 52;
             this.btnColor19.UseVisualStyleBackColor = false;
-            this.btnColor19.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor19.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor20
             // 
@@ -1853,7 +1853,7 @@
             this.btnColor20.Size = new System.Drawing.Size(22, 20);
             this.btnColor20.TabIndex = 53;
             this.btnColor20.UseVisualStyleBackColor = false;
-            this.btnColor20.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor20.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor21
             // 
@@ -1864,7 +1864,7 @@
             this.btnColor21.Size = new System.Drawing.Size(22, 20);
             this.btnColor21.TabIndex = 54;
             this.btnColor21.UseVisualStyleBackColor = false;
-            this.btnColor21.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor21.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor22
             // 
@@ -1875,7 +1875,7 @@
             this.btnColor22.Size = new System.Drawing.Size(22, 20);
             this.btnColor22.TabIndex = 55;
             this.btnColor22.UseVisualStyleBackColor = false;
-            this.btnColor22.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor22.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor23
             // 
@@ -1886,7 +1886,7 @@
             this.btnColor23.Size = new System.Drawing.Size(22, 20);
             this.btnColor23.TabIndex = 56;
             this.btnColor23.UseVisualStyleBackColor = false;
-            this.btnColor23.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor23.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // label28
             // 
@@ -1980,7 +1980,7 @@
             this.btnColor03.Size = new System.Drawing.Size(22, 20);
             this.btnColor03.TabIndex = 48;
             this.btnColor03.UseVisualStyleBackColor = false;
-            this.btnColor03.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor03.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // textBox15
             // 
@@ -2099,7 +2099,7 @@
             this.btnColor00.Size = new System.Drawing.Size(22, 20);
             this.btnColor00.TabIndex = 2;
             this.btnColor00.UseVisualStyleBackColor = false;
-            this.btnColor00.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor00.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor01
             // 
@@ -2110,7 +2110,7 @@
             this.btnColor01.Size = new System.Drawing.Size(22, 20);
             this.btnColor01.TabIndex = 14;
             this.btnColor01.UseVisualStyleBackColor = false;
-            this.btnColor01.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor01.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor02
             // 
@@ -2121,7 +2121,7 @@
             this.btnColor02.Size = new System.Drawing.Size(22, 20);
             this.btnColor02.TabIndex = 15;
             this.btnColor02.UseVisualStyleBackColor = false;
-            this.btnColor02.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor02.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor04
             // 
@@ -2132,7 +2132,7 @@
             this.btnColor04.Size = new System.Drawing.Size(22, 20);
             this.btnColor04.TabIndex = 49;
             this.btnColor04.UseVisualStyleBackColor = false;
-            this.btnColor04.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor04.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor05
             // 
@@ -2143,7 +2143,7 @@
             this.btnColor05.Size = new System.Drawing.Size(22, 20);
             this.btnColor05.TabIndex = 50;
             this.btnColor05.UseVisualStyleBackColor = false;
-            this.btnColor05.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor05.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor06
             // 
@@ -2154,7 +2154,7 @@
             this.btnColor06.Size = new System.Drawing.Size(22, 20);
             this.btnColor06.TabIndex = 51;
             this.btnColor06.UseVisualStyleBackColor = false;
-            this.btnColor06.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor06.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor07
             // 
@@ -2165,7 +2165,7 @@
             this.btnColor07.Size = new System.Drawing.Size(22, 20);
             this.btnColor07.TabIndex = 52;
             this.btnColor07.UseVisualStyleBackColor = false;
-            this.btnColor07.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor07.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor08
             // 
@@ -2176,7 +2176,7 @@
             this.btnColor08.Size = new System.Drawing.Size(22, 20);
             this.btnColor08.TabIndex = 53;
             this.btnColor08.UseVisualStyleBackColor = false;
-            this.btnColor08.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor08.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor09
             // 
@@ -2187,7 +2187,7 @@
             this.btnColor09.Size = new System.Drawing.Size(22, 20);
             this.btnColor09.TabIndex = 54;
             this.btnColor09.UseVisualStyleBackColor = false;
-            this.btnColor09.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor09.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor10
             // 
@@ -2198,7 +2198,7 @@
             this.btnColor10.Size = new System.Drawing.Size(22, 20);
             this.btnColor10.TabIndex = 55;
             this.btnColor10.UseVisualStyleBackColor = false;
-            this.btnColor10.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor10.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // btnColor11
             // 
@@ -2209,7 +2209,7 @@
             this.btnColor11.Size = new System.Drawing.Size(22, 20);
             this.btnColor11.TabIndex = 56;
             this.btnColor11.UseVisualStyleBackColor = false;
-            this.btnColor11.Click += new System.EventHandler(this.buttonColor_Click);
+            this.btnColor11.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
             // cbSheduler
             // 
@@ -2225,7 +2225,7 @@
             this.cbSheduler.TabIndex = 46;
             this.cbSheduler.Text = "Расписание";
             this.cbSheduler.UseVisualStyleBackColor = true;
-            this.cbSheduler.Click += new System.EventHandler(this.cbSheduler_Click);
+            this.cbSheduler.Click += new System.EventHandler(this.CHB_Sheduler_Click);
             // 
             // btnGetDesktopColor
             // 
@@ -2235,7 +2235,7 @@
             this.btnGetDesktopColor.TabIndex = 11;
             this.btnGetDesktopColor.Text = "Цвет с рабочего стола";
             this.btnGetDesktopColor.UseVisualStyleBackColor = true;
-            this.btnGetDesktopColor.Click += new System.EventHandler(this.button18_Click);
+            this.btnGetDesktopColor.Click += new System.EventHandler(this.BTN18_Click);
             // 
             // lblGREEN
             // 
@@ -2298,7 +2298,7 @@
             this.btnSaveRgbCfg.TabIndex = 12;
             this.btnSaveRgbCfg.Text = "SaveCFG";
             this.btnSaveRgbCfg.UseVisualStyleBackColor = true;
-            this.btnSaveRgbCfg.Click += new System.EventHandler(this.btnSaveRgbCfg_Click);
+            this.btnSaveRgbCfg.Click += new System.EventHandler(this.BTN_SaveRgbCfg_Click);
             // 
             // nudChannelNumber
             // 
@@ -2313,7 +2313,7 @@
             this.nudChannelNumber.TabIndex = 5;
             this.nudChannelNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.nudChannelNumber, "Номер цвета (0..2)");
-            this.nudChannelNumber.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            this.nudChannelNumber.ValueChanged += new System.EventHandler(this.NUD_3_ValueChanged);
             // 
             // tbRed
             // 
@@ -2322,7 +2322,7 @@
             this.tbRed.Name = "tbRed";
             this.tbRed.Size = new System.Drawing.Size(272, 45);
             this.tbRed.TabIndex = 0;
-            this.tbRed.Scroll += new System.EventHandler(this.trackBarColor_Scroll);
+            this.tbRed.Scroll += new System.EventHandler(this.TRB_Color_Scroll);
             // 
             // btnSendCmd
             // 
@@ -2332,7 +2332,7 @@
             this.btnSendCmd.TabIndex = 46;
             this.btnSendCmd.Text = "Send";
             this.btnSendCmd.UseVisualStyleBackColor = true;
-            this.btnSendCmd.Click += new System.EventHandler(this.btnSendRgbCommand);
+            this.btnSendCmd.Click += new System.EventHandler(this.BTN_SendRgbCommand);
             // 
             // tbGreen
             // 
@@ -2341,7 +2341,7 @@
             this.tbGreen.Name = "tbGreen";
             this.tbGreen.Size = new System.Drawing.Size(272, 45);
             this.tbGreen.TabIndex = 7;
-            this.tbGreen.Scroll += new System.EventHandler(this.trackBarColor_Scroll);
+            this.tbGreen.Scroll += new System.EventHandler(this.TRB_Color_Scroll);
             // 
             // tbBlue
             // 
@@ -2350,7 +2350,7 @@
             this.tbBlue.Name = "tbBlue";
             this.tbBlue.Size = new System.Drawing.Size(269, 45);
             this.tbBlue.TabIndex = 8;
-            this.tbBlue.Scroll += new System.EventHandler(this.trackBarColor_Scroll);
+            this.tbBlue.Scroll += new System.EventHandler(this.TRB_Color_Scroll);
             // 
             // nudRgbFreq
             // 
@@ -2369,7 +2369,7 @@
             0,
             0,
             0});
-            this.nudRgbFreq.ValueChanged += new System.EventHandler(this.numericUpDownRgbFreq_ValueChanged);
+            this.nudRgbFreq.ValueChanged += new System.EventHandler(this.NU_RgbFreq_ValueChanged);
             // 
             // btnBlynkMode
             // 
@@ -2423,7 +2423,7 @@
             this.btnPlay.Size = new System.Drawing.Size(46, 20);
             this.btnPlay.TabIndex = 56;
             this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.button1_Click);
+            this.btnPlay.Click += new System.EventHandler(this.BTN1_Click);
             // 
             // groupBox3
             // 
@@ -2455,7 +2455,7 @@
             this.checkBoxFullScreen.Size = new System.Drawing.Size(15, 14);
             this.checkBoxFullScreen.TabIndex = 72;
             this.checkBoxFullScreen.UseVisualStyleBackColor = true;
-            this.checkBoxFullScreen.Click += new System.EventHandler(this.checkBoxFullScreen_Click);
+            this.checkBoxFullScreen.Click += new System.EventHandler(this.CHB_FullScreen_Click);
             // 
             // lblFullScreen
             // 
@@ -2476,7 +2476,7 @@
             this.cbRememberChVol.Size = new System.Drawing.Size(15, 14);
             this.cbRememberChVol.TabIndex = 70;
             this.cbRememberChVol.UseVisualStyleBackColor = true;
-            this.cbRememberChVol.Click += new System.EventHandler(this.checkBoxRememberChVol_Click);
+            this.cbRememberChVol.Click += new System.EventHandler(this.CHB_RememberChVol_Click);
             // 
             // mtbPlayListPath
             // 
@@ -2562,7 +2562,7 @@
             this.cbUsedGpioForVlcMask.TabIndex = 46;
             this.cbUsedGpioForVlcMask.Text = "Используемые порты платы \"SmartHome\"";
             this.cbUsedGpioForVlcMask.UseVisualStyleBackColor = true;
-            this.cbUsedGpioForVlcMask.Click += new System.EventHandler(this.checkBoxVlcGpioMask_Click);
+            this.cbUsedGpioForVlcMask.Click += new System.EventHandler(this.CHB_VlcGpioMask_Click);
             // 
             // cbVlcMaskPin6
             // 
@@ -2654,7 +2654,7 @@
             this.buttonVlcFavoriteListPath.TabIndex = 35;
             this.buttonVlcFavoriteListPath.Text = "...";
             this.buttonVlcFavoriteListPath.UseVisualStyleBackColor = true;
-            this.buttonVlcFavoriteListPath.Click += new System.EventHandler(this.buttonVlcFavoriteListPath_Click);
+            this.buttonVlcFavoriteListPath.Click += new System.EventHandler(this.BTN_VlcFavoriteListPath_Click);
             // 
             // buttonVlcPlayListPath
             // 
@@ -2664,7 +2664,7 @@
             this.buttonVlcPlayListPath.TabIndex = 38;
             this.buttonVlcPlayListPath.Text = "...";
             this.buttonVlcPlayListPath.UseVisualStyleBackColor = true;
-            this.buttonVlcPlayListPath.Click += new System.EventHandler(this.buttonVlcPlayListPath_Click);
+            this.buttonVlcPlayListPath.Click += new System.EventHandler(this.BTN_VlcPlayListPath_Click);
             // 
             // label12
             // 
@@ -2718,7 +2718,7 @@
             this.cbUseSlaveMonitor.Size = new System.Drawing.Size(15, 14);
             this.cbUseSlaveMonitor.TabIndex = 68;
             this.cbUseSlaveMonitor.UseVisualStyleBackColor = true;
-            this.cbUseSlaveMonitor.Click += new System.EventHandler(this.checkBoxUseSlaveMonitor_Click);
+            this.cbUseSlaveMonitor.Click += new System.EventHandler(this.CHB_UseSlaveMonitor_Click);
             // 
             // rbMainVlcPlayList
             // 
@@ -2739,7 +2739,7 @@
             this.buttonPlayPause.Size = new System.Drawing.Size(46, 20);
             this.buttonPlayPause.TabIndex = 54;
             this.buttonPlayPause.UseVisualStyleBackColor = true;
-            this.buttonPlayPause.Click += new System.EventHandler(this.buttonPlayPause_Click);
+            this.buttonPlayPause.Click += new System.EventHandler(this.BTN_PlayPause_Click);
             // 
             // imageList1
             // 
@@ -2761,7 +2761,7 @@
             this.btnSaveCfg.Size = new System.Drawing.Size(35, 25);
             this.btnSaveCfg.TabIndex = 30;
             this.btnSaveCfg.UseVisualStyleBackColor = true;
-            this.btnSaveCfg.Click += new System.EventHandler(this.buttonSaveCfg_Click_1);
+            this.btnSaveCfg.Click += new System.EventHandler(this.BTN_SaveCfg_Click_1);
             // 
             // btnMute
             // 
@@ -2772,7 +2772,7 @@
             this.btnMute.Size = new System.Drawing.Size(45, 20);
             this.btnMute.TabIndex = 53;
             this.btnMute.UseVisualStyleBackColor = true;
-            this.btnMute.Click += new System.EventHandler(this.buttonMute_Click);
+            this.btnMute.Click += new System.EventHandler(this.BTN_Mute_Click);
             // 
             // tbVlcVolume
             // 
@@ -2781,7 +2781,7 @@
             this.tbVlcVolume.Name = "tbVlcVolume";
             this.tbVlcVolume.Size = new System.Drawing.Size(176, 45);
             this.tbVlcVolume.TabIndex = 50;
-            this.tbVlcVolume.ValueChanged += new System.EventHandler(this.trackBarVlcVolume_ValueChanged);
+            this.tbVlcVolume.ValueChanged += new System.EventHandler(this.TRBAR_VlcVolume_ValueChanged);
             // 
             // buttonVlcStop
             // 
@@ -2791,7 +2791,7 @@
             this.buttonVlcStop.Size = new System.Drawing.Size(46, 20);
             this.buttonVlcStop.TabIndex = 49;
             this.buttonVlcStop.UseVisualStyleBackColor = true;
-            this.buttonVlcStop.Click += new System.EventHandler(this.buttonVlcStop_Click);
+            this.buttonVlcStop.Click += new System.EventHandler(this.BTN_VlcStop_Click);
             // 
             // rtbVlcLog
             // 
@@ -2853,8 +2853,8 @@
             this.lbVlcFavoriteTitles.Name = "lbVlcFavoriteTitles";
             this.lbVlcFavoriteTitles.Size = new System.Drawing.Size(150, 284);
             this.lbVlcFavoriteTitles.TabIndex = 36;
-            this.lbVlcFavoriteTitles.Click += new System.EventHandler(this.listBoxVlcFavoriteList_Click);
-            this.lbVlcFavoriteTitles.DoubleClick += new System.EventHandler(this.listBoxVlcFavoriteTitles_DoubleClick);
+            this.lbVlcFavoriteTitles.Click += new System.EventHandler(this.LBOX_VlcFavoriteList_Click);
+            this.lbVlcFavoriteTitles.DoubleClick += new System.EventHandler(this.LBOX_VlcFavoriteTitles_DoubleClick);
             // 
             // lbVlcPlaylistTitles
             // 
@@ -2866,9 +2866,9 @@
             this.lbVlcPlaylistTitles.Name = "lbVlcPlaylistTitles";
             this.lbVlcPlaylistTitles.Size = new System.Drawing.Size(150, 284);
             this.lbVlcPlaylistTitles.TabIndex = 35;
-            this.lbVlcPlaylistTitles.Click += new System.EventHandler(this.listBoxVlcPlayList_Click);
-            this.lbVlcPlaylistTitles.DoubleClick += new System.EventHandler(this.listBoxVlcPlaylistTitles_DoubleClick);
-            this.lbVlcPlaylistTitles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBoxVlcPlaylistTitles_MouseDown);
+            this.lbVlcPlaylistTitles.Click += new System.EventHandler(this.LBOX_VlcPlayList_Click);
+            this.lbVlcPlaylistTitles.DoubleClick += new System.EventHandler(this.LBOX_VlcPlaylistTitles_DoubleClick);
+            this.lbVlcPlaylistTitles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LBOX_VlcPlaylistTitles_MouseDown);
             // 
             // tabPageAudio
             // 
@@ -3142,7 +3142,7 @@
             this.btnStopRecord.TabIndex = 37;
             this.btnStopRecord.Text = "Стоп";
             this.btnStopRecord.UseVisualStyleBackColor = true;
-            this.btnStopRecord.Click += new System.EventHandler(this.buttonStopRecord_Click);
+            this.btnStopRecord.Click += new System.EventHandler(this.BTN_StopRecord_Click);
             // 
             // btnStartAudioStreamScan
             // 
@@ -3152,7 +3152,7 @@
             this.btnStartAudioStreamScan.TabIndex = 36;
             this.btnStartAudioStreamScan.Text = "Запись";
             this.btnStartAudioStreamScan.UseVisualStyleBackColor = true;
-            this.btnStartAudioStreamScan.Click += new System.EventHandler(this.buttonStartAudioStreamScan_Click);
+            this.btnStartAudioStreamScan.Click += new System.EventHandler(this.BTN_StartAudioStreamScan_Click);
             // 
             // zedGraphControl1
             // 
@@ -3236,7 +3236,7 @@
             this.buttonLogFilePath.TabIndex = 26;
             this.buttonLogFilePath.Text = "...";
             this.buttonLogFilePath.UseVisualStyleBackColor = true;
-            this.buttonLogFilePath.Click += new System.EventHandler(this.buttonLogFilePath_Click);
+            this.buttonLogFilePath.Click += new System.EventHandler(this.BTN_LogFilePath_Click);
             // 
             // checkBox25
             // 
@@ -3532,7 +3532,7 @@
             this.comboBoxHttpMethod.Name = "comboBoxHttpMethod";
             this.comboBoxHttpMethod.Size = new System.Drawing.Size(64, 24);
             this.comboBoxHttpMethod.TabIndex = 4;
-            this.comboBoxHttpMethod.SelectedValueChanged += new System.EventHandler(this.comboBoxHttpMethod_SelectedValueChanged);
+            this.comboBoxHttpMethod.SelectedValueChanged += new System.EventHandler(this.CB_HttpMethod_SelectedValueChanged);
             // 
             // button3
             // 
@@ -3572,12 +3572,12 @@
             this.btnRescanDevices.TabIndex = 46;
             this.btnRescanDevices.Text = "ReScan";
             this.btnRescanDevices.UseVisualStyleBackColor = true;
-            this.btnRescanDevices.Click += new System.EventHandler(this.btnRescanDevices_Click);
+            this.btnRescanDevices.Click += new System.EventHandler(this.BTN_RescanDevices_Click);
             // 
             // serialPortRgbTape
             // 
             this.serialPortRgbTape.BaudRate = 115200;
-            this.serialPortRgbTape.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPortRgbTapeDevice_DataReceived);
+            this.serialPortRgbTape.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortRgbTapeDevice_DataReceived);
             // 
             // serialPortScales
             // 
@@ -3595,12 +3595,12 @@
             // timerAmbilight
             // 
             this.timerAmbilight.Interval = 1000;
-            this.timerAmbilight.Tick += new System.EventHandler(this.timerAmbilight_Tick);
+            this.timerAmbilight.Tick += new System.EventHandler(this.TMR_Ambilight_Tick);
             // 
             // timerRgbSheduler
             // 
             this.timerRgbSheduler.Interval = 30000;
-            this.timerRgbSheduler.Tick += new System.EventHandler(this.timerRgbSheduler_Tick);
+            this.timerRgbSheduler.Tick += new System.EventHandler(this.TMR_RgbSheduler_Tick);
             // 
             // Form1
             // 

@@ -42,11 +42,11 @@
             this.axVLCPlugin21.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axVLCPlugin21.OcxState")));
             this.axVLCPlugin21.Size = new System.Drawing.Size(314, 271);
             this.axVLCPlugin21.TabIndex = 0;
-            this.axVLCPlugin21.MediaPlayerEncounteredError += new System.EventHandler(this.axVLCPlugin21_MediaPlayerEncounteredError);
-            this.axVLCPlugin21.MediaPlayerEndReached += new System.EventHandler(this.axVLCPlugin21_MediaPlayerEndReached);
-            this.axVLCPlugin21.MediaPlayerMediaChanged += new System.EventHandler(this.axVLCPlugin21_MediaPlayerMediaChanged);
-            this.axVLCPlugin21.MediaPlayerVout += new AxAXVLC.DVLCEvents_MediaPlayerVoutEventHandler(this.axVLCPlugin21_MediaPlayerVout);
-            this.axVLCPlugin21.DblClick += new System.EventHandler(this.axVLCPlugin21_DblClick);
+            this.axVLCPlugin21.MediaPlayerEncounteredError += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerEncounteredError);
+            this.axVLCPlugin21.MediaPlayerEndReached += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerEndReached);
+            this.axVLCPlugin21.MediaPlayerMediaChanged += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerMediaChanged);
+            this.axVLCPlugin21.MediaPlayerVout += new AxAXVLC.DVLCEvents_MediaPlayerVoutEventHandler(this.AxVLCPlugin21_MediaPlayerVout);
+            this.axVLCPlugin21.DblClick += new System.EventHandler(this.AxVLCPlugin21_DblClick);
             // 
             // FormPlayer
             // 
@@ -57,10 +57,7 @@
             this.Controls.Add(this.axVLCPlugin21);
             this.Name = "FormPlayer";
             this.Text = "FormPlayer";
-            this.Activated += new System.EventHandler(this.FormPlayer_Activated);
-            this.Shown += new System.EventHandler(this.FormPlayer_Shown);
             this.DoubleClick += new System.EventHandler(this.FormPlayer_DoubleClick);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormPlayer_MouseClick);
             ((System.ComponentModel.ISupportInitialize)(this.axVLCPlugin21)).EndInit();
             this.ResumeLayout(false);
 
