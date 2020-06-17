@@ -1,6 +1,6 @@
 # SmartHome_v1
 This is my first training project in Visual Studio C#.NET
-This software used device on stm32 for communicate with power, encoders, and other sensors... Project placed: https://gitlab.com/sergiklutsk/SmartHome_v2
+This software useing device driver on stm32 for communicate with power, encoders, and other sensors... Project placed: https://gitlab.com/sergiklutsk/SmartHome_v2
 
 Application main tabs:
 1. SmartHome device settings/control page - project on stm32 MCU development board. project link: http://
