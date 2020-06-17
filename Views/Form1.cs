@@ -90,6 +90,13 @@ namespace SmartHome_v1
         public Form1()
         {
             InitializeComponent();
+
+            ManageCheckGroupBox(CHBOX_UsedGpioForVlcMask, GRBOX_VlcGpioSettings);
+            ManageCheckGroupBox(CHBOX_Sheduler, gbSheduler);
+
+            COMBOX_UsbDevicesList.Items.Clear();
+            COMBOX_UsbDevicesList.Items.AddRange(SerialPort.GetPortNames());
+
             _formVlcPlayer = new FormPlayer();
             _formVlcPlayer.MyEvent += this.VlcStatusEvent; // Add event from FormPlayer class
         }
@@ -100,13 +107,7 @@ namespace SmartHome_v1
         }
 
         private void Form1_Shown(object sender, EventArgs e)
-        {
-            ManageCheckGroupBox(CHBOX_UsedGpioForVlcMask, GRBOX_VlcGpioSettings);
-            ManageCheckGroupBox(CHBOX_Sheduler, gbSheduler);
-
-            COMBOX_UsbDevicesList.Items.Clear();
-            COMBOX_UsbDevicesList.Items.AddRange(SerialPort.GetPortNames());
-            
+        {            
             ScanUsbDevices(); // SCAN My DEVICES
             ScanAudioDevices(cbDevices.SelectedIndex);
             //
@@ -123,10 +124,12 @@ namespace SmartHome_v1
             VlcMaskIntToCheckboxes();
             VlcLoadAndFillListBox(MTB_PlayListPath.Text, LISTB_VlcPlaylistURLs, LISTB_VlcPlaylistTitles);
             VlcLoadAndFillListBox(MTB_FavoriteListPath.Text, LISTB_VlcFavoriteURLs, LISTB_VlcFavoriteTitles);
+
+            GetRegistrySettings();
+
             LISTB_VlcPlaylistURLs.SelectedIndex = LISTB_VlcPlaylistTitles.SelectedIndex;
             LISTB_VlcFavoriteURLs.SelectedIndex = LISTB_VlcFavoriteTitles.SelectedIndex;
             
-            GetRegistrySettings();
             TXTBOX_VlcVolume.Value = _VlcVolume;
             RBTN_FavoriteVlcPlayList.Checked = !(RBTN_MainVlcPlayList.Checked);
             GRBOX_VlcGpioSettings.Enabled = CHBOX_UsedGpioForVlcMask.Checked;
@@ -168,10 +171,8 @@ namespace SmartHome_v1
             TBOX_HttpMethod.Text = Convert.ToString(_regKey.GetValue("PostManSendTextField", "index.html"));
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void SaveRegistry()
         {
-            SendStringToDevice(RgbConstants.RGB_OFF_STRING, MainConstants.DEV_RGB_TAPE_ID);
-
             _regKey.SetValue("TabIndex", tabControl.SelectedIndex);
             if (_formVlcPlayer != null)
             {
@@ -188,10 +189,15 @@ namespace SmartHome_v1
             _regKey.SetValue("FavoriteListSelected", LISTB_VlcFavoriteTitles.SelectedIndex);
             _regKey.SetValue("UseSlaveMonitor", CHBOX_UseSlaveMonitor.Checked);
             _regKey.SetValue("VlcRememberChannelsVolume", CHBOX_RememberChVol.Checked);
-            
-            if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
-
             _regKey.Close();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
+            SendStringToDevice(RgbConstants.RGB_OFF_STRING, MainConstants.DEV_RGB_TAPE_ID);
+
+            SaveRegistry();
         }
 
         public void WriteLog(RichTextBox richTextBox, string str)
