@@ -50,84 +50,36 @@ namespace SmartHome_v1
         [DllImport("gdi32.dll")]
         public static extern uint GetPixel(IntPtr hDC, int x, int y);
 
-        public struct SYSTEMTIME
-        {
-            public short wYear;
-            public short wMonth;
-            public short wDayOfWeek;
-            public short wDay;
-            public short wHour;
-            public short wMinute;
-            public short wSecond;
-            public short wMilliseconds;
-        }
-
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool GetSystemTime(ref SYSTEMTIME time);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y)
-            {
-                this.X = x;
-                this.Y = y;
-            }
-
-            public static implicit operator System.Drawing.Point(POINT p)
-            {
-                return new System.Drawing.Point(p.X, p.Y);
-            }
-
-            public static implicit operator POINT(System.Drawing.Point p)
-            {
-                return new POINT(p.X, p.Y);
-            }
-        }
-
+        Boolean _smartHomePortOpenFlag = false;
+        Boolean _rgbTapePortOpenFlag = false;
+        Boolean _rgbOffFlag = false;
+        Boolean _vlcFlag = false;
         //
-        static public Bitmap bmp;
-        //
-        //
-        Boolean smartHomePortOpenFlag = false;
-        Boolean rgbTapePortOpenFlag = false;
-        Boolean rgbOffFlag = false;
-
-        //
-        readonly SmartHomeModel SmartHomeModel = new SmartHomeModel();
-
-        int flag_vlc_play = 0;
-        int _VlcVolume = VlcConstants.DEFAULT_VOLUME;
-        readonly bool[] rgbStateFlag = new bool[24];
-        readonly Color[] rgbShedulerColorsArray = new Color[24];
-
-        //
-        //
-        readonly Int16[] deviceRegister = new Int16[10];
-        string app_path = "d:\\";
-        string SndComName2, RcvComName2, SndComName1, RcvComName1;
-
-        //
-        //
-        readonly RegistryKey RegKey = Registry.CurrentUser.CreateSubKey("Hatabisoft");
-        readonly FormPlayer formVlcPlayer;
+        readonly SmartHomeModel _smartHomeModel = new SmartHomeModel();
+        readonly RegistryKey _regKey = Registry.CurrentUser.CreateSubKey("Hatabisoft");
+        readonly FormPlayer _formVlcPlayer;
         GraphPane myPane;
-        //
-        //
-        // Audio stream scan variables
-        //
-        //! Почистить константы! (некоторые возможно ненужны) также при остановке записи надо вызвать waveIn.Dispose( сейчас не так)
-        static readonly double Fs = 42000; // Частота дискретизвции !В данной программе ТОЛЬКО целые числа
-        static readonly double T = 1.0 / Fs; // Шаг дискретизации
-        static int N; //Длина сигнала (точек)
-        static readonly double Fn = Fs / 2;// Частота Найквиста
 
+        int _VlcVolume = VlcConstants.DEFAULT_VOLUME;
+        readonly bool[] _rgbStateFlag = new bool[24];
+        readonly Color[] _rgbShedulerColorsArray = new Color[24];
+
+        readonly Int16[] _deviceRegister = new Int16[10];
+        string _appPath = "d:\\";
+        string _sndComName2, _rcvComName2, _sndComName1, _rcvComName1;
+
+        // Audio stream scan variables
+        //! Почистить константы! (некоторые возможно ненужны) также при остановке записи надо вызвать waveIn.Dispose( сейчас не так)
+        static readonly double _Fs = 42000; // Частота дискретизвции !В данной программе ТОЛЬКО целые числа
+        static readonly double _T = 1.0 / _Fs; // Шаг дискретизации
+        static int _N; //Длина сигнала (точек)
+        static readonly double _Fn = _Fs / 2;// Частота Найквиста
         // WaveIn - поток для записи
-        WaveIn waveIn;
-        WaveFileWriter writer;
+        WaveIn _waveIn;
+        WaveFileWriter _writer;
 
         private void SystemEvents_SessionEnded(object sender, SessionEndingEventArgs e)
         {
@@ -138,8 +90,8 @@ namespace SmartHome_v1
         public Form1()
         {
             InitializeComponent();
-            formVlcPlayer = new FormPlayer();
-            formVlcPlayer.MyEvent += this.VlcStatusEvent; // Add event from FormPlayer class
+            _formVlcPlayer = new FormPlayer();
+            _formVlcPlayer.MyEvent += this.VlcStatusEvent; // Add event from FormPlayer class
         }
 
         public void VlcStatusEvent(string text) // Implement event routine... 
@@ -149,94 +101,97 @@ namespace SmartHome_v1
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            ManageCheckGroupBox(cbUsedGpioForVlcMask, grbVlcGpioSettings);
-            ManageCheckGroupBox(cbSheduler, gbSheduler);
+            ManageCheckGroupBox(CHBOX_UsedGpioForVlcMask, GRBOX_VlcGpioSettings);
+            ManageCheckGroupBox(CHBOX_Sheduler, gbSheduler);
 
-            cbUsbDevicesList.Items.Clear();
-            cbUsbDevicesList.Items.AddRange(SerialPort.GetPortNames());
+            COMBOX_UsbDevicesList.Items.Clear();
+            COMBOX_UsbDevicesList.Items.AddRange(SerialPort.GetPortNames());
+            
             ScanUsbDevices(); // SCAN My DEVICES
             ScanAudioDevices(cbDevices.SelectedIndex);
             //
-            app_path = Path.GetFullPath(Application.ExecutablePath);
-            app_path = Directory.GetParent(app_path).FullName + "\\";
+            _appPath = Path.GetFullPath(Application.ExecutablePath);
+            _appPath = Directory.GetParent(_appPath).FullName + "\\";
             //
-            INIManager manager = new INIManager(app_path + "smarthome.ini");
+            INIManager manager = new INIManager(_appPath + "smarthome.ini");
 //            string name = manager.GetPrivateString("PathSettings", "name");
             //
-            mtbLogFilePath.Text = manager.GetPrivateString("PathSettings", "LogFile");
-            mtbPlayListPath.Text = manager.GetPrivateString("PathSettings", "MainPlayList");
-            mtbFavoriteListPath.Text = manager.GetPrivateString("PathSettings", "FavoritePlayList");
+            MTB_LogFilePath.Text = manager.GetPrivateString("PathSettings", "LogFile");
+            MTB_PlayListPath.Text = manager.GetPrivateString("PathSettings", "MainPlayList");
+            MTB_FavoriteListPath.Text = manager.GetPrivateString("PathSettings", "FavoritePlayList");
 
             VlcMaskIntToCheckboxes();
-            VlcLoadAndFillListBox(mtbPlayListPath.Text, lbVlcPlaylistURLs, lbVlcPlaylistTitles);
-            VlcLoadAndFillListBox(mtbFavoriteListPath.Text, lbVlcFavoriteURLs, lbVlcFavoriteTitles);
-            lbVlcPlaylistURLs.SelectedIndex = lbVlcPlaylistTitles.SelectedIndex;
-            lbVlcFavoriteURLs.SelectedIndex = lbVlcFavoriteTitles.SelectedIndex;
+            VlcLoadAndFillListBox(MTB_PlayListPath.Text, LISTB_VlcPlaylistURLs, LISTB_VlcPlaylistTitles);
+            VlcLoadAndFillListBox(MTB_FavoriteListPath.Text, LISTB_VlcFavoriteURLs, LISTB_VlcFavoriteTitles);
+            LISTB_VlcPlaylistURLs.SelectedIndex = LISTB_VlcPlaylistTitles.SelectedIndex;
+            LISTB_VlcFavoriteURLs.SelectedIndex = LISTB_VlcFavoriteTitles.SelectedIndex;
             
             GetRegistrySettings();
-            tbVlcVolume.Value = _VlcVolume;
-            rbFavoriteVlcPlayList.Checked = !(rbMainVlcPlayList.Checked);
-            grbVlcGpioSettings.Enabled = cbUsedGpioForVlcMask.Checked;
+            TXTBOX_VlcVolume.Value = _VlcVolume;
+            RBTN_FavoriteVlcPlayList.Checked = !(RBTN_MainVlcPlayList.Checked);
+            GRBOX_VlcGpioSettings.Enabled = CHBOX_UsedGpioForVlcMask.Checked;
             CheckVlcGpioMask();
-            if (cbAmbilight.Checked) timerAmbilight.Start();
-            if (cbSheduler.Checked) CHB_Sheduler_Click(sender, e);
+            if (CHBOX_Ambilight.Checked) TMR_Ambilight.Start();
+            if (CHBOX_Sheduler.Checked) CHB_Sheduler_Click(sender, e);
         }
 
         private void GetRegistrySettings()
         {
-            tabControl.SelectedIndex = (int)RegKey.GetValue("TabIndex", 0);
-            SmartHomeModel.vlcDevicesMask = (int)RegKey.GetValue("VlcDevicesMaskPin", 0);
-            lbVlcPlaylistTitles.SelectedIndex = (int)RegKey.GetValue("PlayListSelected", 0);
-            lbVlcFavoriteTitles.SelectedIndex = (int)RegKey.GetValue("FavoriteListSelected", 0);
-            rbMainVlcPlayList.Checked = Convert.ToBoolean(RegKey.GetValue("UsedPlayListForIRemore", "True"));
-            cbUsedGpioForVlcMask.Checked = Convert.ToBoolean(RegKey.GetValue("VlcDevicesMaskPinUsing", "False"));
-            cbUseSlaveMonitor.Checked = Convert.ToBoolean(RegKey.GetValue("UseSlaveMonitor", "False"));
-            if (Convert.ToBoolean(RegKey.GetValue("VlcStatus", "False"))) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
-            cbRememberChVol.Checked = Convert.ToBoolean(RegKey.GetValue("VlcRememberChannelsVolume", false));
-            _VlcVolume = Math.Abs(Convert.ToInt32(RegKey.GetValue("VlcPlayerVolume",VlcConstants.DEFAULT_VOLUME)));
-            switch (Convert.ToBoolean(RegKey.GetValue("VlcPlayerMuted", "False")))
+            tabControl.SelectedIndex = (int)_regKey.GetValue("TabIndex", 0);
+            _smartHomeModel.vlcDevicesMask = (int)_regKey.GetValue("VlcDevicesMaskPin", 0);
+            LISTB_VlcPlaylistTitles.SelectedIndex = (int)_regKey.GetValue("PlayListSelected", 0);
+            LISTB_VlcFavoriteTitles.SelectedIndex = (int)_regKey.GetValue("FavoriteListSelected", 0);
+            RBTN_MainVlcPlayList.Checked = Convert.ToBoolean(_regKey.GetValue("UsedPlayListForIRemore", "True"));
+            CHBOX_UsedGpioForVlcMask.Checked = Convert.ToBoolean(_regKey.GetValue("VlcDevicesMaskPinUsing", "False"));
+            CHBOX_UseSlaveMonitor.Checked = Convert.ToBoolean(_regKey.GetValue("UseSlaveMonitor", "False"));
+            if (Convert.ToBoolean(_regKey.GetValue("VlcStatus", "False"))) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
+            CHBOX_RememberChVol.Checked = Convert.ToBoolean(_regKey.GetValue("VlcRememberChannelsVolume", false));
+            _VlcVolume = Math.Abs(Convert.ToInt32(_regKey.GetValue("VlcPlayerVolume",VlcConstants.DEFAULT_VOLUME)));
+
+            switch (Convert.ToBoolean(_regKey.GetValue("VlcPlayerMuted", "False")))
             {
                 case true:
-                    btnMute.ImageIndex = 1;
-                    if (formVlcPlayer!=null && formVlcPlayer.IsMute != true) formVlcPlayer.SetMute();
+                    BTN_Mute.ImageIndex = 1;
+                    if (_formVlcPlayer!=null && _formVlcPlayer.IsMute != true) _formVlcPlayer.SetMute();
                     break;
                 case false:
-                    btnMute.ImageIndex = 0;
-                    if (formVlcPlayer != null && formVlcPlayer.IsMute != false) formVlcPlayer.SetMute();
+                    BTN_Mute.ImageIndex = 0;
+                    if (_formVlcPlayer != null && _formVlcPlayer.IsMute != false) _formVlcPlayer.SetMute();
                     break;
             }
-            cbRgbSendString.SelectedIndex = (int)RegKey.GetValue("SendStringSelected", 0);
-            cbAmbilight.Checked = Convert.ToBoolean(RegKey.GetValue("UseAmbilight", "False"));
-            for (int i = 0; i < 24; i++) SetButtonColors(i, RegKey.GetValue("RgbShedulerHour" + Convert.ToString(i), "FFFF00").ToString());
-            cbSheduler.Checked = Convert.ToBoolean(RegKey.GetValue("RgbUseSheduler", false));
-            comboBoxHttpMethod.SelectedIndex = Convert.ToByte(RegKey.GetValue("PostManCombo", 0));
-            textBoxHttpMethod.Text = Convert.ToString(RegKey.GetValue("PostManSendTextField", "index.html"));
+
+            COMBOX_RgbSendString.SelectedIndex = (int)_regKey.GetValue("SendStringSelected", 0);
+            CHBOX_Ambilight.Checked = Convert.ToBoolean(_regKey.GetValue("UseAmbilight", "False"));
+            for (int i = 0; i < 24; i++) SetButtonColors(i, _regKey.GetValue("RgbShedulerHour" + Convert.ToString(i), "FFFF00").ToString());
+            CHBOX_Sheduler.Checked = Convert.ToBoolean(_regKey.GetValue("RgbUseSheduler", false));
+            COMBOX_HttpMethod.SelectedIndex = Convert.ToByte(_regKey.GetValue("PostManCombo", 0));
+            TBOX_HttpMethod.Text = Convert.ToString(_regKey.GetValue("PostManSendTextField", "index.html"));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             SendStringToDevice(RgbConstants.RGB_OFF_STRING, MainConstants.DEV_RGB_TAPE_ID);
 
-            RegKey.SetValue("TabIndex", tabControl.SelectedIndex);
-            if (formVlcPlayer != null)
+            _regKey.SetValue("TabIndex", tabControl.SelectedIndex);
+            if (_formVlcPlayer != null)
             {
-                RegKey.SetValue("VlcStatus", formVlcPlayer.IsPlaying.ToString());
-                RegKey.SetValue("VlcPlayerVolume", formVlcPlayer.Volume);
-                RegKey.SetValue("VlcPlayerMuted", formVlcPlayer.IsMute);
+                _regKey.SetValue("VlcStatus", _formVlcPlayer.IsPlaying.ToString());
+                _regKey.SetValue("VlcPlayerVolume", _formVlcPlayer.Volume);
+                _regKey.SetValue("VlcPlayerMuted", _formVlcPlayer.IsMute);
             }
-            RegKey.SetValue("UsedPlayListForIRemore", rbMainVlcPlayList.Checked.ToString());
-            RegKey.SetValue("SendStringSelected", cbRgbSendString.SelectedIndex);
-            RegKey.SetValue("VlcDevicesMaskPinUsing", cbUsedGpioForVlcMask.Checked);
-            RegKey.SetValue("UseAmbilight", cbAmbilight.Checked);
-            RegKey.SetValue("VlcDevicesMaskPin", SmartHomeModel.vlcDevicesMask);
-            RegKey.SetValue("PlayListSelected", lbVlcPlaylistTitles.SelectedIndex);
-            RegKey.SetValue("FavoriteListSelected", lbVlcFavoriteTitles.SelectedIndex);
-            RegKey.SetValue("UseSlaveMonitor", cbUseSlaveMonitor.Checked);
-            RegKey.SetValue("VlcRememberChannelsVolume", cbRememberChVol.Checked);
+            _regKey.SetValue("UsedPlayListForIRemore", RBTN_MainVlcPlayList.Checked.ToString());
+            _regKey.SetValue("SendStringSelected", COMBOX_RgbSendString.SelectedIndex);
+            _regKey.SetValue("VlcDevicesMaskPinUsing", CHBOX_UsedGpioForVlcMask.Checked);
+            _regKey.SetValue("UseAmbilight", CHBOX_Ambilight.Checked);
+            _regKey.SetValue("VlcDevicesMaskPin", _smartHomeModel.vlcDevicesMask);
+            _regKey.SetValue("PlayListSelected", LISTB_VlcPlaylistTitles.SelectedIndex);
+            _regKey.SetValue("FavoriteListSelected", LISTB_VlcFavoriteTitles.SelectedIndex);
+            _regKey.SetValue("UseSlaveMonitor", CHBOX_UseSlaveMonitor.Checked);
+            _regKey.SetValue("VlcRememberChannelsVolume", CHBOX_RememberChVol.Checked);
             
-            if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
+            if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
 
-            RegKey.Close();
+            _regKey.Close();
         }
 
         public void WriteLog(RichTextBox richTextBox, string str)
@@ -252,23 +207,22 @@ namespace SmartHome_v1
             temp_str1 = $"REG:{temp_str1}={temp_str2}";
             SendStringToDevice(temp_str1, dev_num);
         }
-
         public void SendStringToDevice(String str, byte dev_num)
         {
             switch (dev_num)
             {
                 case MainConstants.DEV_SMART_HOME_ID:
-                    if (serialPortSmartHome.IsOpen)
+                    if (SERIALPORT_SmartHome.IsOpen)
                     {
-                        serialPortSmartHome.WriteLine(str);
-                        WriteLog(rtbLogger, SndComName1 + str);
+                        SERIALPORT_SmartHome.WriteLine(str);
+                        WriteLog(RTBOX_Logger, _sndComName1 + str);
                     }
                     break;
                 case MainConstants.DEV_RGB_TAPE_ID:
-                    if (serialPortRgbTape.IsOpen)
+                    if (SERIALPORT_RgbTape.IsOpen)
                     {
-                        serialPortRgbTape.WriteLine(str);
-                        WriteLog(rtbLogger, SndComName2 + str);
+                        SERIALPORT_RgbTape.WriteLine(str);
+                        WriteLog(RTBOX_Logger, _sndComName2 + str);
                     }
                     break;
             }
@@ -280,17 +234,17 @@ namespace SmartHome_v1
             switch (dev_num)
             {
                 case MainConstants.DEV_SMART_HOME_ID:
-                    if (serialPortSmartHome.IsOpen)
+                    if (SERIALPORT_SmartHome.IsOpen)
                     {
-                        serialPortSmartHome.WriteLine(str);
-                        if (str != RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING) WriteLog(rtbLogger, SndComName1 + str);
+                        SERIALPORT_SmartHome.WriteLine(str);
+                        if (str != RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING) WriteLog(RTBOX_Logger, _sndComName1 + str);
                     }
                     break;
                 case MainConstants.DEV_RGB_TAPE_ID:
-                    if (serialPortRgbTape.IsOpen)
+                    if (SERIALPORT_RgbTape.IsOpen)
                     {
-                        serialPortRgbTape.WriteLine(str);
-                        if (str != RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING) WriteLog(rtbLogger, SndComName2 + str);
+                        SERIALPORT_RgbTape.WriteLine(str);
+                        if (str != RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING) WriteLog(RTBOX_Logger, _sndComName2 + str);
                     }
                     break;
             }
@@ -304,72 +258,72 @@ namespace SmartHome_v1
             }
             catch
             {
-                tsStatusLabelSmartHome.Text = "FAIL !";
+                TOOLSTRIP_StatusLabelSmartHome.Text = "FAIL !";
                 this.Invoke((MethodInvoker)delegate
                 {
-                    tsStatusLabelSmartHome.ForeColor = Color.Red;
+                    TOOLSTRIP_StatusLabelSmartHome.ForeColor = Color.Red;
                 });
-                smartHomePortOpenFlag = false;
+                _smartHomePortOpenFlag = false;
             }
         }
 
         private void ScanUsbDevices() // SCAN My DEVICES
         {
             int deviceCounter = MainConstants.ZERO;
-            WriteLog(rtbLogger, "Scanning all devices on com ports...");
+            WriteLog(RTBOX_Logger, "Scanning all devices on com ports...");
             string[] ports = SerialPort.GetPortNames();
 
-            cbUsbDevicesList.Items.Clear();
-            cbUsbDevicesList.Items.AddRange(ports);
+            COMBOX_UsbDevicesList.Items.Clear();
+            COMBOX_UsbDevicesList.Items.AddRange(ports);
             // Search for SmartHome device
-            if (cbUsbDevicesList.Items.Count > 0)
+            if (COMBOX_UsbDevicesList.Items.Count > 0)
             {
-                while (deviceCounter < cbUsbDevicesList.Items.Count)
+                while (deviceCounter < COMBOX_UsbDevicesList.Items.Count)
                 {
-                    if (serialPortSmartHome.IsOpen == false) toolStripStatusLabel3.Text = serialPortSmartHome.PortName = ports[deviceCounter].ToString();
+                    if (SERIALPORT_SmartHome.IsOpen == false) toolStripStatusLabel3.Text = SERIALPORT_SmartHome.PortName = ports[deviceCounter].ToString();
                     try
                     {
-                        if (serialPortSmartHome.IsOpen == false)
+                        if (SERIALPORT_SmartHome.IsOpen == false)
                         {
-                            serialPortSmartHome.Open();
+                            SERIALPORT_SmartHome.Open();
                             SendStringToDevice("SMART_HOME", MainConstants.DEV_SMART_HOME_ID);
-                            if (smartHomePortOpenFlag == false) serialPortSmartHome.Close();
+                            if (_smartHomePortOpenFlag == false) SERIALPORT_SmartHome.Close();
                         }
                     }
                     catch
                     {
-                        smartHomePortOpenFlag = false;
-                        tsStatusLabelSmartHome.Text = "FAIL !";
+                        _smartHomePortOpenFlag = false;
+                        TOOLSTRIP_StatusLabelSmartHome.Text = "FAIL !";
                         this.Invoke((MethodInvoker)delegate
                         {
-                            tsStatusLabelSmartHome.ForeColor = Color.Red;
+                            TOOLSTRIP_StatusLabelSmartHome.ForeColor = Color.Red;
                         });
-                        serialPortSmartHome.Close();
+                        SERIALPORT_SmartHome.Close();
                     }
                     deviceCounter++;
                 }
             }
             // Search for RgbTape device
             deviceCounter = MainConstants.ZERO;
-            if (cbUsbDevicesList.Items.Count > 0)
+            if (COMBOX_UsbDevicesList.Items.Count > 0)
             {
-                while (deviceCounter < cbUsbDevicesList.Items.Count)
+                while (deviceCounter < COMBOX_UsbDevicesList.Items.Count)
                 {
-                    if (serialPortRgbTape.IsOpen == false) toolStripStatusLabel1.Text = serialPortRgbTape.PortName = ports[deviceCounter].ToString();
+                    if (SERIALPORT_RgbTape.IsOpen == false) toolStripStatusLabel1.Text = SERIALPORT_RgbTape.PortName = ports[deviceCounter].ToString();
                     try
                     {
-                        if (serialPortRgbTape.IsOpen == false)
+                        if (SERIALPORT_RgbTape.IsOpen == false)
                         {
-                            serialPortRgbTape.Open();
+                            SERIALPORT_RgbTape.Open();
                             SendStringToDevice("RGB_TAPE", MainConstants.DEV_RGB_TAPE_ID);
-                            if (rgbTapePortOpenFlag == false) serialPortRgbTape.Close();
+                            if (_rgbTapePortOpenFlag == false) SERIALPORT_RgbTape.Close();
                         }
                     }
                     catch
                     {
-                        rgbTapePortOpenFlag = false;
+                        _rgbTapePortOpenFlag = false;
                         tsStatusLabelRgbTape.Text = "FAIL !";
-                        serialPortRgbTape.Close();
+                        SERIALPORT_RgbTape.Close();
                         //                        MessageBox.Show("Can't Open Port !!!");
                     }
                     deviceCounter++;
@@ -379,8 +333,8 @@ namespace SmartHome_v1
 
         private void NUD_Encoder_EncoderValue(object sender, MouseEventArgs e)
         {
-            if (sender == nudEncoder1) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC1_COUNTER, Convert.ToInt32(Math.Round(nudEncoder1.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
-            else if (sender == nudEncoder0) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC0_COUNTER, Convert.ToInt32(Math.Round(nudEncoder0.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
+            if (sender == NUD_Encoder1) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC1_COUNTER, Convert.ToInt32(Math.Round(NUD_Encoder1.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
+            else if (sender == NUD_Encoder0) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC0_COUNTER, Convert.ToInt32(Math.Round(NUD_Encoder0.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
 
             btnSaveCfg.Enabled = true;
         }
@@ -389,29 +343,29 @@ namespace SmartHome_v1
         {
             switch (regNumber)
             {
-                case SmartHomeDeviceConstants.REG_CMD_GPIO_STATUS: ProcessGpioStatusRegister(deviceRegister[regNumber - 1]); break;
-                case SmartHomeDeviceConstants.REG_CMD_ENC0_COUNTER: ProcessEncoderRegister(deviceRegister[regNumber - 1]); break;
-                case SmartHomeDeviceConstants.REG_CMD_GET_SENSORS: ProcessSensorRegister(deviceRegister[regNumber - 1]); break;
+                case SmartHomeDeviceConstants.REG_CMD_GPIO_STATUS: ProcessGpioStatusRegister(_deviceRegister[regNumber - 1]); break;
+                case SmartHomeDeviceConstants.REG_CMD_ENC0_COUNTER: ProcessEncoderRegister(_deviceRegister[regNumber - 1]); break;
+                case SmartHomeDeviceConstants.REG_CMD_GET_SENSORS: ProcessSensorRegister(_deviceRegister[regNumber - 1]); break;
             }
         }
 
         public void ProcessSensorRegister(int reg_data)
         {
-            btnSensor0.BackColor = (reg_data & 0x01) == 0x01 ? Color.Red : Color.Black;
-            btnSensor1.BackColor = (reg_data & 0x02) == 0x01 ? Color.Red : Color.Black;
-            btnSensor2.BackColor = (reg_data & 0x04) == 0x01 ? Color.Red : Color.Black;
-            btnSensor3.BackColor = (reg_data & 0x08) == 0x01 ? Color.Red : Color.Black;
-            btnSensor4.BackColor = (reg_data & 0x10) == 0x01 ? Color.Red : Color.Black;
-            btnSensor5.BackColor = (reg_data & 0x20) == 0x01 ? Color.Red : Color.Black;
-            btnSensor6.BackColor = (reg_data & 0x40) == 0x01 ? Color.Red : Color.Black;
-            btnSensor7.BackColor = (reg_data & 0x80) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor0.BackColor = (reg_data & 0x01) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor1.BackColor = (reg_data & 0x02) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor2.BackColor = (reg_data & 0x04) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor3.BackColor = (reg_data & 0x08) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor4.BackColor = (reg_data & 0x10) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor5.BackColor = (reg_data & 0x20) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor6.BackColor = (reg_data & 0x40) == 0x01 ? Color.Red : Color.Black;
+            BTN_Sensor7.BackColor = (reg_data & 0x80) == 0x01 ? Color.Red : Color.Black;
         }
 
         public void ProcessEncoderRegister(int regData)
         {
-            this.nudEncoder0.Invoke((MethodInvoker)delegate
+            NUD_Encoder0.Invoke((MethodInvoker)delegate
             {
-                nudEncoder0.Value = regData;
+                NUD_Encoder0.Value = regData;
             });
         }
 
@@ -419,14 +373,14 @@ namespace SmartHome_v1
         {
             this.Invoke((MethodInvoker)delegate
             {
-                if (((regData >> 7) & 0x01) == 1) cbStatusPin7.Checked = true; else cbStatusPin7.Checked = false;
-                if (((regData >> 6) & 0x01) == 1) cbStatusPin6.Checked = true; else cbStatusPin6.Checked = false;
-                if (((regData >> 5) & 0x01) == 1) cbStatusPin5.Checked = true; else cbStatusPin5.Checked = false;
-                if (((regData >> 4) & 0x01) == 1) cbStatusPin4.Checked = true; else cbStatusPin4.Checked = false;
-                if (((regData >> 3) & 0x01) == 1) cbStatusPin3.Checked = true; else cbStatusPin3.Checked = false;
-                if (((regData >> 2) & 0x01) == 1) cbStatusPin2.Checked = true; else cbStatusPin2.Checked = false;
-                if (((regData >> 1) & 0x01) == 1) cbStatusPin1.Checked = true; else cbStatusPin1.Checked = false;
-                if ((regData & 0x01) == 1) cbStatusPin0.Checked = true; else cbStatusPin0.Checked = false;
+                CHBOX_StatusPin7.Checked = ((regData >> 7) & 0x01) == 1;
+                CHBOX_StatusPin6.Checked = ((regData >> 6) & 0x01) == 1;
+                CHBOX_StatusPin5.Checked = ((regData >> 5) & 0x01) == 1;
+                CHBOX_StatusPin4.Checked = ((regData >> 4) & 0x01) == 1;
+                CHBOX_StatusPin3.Checked = ((regData >> 3) & 0x01) == 1;
+                CHBOX_StatusPin2.Checked = ((regData >> 2) & 0x01) == 1;
+                CHBOX_StatusPin1.Checked = ((regData >> 1) & 0x01) == 1;
+                CHBOX_StatusPin0.Checked = (regData & 0x01) == 1;
             });
         }
 
@@ -435,63 +389,63 @@ namespace SmartHome_v1
         //
         public void ParsingSmartHomeConfigString(string[] words)
         {
-            SmartHomeModel.currentDeviceStatus = byte.Parse(words[1], System.Globalization.NumberStyles.HexNumber); // Current tm1638 ports status
-            SmartHomeModel.sleepModeMask = byte.Parse(words[2], System.Globalization.NumberStyles.HexNumber); // SleepMode mask
-            SmartHomeModel.hotButtonMask = byte.Parse(words[3], System.Globalization.NumberStyles.HexNumber); // Hot button mask
-            SmartHomeModel.smartHomeBeepString = byte.Parse(words[7], System.Globalization.NumberStyles.HexNumber); // Beeps settings
+            _smartHomeModel.currentDeviceStatus = byte.Parse(words[1], System.Globalization.NumberStyles.HexNumber); // Current tm1638 ports status
+            _smartHomeModel.sleepModeMask = byte.Parse(words[2], System.Globalization.NumberStyles.HexNumber); // SleepMode mask
+            _smartHomeModel.hotButtonMask = byte.Parse(words[3], System.Globalization.NumberStyles.HexNumber); // Hot button mask
+            _smartHomeModel.smartHomeBeepString = byte.Parse(words[7], System.Globalization.NumberStyles.HexNumber); // Beeps settings
             ProcessSensorRegister(byte.Parse(words[8], System.Globalization.NumberStyles.HexNumber));
 
             this.Invoke((MethodInvoker)delegate
             {
-                nudEncoder0.Value = int.Parse(words[4], System.Globalization.NumberStyles.HexNumber); // People in room counter / encoder0
-                nudEncoder1.Value = int.Parse(words[5], System.Globalization.NumberStyles.HexNumber); // People in out room counter / encoder1
+                NUD_Encoder0.Value = int.Parse(words[4], System.Globalization.NumberStyles.HexNumber); // People in room counter / encoder0
+                NUD_Encoder1.Value = int.Parse(words[5], System.Globalization.NumberStyles.HexNumber); // People in out room counter / encoder1
                 numericUpDownSleepModeTimeout.Value = int.Parse(words[6], System.Globalization.NumberStyles.HexNumber);  // words[3] Timeout for sleep mode
 
-                if (((SmartHomeModel.currentDeviceStatus >> 7) & 0x01) == 1) cbStatusPin7.Checked = true; else cbStatusPin7.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 6) & 0x01) == 1) cbStatusPin6.Checked = true; else cbStatusPin6.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 5) & 0x01) == 1) cbStatusPin5.Checked = true; else cbStatusPin5.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 4) & 0x01) == 1) cbStatusPin4.Checked = true; else cbStatusPin4.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 3) & 0x01) == 1) cbStatusPin3.Checked = true; else cbStatusPin3.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 2) & 0x01) == 1) cbStatusPin2.Checked = true; else cbStatusPin2.Checked = false;
-                if (((SmartHomeModel.currentDeviceStatus >> 1) & 0x01) == 1) cbStatusPin1.Checked = true; else cbStatusPin1.Checked = false;
-                if ((SmartHomeModel.currentDeviceStatus & 0x01) == 1) cbStatusPin0.Checked = true; else cbStatusPin0.Checked = false;
+                CHBOX_StatusPin7.Checked = ((_smartHomeModel.currentDeviceStatus >> 7) & 0x01) == 1;
+                CHBOX_StatusPin6.Checked = ((_smartHomeModel.currentDeviceStatus >> 6) & 0x01) == 1;
+                CHBOX_StatusPin5.Checked = ((_smartHomeModel.currentDeviceStatus >> 5) & 0x01) == 1;
+                CHBOX_StatusPin4.Checked = ((_smartHomeModel.currentDeviceStatus >> 4) & 0x01) == 1;
+                CHBOX_StatusPin3.Checked = ((_smartHomeModel.currentDeviceStatus >> 3) & 0x01) == 1;
+                CHBOX_StatusPin2.Checked = ((_smartHomeModel.currentDeviceStatus >> 2) & 0x01) == 1;
+                CHBOX_StatusPin1.Checked = ((_smartHomeModel.currentDeviceStatus >> 1) & 0x01) == 1;
+                CHBOX_StatusPin0.Checked = (_smartHomeModel.currentDeviceStatus & 0x01) == 1;
                 //
                 // SleepMode Mask
                 //
-                if (((SmartHomeModel.sleepModeMask >> 7) & 0x01) == 1) cbSleepModeMaskPin8.Checked = true; else cbSleepModeMaskPin8.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 6) & 0x01) == 1) cbSleepModeMaskPin7.Checked = true; else cbSleepModeMaskPin7.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 5) & 0x01) == 1) cbSleepModeMaskPin6.Checked = true; else cbSleepModeMaskPin6.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 4) & 0x01) == 1) cbSleepModeMaskPin5.Checked = true; else cbSleepModeMaskPin5.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 3) & 0x01) == 1) cbSleepModeMaskPin4.Checked = true; else cbSleepModeMaskPin4.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 2) & 0x01) == 1) cbSleepModeMaskPin3.Checked = true; else cbSleepModeMaskPin3.Checked = false;
-                if (((SmartHomeModel.sleepModeMask >> 1) & 0x01) == 1) cbSleepModeMaskPin2.Checked = true; else cbSleepModeMaskPin2.Checked = false;
-                if ((SmartHomeModel.sleepModeMask & 0x01) == 1) cbSleepModeMaskPin1.Checked = true; else cbSleepModeMaskPin1.Checked = false;
+                CHBOX_SleepModeMaskPin8.Checked = ((_smartHomeModel.sleepModeMask >> 7) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin7.Checked = ((_smartHomeModel.sleepModeMask >> 6) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin6.Checked = ((_smartHomeModel.sleepModeMask >> 5) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin5.Checked = ((_smartHomeModel.sleepModeMask >> 4) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin4.Checked = ((_smartHomeModel.sleepModeMask >> 3) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin3.Checked = ((_smartHomeModel.sleepModeMask >> 2) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin2.Checked = ((_smartHomeModel.sleepModeMask >> 1) & 0x01) == 1;
+                CHBOX_SleepModeMaskPin1.Checked = (_smartHomeModel.sleepModeMask & 0x01) == 1;
                 //
                 // Hot button mask
                 //
-                cbHotButtonMask1.Checked = (SmartHomeModel.hotButtonMask & 0x01) == 0x01 ? true : false;
-                cbHotButtonMask2.Checked = ((SmartHomeModel.smartHomeBeepString & 0x02) >> 1) == 0x01 ? true : false;
-                cbHotButtonMask3.Checked = ((SmartHomeModel.smartHomeBeepString & 0x04) >> 2) == 0x01 ? true : false;
-                cbHotButtonMask4.Checked = ((SmartHomeModel.smartHomeBeepString & 0x08) >> 3) == 0x01 ? true : false;
-                cbHotButtonMask5.Checked = ((SmartHomeModel.smartHomeBeepString & 0x10) >> 4) == 0x01 ? true : false;
-                cbHotButtonMask6.Checked = ((SmartHomeModel.smartHomeBeepString & 0x20) >> 5) == 0x01 ? true : false;
-                cbHotButtonMask7.Checked = ((SmartHomeModel.smartHomeBeepString & 0x40) >> 6) == 0x01 ? true : false;
-                cbHotButtonMask8.Checked = ((SmartHomeModel.smartHomeBeepString & 0x80) >> 7) == 0x01 ? true : false;
+                CHBOX_HotButtonMask1.Checked = (_smartHomeModel.hotButtonMask & 0x01) == 0x01 ? true : false;
+                CHBOX_HotButtonMask2.Checked = ((_smartHomeModel.smartHomeBeepString & 0x02) >> 1) == 0x01 ? true : false;
+                CHBOX_HotButtonMask3.Checked = ((_smartHomeModel.smartHomeBeepString & 0x04) >> 2) == 0x01 ? true : false;
+                CHBOX_HotButtonMask4.Checked = ((_smartHomeModel.smartHomeBeepString & 0x08) >> 3) == 0x01 ? true : false;
+                CHBOX_HotButtonMask5.Checked = ((_smartHomeModel.smartHomeBeepString & 0x10) >> 4) == 0x01 ? true : false;
+                CHBOX_HotButtonMask6.Checked = ((_smartHomeModel.smartHomeBeepString & 0x20) >> 5) == 0x01 ? true : false;
+                CHBOX_HotButtonMask7.Checked = ((_smartHomeModel.smartHomeBeepString & 0x40) >> 6) == 0x01 ? true : false;
+                CHBOX_HotButtonMask8.Checked = ((_smartHomeModel.smartHomeBeepString & 0x80) >> 7) == 0x01 ? true : false;
 
-                cbBuzzerBit0.Checked = (SmartHomeModel.smartHomeBeepString & 0x01) == 0x01 ? true : false;
-                cbBuzzerBit1.Checked = ((SmartHomeModel.smartHomeBeepString & 0x02) >> 1) == 0x01 ? true : false;
-                cbBuzzerBit2.Checked = ((SmartHomeModel.smartHomeBeepString & 0x04) >> 2) == 0x01 ? true : false;
-                cbBuzzerBit3.Checked = ((SmartHomeModel.smartHomeBeepString & 0x08) >> 3) == 0x01 ? true : false;
-                cbBuzzerBit4.Checked = ((SmartHomeModel.smartHomeBeepString & 0x10) >> 4) == 0x01 ? true : false;
-                cbBuzzerBit5.Checked = ((SmartHomeModel.smartHomeBeepString & 0x20) >> 5) == 0x01 ? true : false;
-                cbBuzzerBit6.Checked = ((SmartHomeModel.smartHomeBeepString & 0x40) >> 6) == 0x01 ? true : false;
+                CHBOX_BuzzerBit0.Checked = (_smartHomeModel.smartHomeBeepString & 0x01) == 0x01 ? true : false;
+                CHBOX_BuzzerBit1.Checked = ((_smartHomeModel.smartHomeBeepString & 0x02) >> 1) == 0x01 ? true : false;
+                CHBOX_BuzzerBit2.Checked = ((_smartHomeModel.smartHomeBeepString & 0x04) >> 2) == 0x01 ? true : false;
+                CHBOX_BuzzerBit3.Checked = ((_smartHomeModel.smartHomeBeepString & 0x08) >> 3) == 0x01 ? true : false;
+                CHBOX_BuzzerBit4.Checked = ((_smartHomeModel.smartHomeBeepString & 0x10) >> 4) == 0x01 ? true : false;
+                CHBOX_BuzzerBit5.Checked = ((_smartHomeModel.smartHomeBeepString & 0x20) >> 5) == 0x01 ? true : false;
+                CHBOX_BuzzerBit6.Checked = ((_smartHomeModel.smartHomeBeepString & 0x40) >> 6) == 0x01 ? true : false;
             });
             //
-            this.panelSleepGpio.Invoke((MethodInvoker)delegate { panelSleepGpio.Enabled = true; });
-            this.panelHotGpio.Invoke((MethodInvoker)delegate { panelHotGpio.Enabled = true; });
-            this.panelCurrentGpio.Invoke((MethodInvoker)delegate { panelCurrentGpio.Enabled = true; });
-            this.gbSensorsState.Invoke((MethodInvoker)delegate { gbSensorsState.Enabled = true; });
-            this.gbRegisterValues.Invoke((MethodInvoker)delegate { gbRegisterValues.Enabled = true; });
+            panelSleepGpio.Invoke((MethodInvoker)delegate { panelSleepGpio.Enabled = true; });
+            panelHotGpio.Invoke((MethodInvoker)delegate { panelHotGpio.Enabled = true; });
+            panelCurrentGpio.Invoke((MethodInvoker)delegate { panelCurrentGpio.Enabled = true; });
+            gbSensorsState.Invoke((MethodInvoker)delegate { gbSensorsState.Enabled = true; });
+            gbRegisterValues.Invoke((MethodInvoker)delegate { gbRegisterValues.Enabled = true; });
         }
 
         private Boolean VlcLoadAndFillListBox(string filePath, ListBox lbUrls, ListBox lbTitles)
@@ -541,44 +495,44 @@ namespace SmartHome_v1
 
         private void ChangeCurrentDeviceStatus(object sender, EventArgs e)
         {
-            if (cbStatusPin0.Checked) SmartHomeModel.currentDeviceStatus |= 0x01; else SmartHomeModel.currentDeviceStatus &= 0xFE;
-            if (cbStatusPin1.Checked) SmartHomeModel.currentDeviceStatus |= 0x02; else SmartHomeModel.currentDeviceStatus &= 0xFD;
-            if (cbStatusPin2.Checked) SmartHomeModel.currentDeviceStatus |= 0x04; else SmartHomeModel.currentDeviceStatus &= 0xFB;
-            if (cbStatusPin3.Checked) SmartHomeModel.currentDeviceStatus |= 0x08; else SmartHomeModel.currentDeviceStatus &= 0xF7;
-            if (cbStatusPin4.Checked) SmartHomeModel.currentDeviceStatus |= 0x10; else SmartHomeModel.currentDeviceStatus &= 0xEF;
-            if (cbStatusPin5.Checked) SmartHomeModel.currentDeviceStatus |= 0x20; else SmartHomeModel.currentDeviceStatus &= 0xDF;
-            if (cbStatusPin6.Checked) SmartHomeModel.currentDeviceStatus |= 0x40; else SmartHomeModel.currentDeviceStatus &= 0xBF;
-            if (cbStatusPin7.Checked) SmartHomeModel.currentDeviceStatus |= 0x80; else SmartHomeModel.currentDeviceStatus &= 0x7F;
+            if (CHBOX_StatusPin0.Checked) _smartHomeModel.currentDeviceStatus |= 0x01; else _smartHomeModel.currentDeviceStatus &= 0xFE;
+            if (CHBOX_StatusPin1.Checked) _smartHomeModel.currentDeviceStatus |= 0x02; else _smartHomeModel.currentDeviceStatus &= 0xFD;
+            if (CHBOX_StatusPin2.Checked) _smartHomeModel.currentDeviceStatus |= 0x04; else _smartHomeModel.currentDeviceStatus &= 0xFB;
+            if (CHBOX_StatusPin3.Checked) _smartHomeModel.currentDeviceStatus |= 0x08; else _smartHomeModel.currentDeviceStatus &= 0xF7;
+            if (CHBOX_StatusPin4.Checked) _smartHomeModel.currentDeviceStatus |= 0x10; else _smartHomeModel.currentDeviceStatus &= 0xEF;
+            if (CHBOX_StatusPin5.Checked) _smartHomeModel.currentDeviceStatus |= 0x20; else _smartHomeModel.currentDeviceStatus &= 0xDF;
+            if (CHBOX_StatusPin6.Checked) _smartHomeModel.currentDeviceStatus |= 0x40; else _smartHomeModel.currentDeviceStatus &= 0xBF;
+            if (CHBOX_StatusPin7.Checked) _smartHomeModel.currentDeviceStatus |= 0x80; else _smartHomeModel.currentDeviceStatus &= 0x7F;
 
-            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_GPIO_STATUS, SmartHomeModel.currentDeviceStatus, MainConstants.DEV_SMART_HOME_ID);
+            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_GPIO_STATUS, _smartHomeModel.currentDeviceStatus, MainConstants.DEV_SMART_HOME_ID);
         }
 
         private void CHB_SleepModeMask_Click(object sender, EventArgs e)
         {
-            if (cbSleepModeMaskPin1.Checked) SmartHomeModel.sleepModeMask |= 0x01; else SmartHomeModel.sleepModeMask &= 0xFE;
-            if (cbSleepModeMaskPin2.Checked) SmartHomeModel.sleepModeMask |= 0x02; else SmartHomeModel.sleepModeMask &= 0xFD;
-            if (cbSleepModeMaskPin4.Checked) SmartHomeModel.sleepModeMask |= 0x08; else SmartHomeModel.sleepModeMask &= 0xF7;
-            if (cbSleepModeMaskPin5.Checked) SmartHomeModel.sleepModeMask |= 0x10; else SmartHomeModel.sleepModeMask &= 0xEF;
-            if (cbSleepModeMaskPin6.Checked) SmartHomeModel.sleepModeMask |= 0x20; else SmartHomeModel.sleepModeMask &= 0xDF;
-            if (cbSleepModeMaskPin7.Checked) SmartHomeModel.sleepModeMask |= 0x40; else SmartHomeModel.sleepModeMask &= 0xBF;
-            if (cbSleepModeMaskPin8.Checked) SmartHomeModel.sleepModeMask |= 0x80; else SmartHomeModel.sleepModeMask &= 0x7F;
+            if (CHBOX_SleepModeMaskPin1.Checked) _smartHomeModel.sleepModeMask |= 0x01; else _smartHomeModel.sleepModeMask &= 0xFE;
+            if (CHBOX_SleepModeMaskPin2.Checked) _smartHomeModel.sleepModeMask |= 0x02; else _smartHomeModel.sleepModeMask &= 0xFD;
+            if (CHBOX_SleepModeMaskPin4.Checked) _smartHomeModel.sleepModeMask |= 0x08; else _smartHomeModel.sleepModeMask &= 0xF7;
+            if (CHBOX_SleepModeMaskPin5.Checked) _smartHomeModel.sleepModeMask |= 0x10; else _smartHomeModel.sleepModeMask &= 0xEF;
+            if (CHBOX_SleepModeMaskPin6.Checked) _smartHomeModel.sleepModeMask |= 0x20; else _smartHomeModel.sleepModeMask &= 0xDF;
+            if (CHBOX_SleepModeMaskPin7.Checked) _smartHomeModel.sleepModeMask |= 0x40; else _smartHomeModel.sleepModeMask &= 0xBF;
+            if (CHBOX_SleepModeMaskPin8.Checked) _smartHomeModel.sleepModeMask |= 0x80; else _smartHomeModel.sleepModeMask &= 0x7F;
 
-            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SLEEP_MASK, SmartHomeModel.sleepModeMask, MainConstants.DEV_SMART_HOME_ID); // REG4 - SleepMode mask
+            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SLEEP_MASK, _smartHomeModel.sleepModeMask, MainConstants.DEV_SMART_HOME_ID); // REG4 - SleepMode mask
             buttonSaveSmartHomeCfg.Enabled = true;
         }
 
         private void CHB_HotButtonMask_Click(object sender, EventArgs e)
         {
-            if (cbHotButtonMask1.Checked) SmartHomeModel.hotButtonMask |= 0x01; else SmartHomeModel.hotButtonMask &= 0xFE;
-            if (cbHotButtonMask2.Checked) SmartHomeModel.hotButtonMask |= 0x02; else SmartHomeModel.hotButtonMask &= 0xFD;
-            if (cbHotButtonMask3.Checked) SmartHomeModel.hotButtonMask |= 0x04; else SmartHomeModel.hotButtonMask &= 0xFB;
-            if (cbHotButtonMask4.Checked) SmartHomeModel.hotButtonMask |= 0x08; else SmartHomeModel.hotButtonMask &= 0xF7;
-            if (cbHotButtonMask5.Checked) SmartHomeModel.hotButtonMask |= 0x10; else SmartHomeModel.hotButtonMask &= 0xEF;
-            if (cbHotButtonMask6.Checked) SmartHomeModel.hotButtonMask |= 0x20; else SmartHomeModel.hotButtonMask &= 0xDF;
-            if (cbHotButtonMask7.Checked) SmartHomeModel.hotButtonMask |= 0x40; else SmartHomeModel.hotButtonMask &= 0xBF;
-            if (cbHotButtonMask8.Checked) SmartHomeModel.hotButtonMask |= 0x80; else SmartHomeModel.hotButtonMask &= 0x7F;
+            if (CHBOX_HotButtonMask1.Checked) _smartHomeModel.hotButtonMask |= 0x01; else _smartHomeModel.hotButtonMask &= 0xFE;
+            if (CHBOX_HotButtonMask2.Checked) _smartHomeModel.hotButtonMask |= 0x02; else _smartHomeModel.hotButtonMask &= 0xFD;
+            if (CHBOX_HotButtonMask3.Checked) _smartHomeModel.hotButtonMask |= 0x04; else _smartHomeModel.hotButtonMask &= 0xFB;
+            if (CHBOX_HotButtonMask4.Checked) _smartHomeModel.hotButtonMask |= 0x08; else _smartHomeModel.hotButtonMask &= 0xF7;
+            if (CHBOX_HotButtonMask5.Checked) _smartHomeModel.hotButtonMask |= 0x10; else _smartHomeModel.hotButtonMask &= 0xEF;
+            if (CHBOX_HotButtonMask6.Checked) _smartHomeModel.hotButtonMask |= 0x20; else _smartHomeModel.hotButtonMask &= 0xDF;
+            if (CHBOX_HotButtonMask7.Checked) _smartHomeModel.hotButtonMask |= 0x40; else _smartHomeModel.hotButtonMask &= 0xBF;
+            if (CHBOX_HotButtonMask8.Checked) _smartHomeModel.hotButtonMask |= 0x80; else _smartHomeModel.hotButtonMask &= 0x7F;
 
-            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_HOT_BUTTON_MASK, SmartHomeModel.hotButtonMask, MainConstants.DEV_SMART_HOME_ID);
+            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_HOT_BUTTON_MASK, _smartHomeModel.hotButtonMask, MainConstants.DEV_SMART_HOME_ID);
             buttonSaveSmartHomeCfg.Enabled = true;
         }
         //
@@ -587,7 +541,7 @@ namespace SmartHome_v1
         private void SetRgbTapeBlynkMode(object sender, EventArgs e)
         {
             Int32 value1 = Convert.ToInt32(nudChannelNumber.Value);
-            SendStringToDevice(value1.ToString() + ".2." + string.Format("{0:000}", Convert.ToInt32(nudRgbFreq.Value)), MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice($"{value1}.2.{$"{Convert.ToInt32(nudRgbFreq.Value):000}"}", MainConstants.DEV_RGB_TAPE_ID);
         }
 
         private void NU_RgbFreq_ValueChanged(object sender, EventArgs e)
@@ -597,13 +551,13 @@ namespace SmartHome_v1
 
         private void BTN_SendRgbCommand(object sender, EventArgs e)
         {
-            SendStringToDevice(cbRgbSendString.Text, MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice(COMBOX_RgbSendString.Text, MainConstants.DEV_RGB_TAPE_ID);
         }
 
         private void TRB_Color_Scroll(object sender, EventArgs e)
         {
             Int32 value = Convert.ToInt32(nudChannelNumber.Value);
-            SendStringToDevice("CH" + value.ToString() + ":" + Utils.IntToHexString(tbRed.Value, 2) + Utils.IntToHexString(tbGreen.Value, 2) + Utils.IntToHexString(tbBlue.Value, 2), MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice($"CH{value}:{Utils.IntToHexString(tbRed.Value, 2)}{Utils.IntToHexString(tbGreen.Value, 2)}{Utils.IntToHexString(tbBlue.Value, 2)}", MainConstants.DEV_RGB_TAPE_ID);
         }
 
         private void NUD_3_ValueChanged(object sender, EventArgs e)
@@ -615,8 +569,8 @@ namespace SmartHome_v1
 
             if (value2 < 100) a = "0"; else a = null;
 
-            SendStringToDevice(value1.ToString() + ".1." + a + value2.ToString(), MainConstants.DEV_RGB_TAPE_ID);
-            SendStringToDevice("CH" + value1.ToString(), MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice($"{value1}.1.{a}{value2}", MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice($"CH{value1}", MainConstants.DEV_RGB_TAPE_ID);
             nudChannelNumber.Enabled = true;
         }
         //
@@ -629,21 +583,21 @@ namespace SmartHome_v1
             
             try {
                 indata = sp.ReadExisting();
-                WriteLog(rtbLogger, RcvComName1 + indata);
+                WriteLog(RTBOX_Logger, _rcvComName1 + indata);
             if (indata == "SMART_HOME")
             {
-                smartHomePortOpenFlag = true;
-                tsStatusLabelSmartHome.Text = "SMART_HOME CONNECTED";
+                _smartHomePortOpenFlag = true;
+                TOOLSTRIP_StatusLabelSmartHome.Text = "SMART_HOME CONNECTED";
                 this.Invoke((MethodInvoker)delegate
                 {
-                    tsStatusLabelSmartHome.ForeColor = Color.Green;
+                    TOOLSTRIP_StatusLabelSmartHome.ForeColor = Color.Green;
                 });
-                SndComName1 = serialPortSmartHome.PortName + MainConstants.SEND_STRING;
-                RcvComName1 = serialPortSmartHome.PortName + MainConstants.RECEIVE_STRING;
-                WriteLog(rtbLogger, "Found: SmartHome device on physical port 1.");
+                _sndComName1 = SERIALPORT_SmartHome.PortName + MainConstants.SEND_STRING;
+                _rcvComName1 = SERIALPORT_SmartHome.PortName + MainConstants.RECEIVE_STRING;
+                WriteLog(RTBOX_Logger, "Found: SmartHome device on physical port 1.");
                 ReadConstantFromSmarthomeDevice();
             }
-            if (smartHomePortOpenFlag)
+            if (_smartHomePortOpenFlag)
             {
                 if (indata.IndexOf("CONFIG1:") > -1)
                 {
@@ -661,7 +615,7 @@ namespace SmartHome_v1
                     words = words[1].Split('=');
                     if (words[0] != null)
                     {
-                        deviceRegister[byte.Parse(words[0]) - 1] = Int16.Parse(words[1], System.Globalization.NumberStyles.HexNumber);
+                        _deviceRegister[byte.Parse(words[0]) - 1] = Int16.Parse(words[1], System.Globalization.NumberStyles.HexNumber);
                         ProcessDeviceRegister(byte.Parse(words[0]));
                     }
                 }
@@ -676,8 +630,6 @@ namespace SmartHome_v1
             } catch {
             
             }
-            
-            
         }
         //
         // Parsing received data from port 2
@@ -686,24 +638,24 @@ namespace SmartHome_v1
         {
             SerialPort sp = (SerialPort)sender;
             string indata = sp.ReadExisting();
-            WriteLog(rtbLogger, RcvComName2 + indata);
+            WriteLog(RTBOX_Logger, _rcvComName2 + indata);
             if (indata == "RGB_TAPE")
             {
-                rgbTapePortOpenFlag = true;
+                _rgbTapePortOpenFlag = true;
                 this.Invoke((MethodInvoker)delegate
                 {
                     tsStatusLabelRgbTape.ForeColor = Color.Green;
                 });
                 tsStatusLabelRgbTape.Text = "RGB_TAPE CONNECTED";
-                SndComName2 = serialPortRgbTape.PortName + MainConstants.SEND_STRING;
-                RcvComName2 = serialPortRgbTape.PortName + MainConstants.RECEIVE_STRING;
+                _sndComName2 = SERIALPORT_RgbTape.PortName + MainConstants.SEND_STRING;
+                _rcvComName2 = SERIALPORT_RgbTape.PortName + MainConstants.RECEIVE_STRING;
 
                 this.panel5.Invoke((MethodInvoker)delegate
                 {
                     panel5.Enabled = true;
                 });
-                WriteLog(rtbLogger, "Found: RGB_Tape device on physical port 2.");
-                WriteLog(rtbLogger, "Scanning family devices on com ports complete...\n---\nWork started.");
+                WriteLog(RTBOX_Logger, "Found: RGB_Tape device on physical port 2.");
+                WriteLog(RTBOX_Logger, "Scanning family devices on com ports complete...\n---\nWork started.");
 
                 SendStringToDevice(RgbConstants.RGB_NORMAL_STATE_STRING,MainConstants.DEV_RGB_TAPE_ID);
 
@@ -713,10 +665,10 @@ namespace SmartHome_v1
 //                });
 //                this.checkBoxAmbilight.Invoke((MethodInvoker)delegate
 //                {
-                    cbAmbilight.Enabled = true;
+                    CHBOX_Ambilight.Enabled = true;
 //                });
             }
-            if (rgbTapePortOpenFlag)
+            if (_rgbTapePortOpenFlag)
             {
                 if ((indata.Substring(0, 2) == "CH") & (indata.Substring(3, 1) == ":"))
                 {
@@ -747,8 +699,8 @@ namespace SmartHome_v1
         {
             if (checkBox25.Checked)
             {
-                rtbLogger.SelectionStart = rtbLogger.Text.Length;
-                rtbLogger.ScrollToCaret(); // scroll it automatically
+                RTBOX_Logger.SelectionStart = RTBOX_Logger.Text.Length;
+                RTBOX_Logger.ScrollToCaret(); // scroll it automatically
             }
         }
 
@@ -767,7 +719,7 @@ namespace SmartHome_v1
 
         private void VLC_events(object sender, EventArgs e)
         {
-            formVlcPlayer.Stop();// .playlist.play();
+            _formVlcPlayer.Stop();// .playlist.play();
         }
 
 
@@ -781,22 +733,22 @@ namespace SmartHome_v1
                     BTN_Mute_Click(new object(), new EventArgs());
                     break;
                 case IRemoteConstants.TR_MODE:
-                    this.rbFavoriteVlcPlayList.Invoke((MethodInvoker)delegate
+                    RBTN_FavoriteVlcPlayList.Invoke((MethodInvoker)delegate
                     {
-                        if (rbMainVlcPlayList.Checked) rbFavoriteVlcPlayList.Checked = true; else rbMainVlcPlayList.Checked = true;
+                        if (RBTN_MainVlcPlayList.Checked) RBTN_FavoriteVlcPlayList.Checked = true; else RBTN_MainVlcPlayList.Checked = true;
                     });
                     VlcPlaySelected(VlcConstants.CURRENT_ITEM);
                     break;
                 case IRemoteConstants.TR_PHOTO:
-                    if (rgbOffFlag == false)
+                    if (_rgbOffFlag == false)
                     {
                         SendStringToDevice(RgbConstants.RGB_OFF_STRING, MainConstants.DEV_RGB_TAPE_ID);
-                        rgbOffFlag = true;
+                        _rgbOffFlag = true;
                     }
                     else
                     {
                         SendStringToDevice(RgbConstants.RGB_NORMAL_STATE_STRING, MainConstants.DEV_RGB_TAPE_ID);
-                        rgbOffFlag = false;
+                        _rgbOffFlag = false;
                     }
                     break;
                 case IRemoteConstants.TR_PAUSE_PLAY:
@@ -808,8 +760,8 @@ namespace SmartHome_v1
                     Process.Start("shutdown", "/h /f");
                     break;
                 case IRemoteConstants.TR_STOP:
-                    if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID);
-                    formVlcPlayer.Stop();
+                    if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID);
+                    _formVlcPlayer.Stop();
                     break;
                 case IRemoteConstants.TR_VOL_UP:
                     VlcChangeVolumeIrRemote(VlcConstants.ADD);
@@ -833,26 +785,29 @@ namespace SmartHome_v1
             ListBox lbTitles;
             Form1 mainForm = new Form1();
 
-            if (!cbUseSlaveMonitor.Checked)
+            if (!CHBOX_UseSlaveMonitor.Checked)
             {
-                formVlcPlayer.SetPoint(new Point(Convert.ToInt32(mainForm.Location.X + mainForm.Size.Width), Convert.ToInt32(mainForm.Location.Y)));
-                if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask & (~VlcConstants.VLC_MONITOR_MASK),MainConstants.DEV_SMART_HOME_ID); // switch ON. only Subwoofer
+                _formVlcPlayer.SetPoint(new Point(Convert.ToInt32(mainForm.Location.X + mainForm.Size.Width), Convert.ToInt32(mainForm.Location.Y)));
+                if (CHBOX_UsedGpioForVlcMask.Checked)
+                {
+                    SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask & (~VlcConstants.VLC_MONITOR_MASK),MainConstants.DEV_SMART_HOME_ID); // switch ON. only Subwoofer
+                }
             }
             else
             {
-                formVlcPlayer.SetPoint(new Point(Convert.ToInt32(VlcConstants.VLC_LOCATION_X_SLAVE_MONITOR), Convert.ToInt32(mainForm.Location.Y)));
-                if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // switch ON. Monitor only
+                _formVlcPlayer.SetPoint(new Point(Convert.ToInt32(VlcConstants.VLC_LOCATION_X_SLAVE_MONITOR), Convert.ToInt32(mainForm.Location.Y)));
+                if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // switch ON. Monitor only
             }
 
-            if (rbMainVlcPlayList.Checked)
+            if (RBTN_MainVlcPlayList.Checked)
             {
-                lbUrls = lbVlcPlaylistURLs;
-                lbTitles = lbVlcPlaylistTitles;
+                lbUrls = LISTB_VlcPlaylistURLs;
+                lbTitles = LISTB_VlcPlaylistTitles;
             }
             else
             {
-                lbUrls = lbVlcFavoriteURLs;
-                lbTitles = lbVlcFavoriteTitles;
+                lbUrls = LISTB_VlcFavoriteURLs;
+                lbTitles = LISTB_VlcFavoriteTitles;
             }
 
             if (lbUrls.SelectedIndex == -1) lbUrls.SelectedIndex = 0;
@@ -867,25 +822,23 @@ namespace SmartHome_v1
 
             lbTitles.SelectedIndex = lbUrls.SelectedIndex;
 
-            String str;
-            if (rbMainVlcPlayList.Checked) str = "VlcMainPlaylist_CH" + lbVlcPlaylistTitles.SelectedIndex;
-            else str = "VlcFavoritePlaylist_CH" + lbVlcFavoriteTitles.SelectedIndex;
+            string str = RBTN_MainVlcPlayList.Checked
+                ? "VlcMainPlaylist_CH" + LISTB_VlcPlaylistTitles.SelectedIndex
+                : "VlcFavoritePlaylist_CH" + LISTB_VlcFavoriteTitles.SelectedIndex;
+            
+            _VlcVolume = CHBOX_RememberChVol.Checked ? Convert.ToByte(_regKey.GetValue(str, VlcConstants.DEFAULT_VOLUME)) : VlcConstants.DEFAULT_VOLUME;
 
-            if (cbRememberChVol.Checked) _VlcVolume = Convert.ToByte(RegKey.GetValue(str, VlcConstants.DEFAULT_VOLUME));
-            else _VlcVolume = VlcConstants.DEFAULT_VOLUME;
-
-            formVlcPlayer.Show();
-            formVlcPlayer.SetListBox = lbUrls;
-            formVlcPlayer.Play();
-            tbVlcVolume.Value = _VlcVolume;
-            formVlcPlayer.SetVolume(_VlcVolume);
+            _formVlcPlayer.Show();
+            _formVlcPlayer.SetListBox = lbUrls;
+            _formVlcPlayer.Play();
+            TXTBOX_VlcVolume.Value = _VlcVolume;
+            _formVlcPlayer.SetVolume(_VlcVolume);
         }
 
         private void VlcChangeVolumeIrRemote(int a)
         {
 
-            String str;
-            _VlcVolume = (byte)formVlcPlayer.Volume;
+            _VlcVolume = (byte)_formVlcPlayer.Volume;
 
             switch (a)
             {
@@ -897,16 +850,11 @@ namespace SmartHome_v1
                     break;
             }
 
-            if (rbMainVlcPlayList.Checked)
+            if (RBTN_MainVlcPlayList.Checked)
             {
-                str = $"VlcMainPlaylist_CH{Convert.ToString(lbVlcPlaylistTitles.SelectedIndex)}";
-                RegKey.SetValue(str, _VlcVolume);
+                _regKey.SetValue($"VlcMainPlaylist_CH{Convert.ToString(LISTB_VlcPlaylistTitles.SelectedIndex)}", _VlcVolume);
             }
-            else
-            {
-                //str = $"VlcMainPlaylist_CH{Convert.ToString(lbVlcFavoriteTitles.SelectedIndex)}";
-            }
-            tbVlcVolume.Value = _VlcVolume;
+            TXTBOX_VlcVolume.Value = _VlcVolume;
         }
 
         private void BTN_RescanDevices_Click(object sender, EventArgs e)
@@ -916,24 +864,24 @@ namespace SmartHome_v1
 
         private void LBOX_VlcPlayList_Click(object sender, EventArgs e)
         {
-            lbVlcPlaylistURLs.SelectedIndex = lbVlcPlaylistTitles.SelectedIndex;
-            rbMainVlcPlayList.Checked = true;
+            LISTB_VlcPlaylistURLs.SelectedIndex = LISTB_VlcPlaylistTitles.SelectedIndex;
+            RBTN_MainVlcPlayList.Checked = true;
         }
 
         private void LBOX_VlcFavoriteList_Click(object sender, EventArgs e)
         {
-            lbVlcFavoriteURLs.SelectedIndex = lbVlcFavoriteTitles.SelectedIndex;
-            rbFavoriteVlcPlayList.Checked = true;
+            LISTB_VlcFavoriteURLs.SelectedIndex = LISTB_VlcFavoriteTitles.SelectedIndex;
+            RBTN_FavoriteVlcPlayList.Checked = true;
         }
 
         private void BTN_DeleteFromPlaylist_Click(object sender, EventArgs e)
         {
-            if (lbVlcPlaylistTitles.SelectedIndex != -1)
+            if (LISTB_VlcPlaylistTitles.SelectedIndex != -1)
             {
-                int index = lbVlcPlaylistTitles.SelectedIndex;
-                lbVlcPlaylistTitles.Items.RemoveAt(lbVlcPlaylistTitles.SelectedIndex);
-                lbVlcPlaylistURLs.SelectedIndex = index;
-                lbVlcPlaylistURLs.Items.RemoveAt(lbVlcPlaylistURLs.SelectedIndex);
+                int index = LISTB_VlcPlaylistTitles.SelectedIndex;
+                LISTB_VlcPlaylistTitles.Items.RemoveAt(LISTB_VlcPlaylistTitles.SelectedIndex);
+                LISTB_VlcPlaylistURLs.SelectedIndex = index;
+                LISTB_VlcPlaylistURLs.Items.RemoveAt(LISTB_VlcPlaylistURLs.SelectedIndex);
             }
             else MessageBox.Show("Must select item !");
         }
@@ -942,7 +890,7 @@ namespace SmartHome_v1
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                VlcLoadAndFillListBox(openFileDialog1.FileName, lbVlcPlaylistURLs, lbVlcPlaylistTitles);
+                VlcLoadAndFillListBox(openFileDialog1.FileName, LISTB_VlcPlaylistURLs, LISTB_VlcPlaylistTitles);
             }
         }
 
@@ -989,14 +937,14 @@ namespace SmartHome_v1
             switch (((ListBox)((ContextMenuStrip)sender).SourceControl).Name.ToString())
             {
                 case VlcConstants.OBJECT_NAME_PLAYLIST:
-                    lbPlaylistItems = lbVlcPlaylistTitles;
-                    lbPlaylistUrls = lbVlcPlaylistURLs;
-                    playlistUrls = mtbPlayListPath.Text;
+                    lbPlaylistItems = LISTB_VlcPlaylistTitles;
+                    lbPlaylistUrls = LISTB_VlcPlaylistURLs;
+                    playlistUrls = MTB_PlayListPath.Text;
                     break;
                 case VlcConstants.OBJECT_NAME_FAVORITES:
-                    lbPlaylistItems = lbVlcFavoriteTitles;
-                    lbPlaylistUrls = lbVlcFavoriteURLs;
-                    playlistUrls = mtbFavoriteListPath.Text;
+                    lbPlaylistItems = LISTB_VlcFavoriteTitles;
+                    lbPlaylistUrls = LISTB_VlcFavoriteURLs;
+                    playlistUrls = MTB_FavoriteListPath.Text;
                     break;
             }
 
@@ -1017,8 +965,8 @@ namespace SmartHome_v1
                     SaveVlcPlayList(playlistUrls, lbPlaylistItems, lbPlaylistUrls);
                     break;
                 case VlcConstants.ACTION_ADD_FAV:
-                    lbVlcFavoriteTitles.Items.Add(lbPlaylistItems.Items[lbPlaylistItems.SelectedIndex]);
-                    lbVlcFavoriteURLs.Items.Add(lbPlaylistUrls.Items[lbPlaylistItems.SelectedIndex]);
+                    LISTB_VlcFavoriteTitles.Items.Add(lbPlaylistItems.Items[lbPlaylistItems.SelectedIndex]);
+                    LISTB_VlcFavoriteURLs.Items.Add(lbPlaylistUrls.Items[lbPlaylistItems.SelectedIndex]);
                     break;
             }
         }
@@ -1028,7 +976,7 @@ namespace SmartHome_v1
             saveFileDialog1.Filter = "log files | *.log";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                mtbLogFilePath.Text = saveFileDialog1.FileName;
+                MTB_LogFilePath.Text = saveFileDialog1.FileName;
                 btnSaveCfg.Enabled = true;
             }
         }
@@ -1038,7 +986,7 @@ namespace SmartHome_v1
             openFileDialog1.Filter = "m3u files | *.m3u";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                mtbPlayListPath.Text = openFileDialog1.FileName;
+                MTB_PlayListPath.Text = openFileDialog1.FileName;
                 btnSaveCfg.Enabled = true;
             }
         }
@@ -1048,40 +996,37 @@ namespace SmartHome_v1
             openFileDialog1.Filter = "m3u files | *.m3u";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                mtbFavoriteListPath.Text = openFileDialog1.FileName;
+                MTB_FavoriteListPath.Text = openFileDialog1.FileName;
                 btnSaveCfg.Enabled = true;
             }
         }
 
         private void BTN_SaveCfg_Click_1(object sender, EventArgs e)
         {
-            INIManager manager = new INIManager(app_path + "smarthome.ini");
-//            string name = manager.GetPrivateString("PathSettings", "name");
+            INIManager manager = new INIManager(_appPath + "smarthome.ini");
 
             btnSaveCfg.Enabled = false;
-            manager.WritePrivateString("PathSettings", "LogFile", mtbLogFilePath.Text);
-            manager.WritePrivateString("PathSettings", "MainPlayList", mtbPlayListPath.Text);
-            manager.WritePrivateString("PathSettings", "FavoritePlayList", mtbFavoriteListPath.Text);
+            manager.WritePrivateString("PathSettings", "LogFile", MTB_LogFilePath.Text);
+            manager.WritePrivateString("PathSettings", "MainPlayList", MTB_PlayListPath.Text);
+            manager.WritePrivateString("PathSettings", "FavoritePlayList", MTB_FavoriteListPath.Text);
         }
 
         private void BTN_VlcStop_Click(object sender, EventArgs e)
         {
-            //axVLCPlugin21.playlist.stop();
-            if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
-            formVlcPlayer.Stop();
-            formVlcPlayer.Hide();
-            //formVlcPlayer.Dispose();
+            if (CHBOX_UsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, _smartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
+            _formVlcPlayer.Stop();
+            _formVlcPlayer.Hide();
         }
 
         private void LBOX_VlcPlaylistTitles_DoubleClick(object sender, EventArgs e)
         {
-            rbMainVlcPlayList.Checked = true;
+            RBTN_MainVlcPlayList.Checked = true;
             VlcPlaySelected(VlcConstants.CURRENT_ITEM);
         }
 
         private void LBOX_VlcFavoriteTitles_DoubleClick(object sender, EventArgs e)
         {
-            rbFavoriteVlcPlayList.Checked = true;
+            RBTN_FavoriteVlcPlayList.Checked = true;
             VlcPlaySelected(VlcConstants.CURRENT_ITEM);
         }
 
@@ -1094,11 +1039,15 @@ namespace SmartHome_v1
                 p.X = MainConstants.AMBILIGHT_X;
                 p.Y = MainConstants.AMBILIGHT_Y;
                 uint pixel = GetPixel(hDC, p.X, p.Y);
+                
                 ReleaseDC(IntPtr.Zero, hDC);
+                
                 byte r = (byte)(pixel & 0x000000FF);
                 byte g = (byte)((pixel & 0x0000FF00) >> 8);
                 byte b = (byte)((pixel & 0x00FF0000) >> 16);
+                
                 SendStringToDevice($"EFFECT_CONFIG:01.1.1.1.{r:X2}.{g:X2}.{b:X2}.00.00", MainConstants.DEV_RGB_TAPE_ID);
+                
                 lblRED.Text = r.ToString();
                 lblGREEN.Text = g.ToString();
                 lblBLUE.Text = b.ToString();
@@ -1108,15 +1057,13 @@ namespace SmartHome_v1
         private uint DominateColor()
         {
             uint color;
+            uint pixel;
+
             Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
             int canvasX = resolution.Width;
             int canvasY = resolution.Height;
-            uint pixel;
-            uint summaR = 0;
-            uint summaG = 0;
-            uint summaB = 0;
-            int x = 0;
-            int y = 0;
+            uint summaR = 0 , summaG = 0, summaB = 0;
+            int x = 0, y = 0;
             //            POINT p;
             IntPtr hDC = GetDC(IntPtr.Zero);
             for (x = canvasX - 50; x < canvasX; x++)
@@ -1148,8 +1095,8 @@ namespace SmartHome_v1
 
         private void BTN_Mute_Click(object sender, EventArgs e)
         {
-            if (btnMute.ImageIndex != 0) btnMute.ImageIndex = 0; else btnMute.ImageIndex = 1;
-            if (formVlcPlayer !=null) formVlcPlayer.SetMute();
+            BTN_Mute.ImageIndex = BTN_Mute.ImageIndex != 0 ? 0 : 1;
+            if (_formVlcPlayer !=null) _formVlcPlayer.SetMute();
         }
 
         private void TMR_Ambilight_Tick(object sender, EventArgs e)
@@ -1159,14 +1106,14 @@ namespace SmartHome_v1
 
         private void CHB_Ambilight_Click(object sender, EventArgs e)
         {
-            if (cbAmbilight.Checked)
+            if (CHBOX_Ambilight.Checked)
             {
-                timerAmbilight.Start();
+                TMR_Ambilight.Start();
 
             }
             else
             {
-                timerAmbilight.Stop();
+                TMR_Ambilight.Stop();
 
             }
             btnSaveCfg.Enabled = true;
@@ -1196,57 +1143,54 @@ namespace SmartHome_v1
 
         private void CHB_VlcGpioMask_Click(object sender, EventArgs e)
         {
-            grbVlcGpioSettings.Enabled = cbUsedGpioForVlcMask.Checked;
+            GRBOX_VlcGpioSettings.Enabled = CHBOX_UsedGpioForVlcMask.Checked;
             CheckVlcGpioMask();
         }
 
         public void CheckVlcGpioMask()
         {
-            if (grbVlcGpioSettings.Enabled) cbUsedGpioForVlcMask.ForeColor = SystemColors.ControlText;
-            else cbUsedGpioForVlcMask.ForeColor = SystemColors.ControlDark;
+            CHBOX_UsedGpioForVlcMask.ForeColor = GRBOX_VlcGpioSettings.Enabled ? SystemColors.ControlText : SystemColors.ControlDark;
         }
 
         private void BTN_PlayPause_Click(object sender, EventArgs e)
         {
-            flag_vlc_play = (1 - flag_vlc_play);
-            buttonPlayPause.ImageIndex = 2 + (flag_vlc_play);
+            buttonPlayPause.ImageIndex = _vlcFlag == true ? 1 : 2;
         }
 
         private void VlcMaskPinsToInt(object sender, EventArgs e)
         {
-            if (cbVlcMaskPin0.Checked) SmartHomeModel.vlcDevicesMask |= 0x01; else SmartHomeModel.vlcDevicesMask &= 0xFE;
-            if (cbVlcMaskPin1.Checked) SmartHomeModel.vlcDevicesMask |= 0x02; else SmartHomeModel.vlcDevicesMask &= 0xFD;
-            if (cbVlcMaskPin2.Checked) SmartHomeModel.vlcDevicesMask |= 0x04; else SmartHomeModel.vlcDevicesMask &= 0xFB;
-            if (cbVlcMaskPin3.Checked) SmartHomeModel.vlcDevicesMask |= 0x08; else SmartHomeModel.vlcDevicesMask &= 0xF7;
-            if (cbVlcMaskPin4.Checked) SmartHomeModel.vlcDevicesMask |= 0x10; else SmartHomeModel.vlcDevicesMask &= 0xEF;
-            if (cbVlcMaskPin5.Checked) SmartHomeModel.vlcDevicesMask |= 0x12; else SmartHomeModel.vlcDevicesMask &= 0xDF;
-            if (cbVlcMaskPin6.Checked) SmartHomeModel.vlcDevicesMask |= 0x14; else SmartHomeModel.vlcDevicesMask &= 0xBF;
-            if (cbVlcMaskPin7.Checked) SmartHomeModel.vlcDevicesMask |= 0x18; else SmartHomeModel.vlcDevicesMask &= 0x7F;
+            if (cbVlcMaskPin0.Checked) _smartHomeModel.vlcDevicesMask |= 0x01; else _smartHomeModel.vlcDevicesMask &= 0xFE;
+            if (cbVlcMaskPin1.Checked) _smartHomeModel.vlcDevicesMask |= 0x02; else _smartHomeModel.vlcDevicesMask &= 0xFD;
+            if (cbVlcMaskPin2.Checked) _smartHomeModel.vlcDevicesMask |= 0x04; else _smartHomeModel.vlcDevicesMask &= 0xFB;
+            if (cbVlcMaskPin3.Checked) _smartHomeModel.vlcDevicesMask |= 0x08; else _smartHomeModel.vlcDevicesMask &= 0xF7;
+            if (cbVlcMaskPin4.Checked) _smartHomeModel.vlcDevicesMask |= 0x10; else _smartHomeModel.vlcDevicesMask &= 0xEF;
+            if (cbVlcMaskPin5.Checked) _smartHomeModel.vlcDevicesMask |= 0x12; else _smartHomeModel.vlcDevicesMask &= 0xDF;
+            if (cbVlcMaskPin6.Checked) _smartHomeModel.vlcDevicesMask |= 0x14; else _smartHomeModel.vlcDevicesMask &= 0xBF;
+            if (cbVlcMaskPin7.Checked) _smartHomeModel.vlcDevicesMask |= 0x18; else _smartHomeModel.vlcDevicesMask &= 0x7F;
         }
 
         private void VlcMaskIntToCheckboxes()
         {
-            if ((SmartHomeModel.vlcDevicesMask & 0x01) == 0x01) cbVlcMaskPin0.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x02) == 0x02) cbVlcMaskPin1.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x04) == 0x04) cbVlcMaskPin2.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x08) == 0x08) cbVlcMaskPin3.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x10) == 0x10) cbVlcMaskPin4.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x20) == 0x20) cbVlcMaskPin5.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x40) == 0x40) cbVlcMaskPin6.Checked = true;
-            if ((SmartHomeModel.vlcDevicesMask & 0x80) == 0x80) cbVlcMaskPin7.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x01) == 0x01) cbVlcMaskPin0.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x02) == 0x02) cbVlcMaskPin1.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x04) == 0x04) cbVlcMaskPin2.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x08) == 0x08) cbVlcMaskPin3.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x10) == 0x10) cbVlcMaskPin4.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x20) == 0x20) cbVlcMaskPin5.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x40) == 0x40) cbVlcMaskPin6.Checked = true;
+            if ((_smartHomeModel.vlcDevicesMask & 0x80) == 0x80) cbVlcMaskPin7.Checked = true;
         }
 
         private void TRBAR_VlcVolume_ValueChanged(object sender, EventArgs e)
         {
             String str;
 
-            _VlcVolume = (byte)tbVlcVolume.Value;
-            if (formVlcPlayer!=null) formVlcPlayer.SetVolume(_VlcVolume);
+            _VlcVolume = (byte)TXTBOX_VlcVolume.Value;
+            if (_formVlcPlayer!=null) _formVlcPlayer.SetVolume(_VlcVolume);
 
-            if (cbRememberChVol.Checked)
+            if (CHBOX_RememberChVol.Checked)
             {
-                if (rbMainVlcPlayList.Checked) str = "VlcMainPlaylist_CH" + lbVlcPlaylistTitles.SelectedIndex;
-                else str = "VlcFavoritePlaylist_CH" + lbVlcFavoriteTitles.SelectedIndex;
+                str = RBTN_MainVlcPlayList.Checked ? $"VlcMainPlaylist_CH{LISTB_VlcPlaylistTitles.SelectedIndex}" : $"VlcFavoritePlaylist_CH{LISTB_VlcFavoriteTitles.SelectedIndex}";
             }
             else
             {
@@ -1255,13 +1199,13 @@ namespace SmartHome_v1
             SendStringToDeviceBulk(RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING, MainConstants.DEV_RGB_TAPE_ID); // команда эффект для RGB контроллера (описание в /doc)
             System.Threading.Thread.Sleep(1);
 
-            RegKey.SetValue(str, _VlcVolume);
+            _regKey.SetValue(str, _VlcVolume);
         }
 
         private void CHB_UseSlaveMonitor_Click(object sender, EventArgs e)
         {
             //buttonSaveCfg.Enabled = true;
-            if (formVlcPlayer!=null && formVlcPlayer.IsPlaying) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
+            if (_formVlcPlayer!=null && _formVlcPlayer.IsPlaying) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
             //buttonSaveCfg_Click_1(sender, e);
         }
 
@@ -1280,23 +1224,19 @@ namespace SmartHome_v1
 
             try
             {
-                waveIn = new WaveIn
+                _waveIn = new WaveIn
                 {
                     DeviceNumber = cbRenderDevices.SelectedIndex + 1 // Дефолтное устройство для записи (если оно имеется)
                 };
-                waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(WaveIn_DataAvailable); // Прикрепляем к событию DataAvailable обработчик, возникающий при наличии записываемых данных
-                waveIn.RecordingStopped += new EventHandler<StoppedEventArgs>(WaveIn_RecordingStopped); // Прикрепляем обработчик завершения записи
+                _waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(WaveIn_DataAvailable); // Прикрепляем к событию DataAvailable обработчик, возникающий при наличии записываемых данных
+                _waveIn.RecordingStopped += new EventHandler<StoppedEventArgs>(WaveIn_RecordingStopped); // Прикрепляем обработчик завершения записи
                 string outputFilename = "D:/demo.wav";
-                waveIn.WaveFormat = new WaveFormat(44100, 1);
-                writer = new WaveFileWriter(outputFilename, waveIn.WaveFormat);
-                waveIn.StartRecording(); //Инициализируем объект WaveFileWriter, начало записи
+                _waveIn.WaveFormat = new WaveFormat(44100, 1);
+                _writer = new WaveFileWriter(outputFilename, _waveIn.WaveFormat);
+                _waveIn.StartRecording(); //Инициализируем объект WaveFileWriter, начало записи
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
-            // Setup the graph
-            
-            // Size the control to fill the form with a margin
-            //SetSize();*/
             // эта часть не нужна программа узнает о прочитаном звуке с помощью событий.
         }
 
@@ -1311,12 +1251,12 @@ namespace SmartHome_v1
             }
             else
             {
-                waveIn.StopRecording();
-                waveIn.Dispose();
-                waveIn = null;
-                writer.Close();
-                writer = null;
+                _waveIn.StopRecording();
             }
+            _waveIn.Dispose();
+            _waveIn = null;
+            _writer.Close();
+            _writer = null;
         }
 
         void WaveIn_DataAvailable(object sender, WaveInEventArgs e)
@@ -1329,7 +1269,7 @@ namespace SmartHome_v1
             {
                 //данные из буфера распределяем в массив чтобы в нем они были в формате ?PCM?
                 byte[] buffer = e.Buffer;
-                N = buffer.Length;
+                _N = buffer.Length;
                 int bytesRecorded = e.BytesRecorded;
                 Complex[] sig = new Complex[bytesRecorded / 2];
                 for (int i = 0, j = 0; i < e.BytesRecorded; i += 2, j++)
@@ -1337,14 +1277,12 @@ namespace SmartHome_v1
                     short sample = (short)((buffer[i + 1] << 8) | buffer[i + 0]);
                     sig[j] = sample / 32768f;
                 }
-
                 //Transform.FourierForward(sig, FourierOptions.Matlab);
                 // обнуляем спектр на небольших частотах (там постоянная составляющая и вообще много помех)
-                for (int i = 0; i < 35 * sig.Length / Fn; i++)
+                for (int i = 0; i < 35 * sig.Length / _Fn; i++)
                 {
                     sig[i] = 0;
                 }
-
                 CreateGraph(zedGraphControl1,sig);
             }
         }
@@ -1360,51 +1298,37 @@ namespace SmartHome_v1
 
             for (int i = 0; i < K; i++)
             {
-                list1.Add(i*Fn/K, Complex.Abs(sig[i])/N*2);
+                list1.Add(i*_Fn/K, Complex.Abs(sig[i])/_N*2);
             }
-
-            String rgbString = "CH0:";
 
             lblLowMax.Visible = lblMiddleMax.Visible = lblHighMax.Visible = false;
 
-            int value = GetCalculateValueFromComplexValues((int)nudLowFreq.Value);
-            if (value > 255)
+            int value1 = GetCalculateValueFromComplexValues((int)nudLowFreq.Value);
+            if (value1 > 255)
             {
-                value = 255;
+                value1 = 255;
                 lblLowMax.Visible = true;
             }
-            pbLowFreq.Value = value;
-            String valueString = value.ToString("X2");
-            tbLowFreq.Text = valueString;
-            rgbString += valueString;
+            pbLowFreq.Value = value1;
 
-            value = GetCalculateValueFromComplexValues((int)nudMiddleFreq.Value );
-            if (value > 255)
+            int value2 = GetCalculateValueFromComplexValues((int)nudMiddleFreq.Value );
+            if (value2 > 255)
             {
-                value = 255;
+                value2 = 255;
                 lblMiddleMax.Visible = true;
             }
-            pbMiddleFreq.Value = value;
-            valueString = value.ToString("X2");
-            tbMiddleFreq.Text = valueString;
-            rgbString += valueString;
+            pbMiddleFreq.Value = value2;
 
-            value = GetCalculateValueFromComplexValues((int)nudHighFreq.Value);
-            if (value > 255)
+            int value3 = GetCalculateValueFromComplexValues((int)nudHighFreq.Value);
+            if (value3 > 255)
             {
-                value = 255;
+                value3 = 255;
                 lblHighMax.Visible = true;
             }
-            pbHighFreq.Value = value;
-            valueString = value.ToString("X2");
-            textBoxHighFreq.Text = valueString;
-            rgbString += valueString;
+            pbHighFreq.Value = value3;
 
-            SendStringToDevice(rgbString, MainConstants.DEV_RGB_TAPE_ID);
+            SendStringToDevice($"CH0:{value1:X2}{value2:X2}{value3:X2}", MainConstants.DEV_RGB_TAPE_ID);
 
-            // Generate a red curve 
-            //LineItem myCurve = myPane.AddCurve("", list1, Color.Red, SymbolType.None);
-            // Set the Titles
             myPane.Title.Text = "Амплитудный спектр звука";
             myPane.XAxis.Title.Text = "Частота, Гц";
             myPane.YAxis.Title.Text = "";
@@ -1419,9 +1343,9 @@ namespace SmartHome_v1
                 Int32 summ = 0;
                 Complex c;
                 //check_freq /= 100;
-                for (int i = (int)((check_freq - FREQ_ARRAY_LENGTH) * sig.Length / Fn); i < (int)((check_freq + FREQ_ARRAY_LENGTH) * sig.Length / Fn); i++)
+                for (int i = (int)((check_freq - FREQ_ARRAY_LENGTH) * sig.Length / _Fn); i < (int)((check_freq + FREQ_ARRAY_LENGTH) * sig.Length / _Fn); i++)
                 {
-                    c = Complex.Abs((sig[i] / N * 2) * 10000000); // list1.Add(i*Fn/K, Complex.Abs(sig[i])/N*2);
+                    c = Complex.Abs((sig[i] / _N * 2) * 10000000); // list1.Add(i*Fn/K, Complex.Abs(sig[i])/N*2);
                     summ += (int)c.Real;
                 }
                 summ /= FREQ_ARRAY_LENGTH;
@@ -1443,18 +1367,18 @@ namespace SmartHome_v1
 
         private void CHB_FullScreen_Click(object sender, EventArgs e)
         {
-            formVlcPlayer.FullScreen = checkBoxFullScreen.Checked;
-            RegKey.SetValue("VlcFullScreen", checkBoxFullScreen.Checked);
-            if (formVlcPlayer.IsPlaying) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
+            _formVlcPlayer.FullScreen = checkBoxFullScreen.Checked;
+            _regKey.SetValue("VlcFullScreen", checkBoxFullScreen.Checked);
+            if (_formVlcPlayer.IsPlaying) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
         }
 
         private void CHB_Sheduler_Click(object sender, EventArgs e)
         {
-            gbSheduler.Enabled = cbSheduler.Checked;
-            RegKey.SetValue("RgbUseSheduler", cbSheduler.Checked);
+            gbSheduler.Enabled = CHBOX_Sheduler.Checked;
+            _regKey.SetValue("RgbUseSheduler", CHBOX_Sheduler.Checked);
             timerRgbSheduler.Enabled = gbSheduler.Enabled;
 
-            if (!timerAmbilight.Enabled) timerRgbSheduler.Start();
+            if (!TMR_Ambilight.Enabled) timerRgbSheduler.Start();
         }
 
         private void BTN_Color_Click(object sender, EventArgs e)
@@ -1462,50 +1386,50 @@ namespace SmartHome_v1
             int hour = 0;
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (sender == btnColor00) hour = 0;
-                if (sender == btnColor01) hour = 1;
-                if (sender == btnColor02) hour = 2;
-                if (sender == btnColor03) hour = 3;
-                if (sender == btnColor04) hour = 4;
-                if (sender == btnColor05) hour = 5;
-                if (sender == btnColor06) hour = 6;
-                if (sender == btnColor07) hour = 7;
-                if (sender == btnColor08) hour = 8;
-                if (sender == btnColor09) hour = 9;
-                if (sender == btnColor10) hour = 10;
-                if (sender == btnColor11) hour = 11;
-                if (sender == btnColor12) hour = 12;
-                if (sender == btnColor13) hour = 13;
-                if (sender == btnColor14) hour = 14;
-                if (sender == btnColor15) hour = 15;
-                if (sender == btnColor16) hour = 16;
-                if (sender == btnColor17) hour = 17;
-                if (sender == btnColor18) hour = 18;
-                if (sender == btnColor19) hour = 19;
-                if (sender == btnColor20) hour = 20;
-                if (sender == btnColor21) hour = 21;
+                if (sender == BTN_Color00) hour = 0;
+                if (sender == BTN_Color01) hour = 1;
+                if (sender == BTN_Color02) hour = 2;
+                if (sender == BTN_Color03) hour = 3;
+                if (sender == BTN_Color04) hour = 4;
+                if (sender == BTN_Color05) hour = 5;
+                if (sender == BTN_Color06) hour = 6;
+                if (sender == BTN_Color07) hour = 7;
+                if (sender == BTN_Color08) hour = 8;
+                if (sender == BTN_Color09) hour = 9;
+                if (sender == BTN_Color10) hour = 10;
+                if (sender == BTN_Color11) hour = 11;
+                if (sender == BTN_Color12) hour = 12;
+                if (sender == BTN_Color13) hour = 13;
+                if (sender == BTN_Color14) hour = 14;
+                if (sender == BTN_Color15) hour = 15;
+                if (sender == BTN_Color16) hour = 16;
+                if (sender == BTN_Color17) hour = 17;
+                if (sender == BTN_Color18) hour = 18;
+                if (sender == BTN_Color19) hour = 19;
+                if (sender == BTN_Color20) hour = 20;
+                if (sender == BTN_Color21) hour = 21;
                 if (sender == btnColor22) hour = 22;
                 if (sender == btnColor23) hour = 23;
             }
             Button button = (Button)sender;
             button.BackColor = colorDialog1.Color;
-            rgbShedulerColorsArray[hour] = colorDialog1.Color;
-            rgbStateFlag[hour] = false;
+            _rgbShedulerColorsArray[hour] = colorDialog1.Color;
+            _rgbStateFlag[hour] = false;
 
-            RegKey.SetValue("RgbShedulerHour" + Convert.ToString(hour), colorDialog1.Color.R.ToString("X2") + colorDialog1.Color.G.ToString("X2") + colorDialog1.Color.B.ToString("X2"));
+            _regKey.SetValue($"RgbShedulerHour{Convert.ToString(hour)}", $"{colorDialog1.Color.R:X2}{colorDialog1.Color.G:X2}{colorDialog1.Color.B:X2}");
         }
 
         private void TMR_RgbSheduler_Tick(object sender, EventArgs e)
         {
             int hour = DateTime.Now.Hour;
-            if (!rgbStateFlag[hour])
+            if (!_rgbStateFlag[hour])
             {
-                string rgbString = $"EFFECT_CONFIG:01.1.1.1.{rgbShedulerColorsArray[hour].R:X2}.{rgbShedulerColorsArray[hour].G:X2}.{rgbShedulerColorsArray[hour].B:X2}.70.00";
-                SendStringToDevice(rgbString, MainConstants.DEV_RGB_TAPE_ID);
+                SendStringToDevice($"EFFECT_CONFIG:01.1.1.1.{_rgbShedulerColorsArray[hour].R:X2}.{_rgbShedulerColorsArray[hour].G:X2}.{_rgbShedulerColorsArray[hour].B:X2}.70.00", 
+                    MainConstants.DEV_RGB_TAPE_ID);
 
-                rgbStateFlag[hour] = true;
-                if (hour > 0) rgbStateFlag[hour - 1] = false;
-                else if (hour == 0) rgbStateFlag[23] = false;
+                _rgbStateFlag[hour] = true;
+                if (hour > 0) _rgbStateFlag[hour - 1] = false;
+                else if (hour == 0) _rgbStateFlag[23] = false;
             }
         }
 
@@ -1515,34 +1439,34 @@ namespace SmartHome_v1
             byte green = byte.Parse(color_string.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
             byte blue = byte.Parse(color_string.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
-            rgbShedulerColorsArray[button_num] = Color.FromArgb(255, red, green, blue);
+            _rgbShedulerColorsArray[button_num] = Color.FromArgb(255, red, green, blue);
 
             switch (button_num)
             {
-                case 0: btnColor00.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 1: btnColor01.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 2: btnColor02.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 3: btnColor03.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 4: btnColor04.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 5: btnColor05.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 6: btnColor06.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 7: btnColor07.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 8: btnColor08.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 9: btnColor09.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 10: btnColor10.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 11: btnColor11.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 12: btnColor12.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 13: btnColor13.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 14: btnColor14.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 15: btnColor15.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 16: btnColor16.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 17: btnColor17.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 18: btnColor18.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 19: btnColor19.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 20: btnColor20.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 21: btnColor21.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 22: btnColor22.BackColor = rgbShedulerColorsArray[button_num]; break;
-                case 23: btnColor23.BackColor = rgbShedulerColorsArray[button_num]; break;
+                case 0: BTN_Color00.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 1: BTN_Color01.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 2: BTN_Color02.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 3: BTN_Color03.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 4: BTN_Color04.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 5: BTN_Color05.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 6: BTN_Color06.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 7: BTN_Color07.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 8: BTN_Color08.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 9: BTN_Color09.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 10: BTN_Color10.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 11: BTN_Color11.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 12: BTN_Color12.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 13: BTN_Color13.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 14: BTN_Color14.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 15: BTN_Color15.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 16: BTN_Color16.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 17: BTN_Color17.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 18: BTN_Color18.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 19: BTN_Color19.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 20: BTN_Color20.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 21: BTN_Color21.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 22: btnColor22.BackColor = _rgbShedulerColorsArray[button_num]; break;
+                case 23: btnColor23.BackColor = _rgbShedulerColorsArray[button_num]; break;
             }
         }
 
@@ -1560,30 +1484,28 @@ namespace SmartHome_v1
             }
             catch
             {
-                rtbLogger.Text = "COMx\n";
+                RTBOX_Logger.Text = "COMx\n";
                 tsStatusLabelRgbTape.Text = "FAIL !";
-                smartHomePortOpenFlag = false;
+                _smartHomePortOpenFlag = false;
             }
         }
 
         private void CHB_BuzzerBits_Click(object sender, EventArgs e)
         {
-            if (cbBuzzerBit0.Checked) SmartHomeModel.smartHomeBeepString |= 0x01; else SmartHomeModel.smartHomeBeepString &= 0xFE; // enc0
-            if (cbBuzzerBit1.Checked) SmartHomeModel.smartHomeBeepString |= 0x02; else SmartHomeModel.smartHomeBeepString &= 0xFD; // enc1
-            if (cbBuzzerBit2.Checked) SmartHomeModel.smartHomeBeepString |= 0x04; else SmartHomeModel.smartHomeBeepString &= 0xFB; // keyboard
-            if (cbBuzzerBit3.Checked) SmartHomeModel.smartHomeBeepString |= 0x08; else SmartHomeModel.smartHomeBeepString &= 0xF7; // remote
-            if (cbBuzzerBit4.Checked) SmartHomeModel.smartHomeBeepString |= 0x10; else SmartHomeModel.smartHomeBeepString &= 0xEF; // uart in
-            if (cbBuzzerBit5.Checked) SmartHomeModel.smartHomeBeepString |= 0x20; else SmartHomeModel.smartHomeBeepString &= 0xDF; // usb in
-            if (cbBuzzerBit6.Checked) SmartHomeModel.smartHomeBeepString |= 0x40; else SmartHomeModel.smartHomeBeepString &= 0xBF; // use door sensor
+            if (CHBOX_BuzzerBit0.Checked) _smartHomeModel.smartHomeBeepString |= 0x01; else _smartHomeModel.smartHomeBeepString &= 0xFE; // enc0
+            if (CHBOX_BuzzerBit1.Checked) _smartHomeModel.smartHomeBeepString |= 0x02; else _smartHomeModel.smartHomeBeepString &= 0xFD; // enc1
+            if (CHBOX_BuzzerBit2.Checked) _smartHomeModel.smartHomeBeepString |= 0x04; else _smartHomeModel.smartHomeBeepString &= 0xFB; // keyboard
+            if (CHBOX_BuzzerBit3.Checked) _smartHomeModel.smartHomeBeepString |= 0x08; else _smartHomeModel.smartHomeBeepString &= 0xF7; // remote
+            if (CHBOX_BuzzerBit4.Checked) _smartHomeModel.smartHomeBeepString |= 0x10; else _smartHomeModel.smartHomeBeepString &= 0xEF; // uart in
+            if (CHBOX_BuzzerBit5.Checked) _smartHomeModel.smartHomeBeepString |= 0x20; else _smartHomeModel.smartHomeBeepString &= 0xDF; // usb in
+            if (CHBOX_BuzzerBit6.Checked) _smartHomeModel.smartHomeBeepString |= 0x40; else _smartHomeModel.smartHomeBeepString &= 0xBF; // use door sensor
             buttonSaveSmartHomeCfg.Enabled = true;
-            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_FLAGS, SmartHomeModel.smartHomeBeepString, MainConstants.DEV_SMART_HOME_ID);
+            SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_SET_FLAGS, _smartHomeModel.smartHomeBeepString, MainConstants.DEV_SMART_HOME_ID);
         }
 
         private void BTN_StopRecord_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("StopRecording");
-
-            waveIn.StopRecording();
+            _waveIn.StopRecording();
         }
     }
 }
