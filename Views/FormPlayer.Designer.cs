@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPlayer));
             this.axVLCPlugin21 = new AxAXVLC.AxVLCPlugin2();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tbData = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.axVLCPlugin21)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,9 +46,24 @@
             this.axVLCPlugin21.TabIndex = 0;
             this.axVLCPlugin21.MediaPlayerEncounteredError += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerEncounteredError);
             this.axVLCPlugin21.MediaPlayerEndReached += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerEndReached);
-            this.axVLCPlugin21.MediaPlayerMediaChanged += new System.EventHandler(this.AxVLCPlugin21_MediaPlayerMediaChanged);
             this.axVLCPlugin21.MediaPlayerVout += new AxAXVLC.DVLCEvents_MediaPlayerVoutEventHandler(this.AxVLCPlugin21_MediaPlayerVout);
-            this.axVLCPlugin21.DblClick += new System.EventHandler(this.AxVLCPlugin21_DblClick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 277);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tbData
+            // 
+            this.tbData.Location = new System.Drawing.Point(132, 277);
+            this.tbData.Name = "tbData";
+            this.tbData.Size = new System.Drawing.Size(100, 20);
+            this.tbData.TabIndex = 2;
             // 
             // FormPlayer
             // 
@@ -54,17 +71,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(314, 301);
             this.ControlBox = false;
+            this.Controls.Add(this.tbData);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.axVLCPlugin21);
             this.Name = "FormPlayer";
             this.Text = "FormPlayer";
             this.DoubleClick += new System.EventHandler(this.FormPlayer_DoubleClick);
             ((System.ComponentModel.ISupportInitialize)(this.axVLCPlugin21)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private AxAXVLC.AxVLCPlugin2 axVLCPlugin21;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tbData;
     }
 }

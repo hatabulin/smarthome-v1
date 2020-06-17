@@ -100,7 +100,7 @@ namespace SmartHome_v1
         readonly SmartHomeModel SmartHomeModel = new SmartHomeModel();
 
         int flag_vlc_play = 0;
-        byte vlcVolume = VlcConstants.DEFAULT_VOLUME;
+        int _VlcVolume = VlcConstants.DEFAULT_VOLUME;
         readonly bool[] rgbStateFlag = new bool[24];
         readonly Color[] rgbShedulerColorsArray = new Color[24];
 
@@ -139,6 +139,12 @@ namespace SmartHome_v1
         {
             InitializeComponent();
             formVlcPlayer = new FormPlayer();
+            formVlcPlayer.MyEvent += this.VlcStatusEvent; // Add event from FormPlayer class
+        }
+
+        public void VlcStatusEvent(string text) // Implement event routine... 
+        {
+            MessageBox.Show($"button clicked ! input data:{text}");
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -168,10 +174,10 @@ namespace SmartHome_v1
             lbVlcFavoriteURLs.SelectedIndex = lbVlcFavoriteTitles.SelectedIndex;
             
             GetRegistrySettings();
+            tbVlcVolume.Value = _VlcVolume;
             rbFavoriteVlcPlayList.Checked = !(rbMainVlcPlayList.Checked);
             grbVlcGpioSettings.Enabled = cbUsedGpioForVlcMask.Checked;
             CheckVlcGpioMask();
-            tbVlcVolume.Value = vlcVolume;
             if (cbAmbilight.Checked) timerAmbilight.Start();
             if (cbSheduler.Checked) CHB_Sheduler_Click(sender, e);
         }
@@ -187,7 +193,7 @@ namespace SmartHome_v1
             cbUseSlaveMonitor.Checked = Convert.ToBoolean(RegKey.GetValue("UseSlaveMonitor", "False"));
             if (Convert.ToBoolean(RegKey.GetValue("VlcStatus", "False"))) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
             cbRememberChVol.Checked = Convert.ToBoolean(RegKey.GetValue("VlcRememberChannelsVolume", false));
-            vlcVolume = Convert.ToByte(RegKey.GetValue("VlcPlayerVolume", VlcConstants.DEFAULT_VOLUME));
+            _VlcVolume = Math.Abs(Convert.ToInt32(RegKey.GetValue("VlcPlayerVolume",VlcConstants.DEFAULT_VOLUME)));
             switch (Convert.ToBoolean(RegKey.GetValue("VlcPlayerMuted", "False")))
             {
                 case true:
@@ -806,10 +812,10 @@ namespace SmartHome_v1
                     formVlcPlayer.Stop();
                     break;
                 case IRemoteConstants.TR_VOL_UP:
-                    VlcChangeVolume(VlcConstants.ADD);
+                    VlcChangeVolumeIrRemote(VlcConstants.ADD);
                     break;
                 case IRemoteConstants.TR_VOL_DOWN:
-                    VlcChangeVolume(VlcConstants.DEC);
+                    VlcChangeVolumeIrRemote(VlcConstants.DEC);
                     break;
                 case IRemoteConstants.TR_PREV:
                     VlcPlaySelected(VlcConstants.PREVIOUS_ITEM);
@@ -821,7 +827,7 @@ namespace SmartHome_v1
             }
         }
 
-        private void VlcPlaySelected(int direction)
+        private void VlcPlaySelected(int direction) // direction used for IR remote (next, prev)
         {
             ListBox lbUrls;
             ListBox lbTitles;
@@ -855,11 +861,9 @@ namespace SmartHome_v1
             {
                 if (lbUrls.SelectedIndex > 0) lbUrls.SelectedIndex--; else lbUrls.SelectedIndex = lbUrls.Items.Count - 1;
             }
-
-            if (direction > 0)
-            {
-                if (lbUrls.SelectedIndex < lbUrls.Items.Count - 1) lbUrls.SelectedIndex++; else lbUrls.SelectedIndex = 0;
-            }
+            else if (direction > 0)
+                if (lbUrls.SelectedIndex < lbUrls.Items.Count - 1) lbUrls.SelectedIndex++;
+                else lbUrls.SelectedIndex = 0;
 
             lbTitles.SelectedIndex = lbUrls.SelectedIndex;
 
@@ -867,46 +871,42 @@ namespace SmartHome_v1
             if (rbMainVlcPlayList.Checked) str = "VlcMainPlaylist_CH" + lbVlcPlaylistTitles.SelectedIndex;
             else str = "VlcFavoritePlaylist_CH" + lbVlcFavoriteTitles.SelectedIndex;
 
-            if (cbRememberChVol.Checked) vlcVolume = Convert.ToByte(RegKey.GetValue(str, VlcConstants.DEFAULT_VOLUME));
-            else vlcVolume = VlcConstants.DEFAULT_VOLUME;
+            if (cbRememberChVol.Checked) _VlcVolume = Convert.ToByte(RegKey.GetValue(str, VlcConstants.DEFAULT_VOLUME));
+            else _VlcVolume = VlcConstants.DEFAULT_VOLUME;
 
             formVlcPlayer.Show();
             formVlcPlayer.SetListBox = lbUrls;
-            formVlcPlayer.FullScreen = checkBoxFullScreen.Checked;
             formVlcPlayer.Play();
-            tbVlcVolume.Value = vlcVolume;
-            formVlcPlayer.SetVolume(vlcVolume);
+            tbVlcVolume.Value = _VlcVolume;
+            formVlcPlayer.SetVolume(_VlcVolume);
         }
 
-        private void VlcChangeVolume(int a)
+        private void VlcChangeVolumeIrRemote(int a)
         {
 
             String str;
-            vlcVolume = (byte)formVlcPlayer.Volume;
+            _VlcVolume = (byte)formVlcPlayer.Volume;
 
             switch (a)
             {
                 case VlcConstants.ADD:
-                    if (vlcVolume < 255) vlcVolume++;
+                    if (_VlcVolume < 255) _VlcVolume++;
                     break;
                 case VlcConstants.DEC:
-                    if (vlcVolume > 0) vlcVolume--;
+                    if (_VlcVolume > 0) _VlcVolume--;
                     break;
             }
 
             if (rbMainVlcPlayList.Checked)
             {
-                //                this.Invoke((MethodInvoker)delegate
-                //                {
                 str = $"VlcMainPlaylist_CH{Convert.ToString(lbVlcPlaylistTitles.SelectedIndex)}";
-                RegKey.SetValue(str, vlcVolume);
-                //                });
+                RegKey.SetValue(str, _VlcVolume);
             }
             else
             {
                 //str = $"VlcMainPlaylist_CH{Convert.ToString(lbVlcFavoriteTitles.SelectedIndex)}";
             }
-            tbVlcVolume.Value = vlcVolume;
+            tbVlcVolume.Value = _VlcVolume;
         }
 
         private void BTN_RescanDevices_Click(object sender, EventArgs e)
@@ -1069,6 +1069,7 @@ namespace SmartHome_v1
             //axVLCPlugin21.playlist.stop();
             if (cbUsedGpioForVlcMask.Checked) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_RESET_BITS_GPIO_STATUS, SmartHomeModel.vlcDevicesMask, MainConstants.DEV_SMART_HOME_ID); // Monitor, Subwoofer
             formVlcPlayer.Stop();
+            formVlcPlayer.Hide();
             //formVlcPlayer.Dispose();
         }
 
@@ -1239,8 +1240,8 @@ namespace SmartHome_v1
         {
             String str;
 
-            vlcVolume = (byte)tbVlcVolume.Value;
-            if (formVlcPlayer!=null) formVlcPlayer.SetVolume(vlcVolume);
+            _VlcVolume = (byte)tbVlcVolume.Value;
+            if (formVlcPlayer!=null) formVlcPlayer.SetVolume(_VlcVolume);
 
             if (cbRememberChVol.Checked)
             {
@@ -1254,7 +1255,7 @@ namespace SmartHome_v1
             SendStringToDeviceBulk(RgbConstants.RGB_VLC_VOLUME_CHANGE_STRING, MainConstants.DEV_RGB_TAPE_ID); // команда эффект для RGB контроллера (описание в /doc)
             System.Threading.Thread.Sleep(1);
 
-            RegKey.SetValue(str, vlcVolume);
+            RegKey.SetValue(str, _VlcVolume);
         }
 
         private void CHB_UseSlaveMonitor_Click(object sender, EventArgs e)
@@ -1442,8 +1443,9 @@ namespace SmartHome_v1
 
         private void CHB_FullScreen_Click(object sender, EventArgs e)
         {
+            formVlcPlayer.FullScreen = checkBoxFullScreen.Checked;
             RegKey.SetValue("VlcFullScreen", checkBoxFullScreen.Checked);
-            VlcPlaySelected(VlcConstants.CURRENT_ITEM);
+            if (formVlcPlayer.IsPlaying) VlcPlaySelected(VlcConstants.CURRENT_ITEM);
         }
 
         private void CHB_Sheduler_Click(object sender, EventArgs e)
