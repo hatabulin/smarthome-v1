@@ -236,7 +236,7 @@
             this.RBTN_MainVlcPlayList = new System.Windows.Forms.RadioButton();
             this.buttonPlayPause = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnSaveCfg = new System.Windows.Forms.Button();
+            this.BTN_SaveCfg = new System.Windows.Forms.Button();
             this.BTN_Mute = new System.Windows.Forms.Button();
             this.TXTBOX_VlcVolume = new System.Windows.Forms.TrackBar();
             this.buttonVlcStop = new System.Windows.Forms.Button();
@@ -2396,7 +2396,7 @@
             this.tabPageVLC.Controls.Add(this.groupBox3);
             this.tabPageVLC.Controls.Add(this.RBTN_MainVlcPlayList);
             this.tabPageVLC.Controls.Add(this.buttonPlayPause);
-            this.tabPageVLC.Controls.Add(this.btnSaveCfg);
+            this.tabPageVLC.Controls.Add(this.BTN_SaveCfg);
             this.tabPageVLC.Controls.Add(this.BTN_Mute);
             this.tabPageVLC.Controls.Add(this.TXTBOX_VlcVolume);
             this.tabPageVLC.Controls.Add(this.buttonVlcStop);
@@ -2752,16 +2752,16 @@
             // 
             // btnSaveCfg
             // 
-            this.btnSaveCfg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSaveCfg.Enabled = false;
-            this.btnSaveCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.btnSaveCfg.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCfg.Image")));
-            this.btnSaveCfg.Location = new System.Drawing.Point(730, 301);
-            this.btnSaveCfg.Name = "btnSaveCfg";
-            this.btnSaveCfg.Size = new System.Drawing.Size(35, 25);
-            this.btnSaveCfg.TabIndex = 30;
-            this.btnSaveCfg.UseVisualStyleBackColor = true;
-            this.btnSaveCfg.Click += new System.EventHandler(this.BTN_SaveCfg_Click_1);
+            this.BTN_SaveCfg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_SaveCfg.Enabled = false;
+            this.BTN_SaveCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.BTN_SaveCfg.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCfg.Image")));
+            this.BTN_SaveCfg.Location = new System.Drawing.Point(730, 301);
+            this.BTN_SaveCfg.Name = "btnSaveCfg";
+            this.BTN_SaveCfg.Size = new System.Drawing.Size(35, 25);
+            this.BTN_SaveCfg.TabIndex = 30;
+            this.BTN_SaveCfg.UseVisualStyleBackColor = true;
+            this.BTN_SaveCfg.Click += new System.EventHandler(this.BTN_SaveCfg_Click_1);
             // 
             // btnMute
             // 
@@ -3789,7 +3789,7 @@
         private System.Windows.Forms.ListBox LISTB_VlcFavoriteTitles;
         private System.Windows.Forms.ListBox LISTB_VlcFavoriteURLs;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button btnSaveCfg;
+        private System.Windows.Forms.Button BTN_SaveCfg;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button buttonVlcPlayListPath;
         private System.Windows.Forms.Label label21;

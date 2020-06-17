@@ -342,7 +342,7 @@ namespace SmartHome_v1
             if (sender == NUD_Encoder1) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC1_COUNTER, Convert.ToInt32(Math.Round(NUD_Encoder1.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
             else if (sender == NUD_Encoder0) SendRegToDevice(SmartHomeDeviceConstants.REG_CMD_ENC0_COUNTER, Convert.ToInt32(Math.Round(NUD_Encoder0.Value, 0)), MainConstants.DEV_SMART_HOME_ID);
 
-            btnSaveCfg.Enabled = true;
+            BTN_SaveCfg.Enabled = true;
         }
 
         public void ProcessDeviceRegister(int regNumber)
@@ -983,7 +983,7 @@ namespace SmartHome_v1
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 MTB_LogFilePath.Text = saveFileDialog1.FileName;
-                btnSaveCfg.Enabled = true;
+                BTN_SaveCfg.Enabled = true;
             }
         }
 
@@ -993,7 +993,7 @@ namespace SmartHome_v1
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 MTB_PlayListPath.Text = openFileDialog1.FileName;
-                btnSaveCfg.Enabled = true;
+                BTN_SaveCfg.Enabled = true;
             }
         }
 
@@ -1003,7 +1003,7 @@ namespace SmartHome_v1
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 MTB_FavoriteListPath.Text = openFileDialog1.FileName;
-                btnSaveCfg.Enabled = true;
+                BTN_SaveCfg.Enabled = true;
             }
         }
 
@@ -1011,7 +1011,7 @@ namespace SmartHome_v1
         {
             INIManager manager = new INIManager(_appPath + "smarthome.ini");
 
-            btnSaveCfg.Enabled = false;
+            BTN_SaveCfg.Enabled = false;
             manager.WritePrivateString("PathSettings", "LogFile", MTB_LogFilePath.Text);
             manager.WritePrivateString("PathSettings", "MainPlayList", MTB_PlayListPath.Text);
             manager.WritePrivateString("PathSettings", "FavoritePlayList", MTB_FavoriteListPath.Text);
@@ -1122,7 +1122,7 @@ namespace SmartHome_v1
                 TMR_Ambilight.Stop();
 
             }
-            btnSaveCfg.Enabled = true;
+            BTN_SaveCfg.Enabled = true;
         }
 
         private void ManageCheckGroupBox(CheckBox chk, GroupBox grp)
