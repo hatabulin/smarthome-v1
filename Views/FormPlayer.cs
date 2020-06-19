@@ -127,7 +127,7 @@ namespace SmartHome_v1
             this.point = point;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             MyEvent(tbData.Text); // activate event with boolean value = true!
         }

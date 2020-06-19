@@ -236,15 +236,14 @@
             this.RBTN_MainVlcPlayList = new System.Windows.Forms.RadioButton();
             this.buttonPlayPause = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.BTN_SaveCfg = new System.Windows.Forms.Button();
             this.BTN_Mute = new System.Windows.Forms.Button();
             this.TXTBOX_VlcVolume = new System.Windows.Forms.TrackBar();
             this.buttonVlcStop = new System.Windows.Forms.Button();
             this.rtbVlcLog = new System.Windows.Forms.RichTextBox();
             this.RBTN_FavoriteVlcPlayList = new System.Windows.Forms.RadioButton();
             this.label20 = new System.Windows.Forms.Label();
-            this.LISTB_VlcPlaylistURLs = new System.Windows.Forms.ListBox();
-            this.LISTB_VlcFavoriteURLs = new System.Windows.Forms.ListBox();
+            this.LBOX_VlcPlaylistURLs = new System.Windows.Forms.ListBox();
+            this.LBOX_VlcFavoriteURLs = new System.Windows.Forms.ListBox();
             this.LISTB_VlcFavoriteTitles = new System.Windows.Forms.ListBox();
             this.LISTB_VlcPlaylistTitles = new System.Windows.Forms.ListBox();
             this.tabPageAudio = new System.Windows.Forms.TabPage();
@@ -362,26 +361,26 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // serialPortSmartHome
+            // SERIALPORT_SmartHome
             // 
             this.SERIALPORT_SmartHome.BaudRate = 115200;
             this.SERIALPORT_SmartHome.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortSmartHomeDevice_DataReceived);
             // 
-            // cbUsbDevicesList
+            // COMBOX_UsbDevicesList
             // 
             this.COMBOX_UsbDevicesList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.COMBOX_UsbDevicesList.FormattingEnabled = true;
             this.COMBOX_UsbDevicesList.Location = new System.Drawing.Point(6, 28);
-            this.COMBOX_UsbDevicesList.Name = "cbUsbDevicesList";
+            this.COMBOX_UsbDevicesList.Name = "COMBOX_UsbDevicesList";
             this.COMBOX_UsbDevicesList.Size = new System.Drawing.Size(97, 24);
             this.COMBOX_UsbDevicesList.TabIndex = 5;
             this.COMBOX_UsbDevicesList.Text = "<select>";
             this.COMBOX_UsbDevicesList.Visible = false;
             // 
-            // rtbLogger
+            // RTBOX_Logger
             // 
             this.RTBOX_Logger.Location = new System.Drawing.Point(3, 6);
-            this.RTBOX_Logger.Name = "rtbLogger";
+            this.RTBOX_Logger.Name = "RTBOX_Logger";
             this.RTBOX_Logger.Size = new System.Drawing.Size(743, 256);
             this.RTBOX_Logger.TabIndex = 7;
             this.RTBOX_Logger.Text = "";
@@ -415,13 +414,13 @@
             // 
             this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.Navy;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(43, 22);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(44, 22);
             this.toolStripStatusLabel3.Text = "COMx:";
             // 
-            // tsStatusLabelSmartHome
+            // TOOLSTRIP_StatusLabelSmartHome
             // 
             this.TOOLSTRIP_StatusLabelSmartHome.ForeColor = System.Drawing.Color.Red;
-            this.TOOLSTRIP_StatusLabelSmartHome.Name = "tsStatusLabelSmartHome";
+            this.TOOLSTRIP_StatusLabelSmartHome.Name = "TOOLSTRIP_StatusLabelSmartHome";
             this.TOOLSTRIP_StatusLabelSmartHome.Size = new System.Drawing.Size(52, 22);
             this.TOOLSTRIP_StatusLabelSmartHome.Text = "OFFLINE";
             // 
@@ -429,7 +428,7 @@
             // 
             this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Navy;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(43, 22);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 22);
             this.toolStripStatusLabel1.Text = "COMx:";
             // 
             // toolStripStatusLabel4
@@ -448,7 +447,7 @@
             // 
             this.toolStripStatusLabel6.ForeColor = System.Drawing.Color.Navy;
             this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
-            this.toolStripStatusLabel6.Size = new System.Drawing.Size(43, 22);
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(44, 22);
             this.toolStripStatusLabel6.Text = "COMx:";
             // 
             // toolStripStatusLabel7
@@ -652,7 +651,7 @@
             this.label4.TabIndex = 42;
             this.label4.Text = "энк.1";
             // 
-            // nudEncoder1
+            // NUD_Encoder1
             // 
             this.NUD_Encoder1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.NUD_Encoder1.Location = new System.Drawing.Point(145, 23);
@@ -661,7 +660,7 @@
             0,
             0,
             0});
-            this.NUD_Encoder1.Name = "nudEncoder1";
+            this.NUD_Encoder1.Name = "NUD_Encoder1";
             this.NUD_Encoder1.Size = new System.Drawing.Size(36, 23);
             this.NUD_Encoder1.TabIndex = 42;
             this.NUD_Encoder1.Value = new decimal(new int[] {
@@ -672,7 +671,7 @@
             this.NUD_Encoder1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
             this.NUD_Encoder1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.NUD_Encoder_EncoderValue);
             // 
-            // nudEncoder0
+            // NUD_Encoder0
             // 
             this.NUD_Encoder0.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.NUD_Encoder0.Location = new System.Drawing.Point(50, 23);
@@ -682,7 +681,7 @@
             0,
             0,
             0});
-            this.NUD_Encoder0.Name = "nudEncoder0";
+            this.NUD_Encoder0.Name = "NUD_Encoder0";
             this.NUD_Encoder0.Size = new System.Drawing.Size(36, 23);
             this.NUD_Encoder0.TabIndex = 41;
             this.NUD_Encoder0.Value = new decimal(new int[] {
@@ -731,84 +730,84 @@
             this.gbBuzzerSettings.TabStop = false;
             this.gbBuzzerSettings.Text = "Настройка буззера";
             // 
-            // cbBuzzerBit6
+            // CHBOX_BuzzerBit6
             // 
             this.CHBOX_BuzzerBit6.AutoSize = true;
             this.CHBOX_BuzzerBit6.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit6.Location = new System.Drawing.Point(291, 21);
-            this.CHBOX_BuzzerBit6.Name = "cbBuzzerBit6";
+            this.CHBOX_BuzzerBit6.Name = "CHBOX_BuzzerBit6";
             this.CHBOX_BuzzerBit6.Size = new System.Drawing.Size(51, 34);
             this.CHBOX_BuzzerBit6.TabIndex = 6;
             this.CHBOX_BuzzerBit6.Text = "дверь";
             this.CHBOX_BuzzerBit6.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit6.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit4
+            // CHBOX_BuzzerBit4
             // 
             this.CHBOX_BuzzerBit4.AutoSize = true;
             this.CHBOX_BuzzerBit4.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit4.Location = new System.Drawing.Point(191, 21);
-            this.CHBOX_BuzzerBit4.Name = "cbBuzzerBit4";
+            this.CHBOX_BuzzerBit4.Name = "CHBOX_BuzzerBit4";
             this.CHBOX_BuzzerBit4.Size = new System.Drawing.Size(34, 34);
             this.CHBOX_BuzzerBit4.TabIndex = 5;
             this.CHBOX_BuzzerBit4.Text = "uart";
             this.CHBOX_BuzzerBit4.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit4.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit5
+            // CHBOX_BuzzerBit5
             // 
             this.CHBOX_BuzzerBit5.AutoSize = true;
             this.CHBOX_BuzzerBit5.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit5.Location = new System.Drawing.Point(243, 21);
-            this.CHBOX_BuzzerBit5.Name = "cbBuzzerBit5";
+            this.CHBOX_BuzzerBit5.Name = "CHBOX_BuzzerBit5";
             this.CHBOX_BuzzerBit5.Size = new System.Drawing.Size(34, 34);
             this.CHBOX_BuzzerBit5.TabIndex = 4;
             this.CHBOX_BuzzerBit5.Text = "usb";
             this.CHBOX_BuzzerBit5.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit5.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit3
+            // CHBOX_BuzzerBit3
             // 
             this.CHBOX_BuzzerBit3.AutoSize = true;
             this.CHBOX_BuzzerBit3.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit3.Location = new System.Drawing.Point(126, 21);
-            this.CHBOX_BuzzerBit3.Name = "cbBuzzerBit3";
+            this.CHBOX_BuzzerBit3.Name = "CHBOX_BuzzerBit3";
             this.CHBOX_BuzzerBit3.Size = new System.Drawing.Size(71, 34);
             this.CHBOX_BuzzerBit3.TabIndex = 3;
             this.CHBOX_BuzzerBit3.Text = "пульт ДУ";
             this.CHBOX_BuzzerBit3.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit3.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit2
+            // CHBOX_BuzzerBit2
             // 
             this.CHBOX_BuzzerBit2.AutoSize = true;
             this.CHBOX_BuzzerBit2.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit2.Location = new System.Drawing.Point(86, 21);
-            this.CHBOX_BuzzerBit2.Name = "cbBuzzerBit2";
+            this.CHBOX_BuzzerBit2.Name = "CHBOX_BuzzerBit2";
             this.CHBOX_BuzzerBit2.Size = new System.Drawing.Size(58, 34);
             this.CHBOX_BuzzerBit2.TabIndex = 2;
             this.CHBOX_BuzzerBit2.Text = "кнопки";
             this.CHBOX_BuzzerBit2.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit2.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit1
+            // CHBOX_BuzzerBit1
             // 
             this.CHBOX_BuzzerBit1.AutoSize = true;
             this.CHBOX_BuzzerBit1.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit1.Location = new System.Drawing.Point(49, 21);
-            this.CHBOX_BuzzerBit1.Name = "cbBuzzerBit1";
+            this.CHBOX_BuzzerBit1.Name = "CHBOX_BuzzerBit1";
             this.CHBOX_BuzzerBit1.Size = new System.Drawing.Size(45, 34);
             this.CHBOX_BuzzerBit1.TabIndex = 1;
             this.CHBOX_BuzzerBit1.Text = "энк.1";
             this.CHBOX_BuzzerBit1.UseVisualStyleBackColor = true;
             this.CHBOX_BuzzerBit1.Click += new System.EventHandler(this.CHB_BuzzerBits_Click);
             // 
-            // cbBuzzerBit0
+            // CHBOX_BuzzerBit0
             // 
             this.CHBOX_BuzzerBit0.AutoSize = true;
             this.CHBOX_BuzzerBit0.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CHBOX_BuzzerBit0.Location = new System.Drawing.Point(6, 21);
-            this.CHBOX_BuzzerBit0.Name = "cbBuzzerBit0";
+            this.CHBOX_BuzzerBit0.Name = "CHBOX_BuzzerBit0";
             this.CHBOX_BuzzerBit0.Size = new System.Drawing.Size(45, 34);
             this.CHBOX_BuzzerBit0.TabIndex = 0;
             this.CHBOX_BuzzerBit0.Text = "энк.0";
@@ -942,82 +941,82 @@
             this.label10.TabIndex = 26;
             this.label10.Text = "Вх.0";
             // 
-            // btnSensor7
+            // BTN_Sensor7
             // 
             this.BTN_Sensor7.AutoSize = true;
             this.BTN_Sensor7.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor7.Location = new System.Drawing.Point(295, 33);
-            this.BTN_Sensor7.Name = "btnSensor7";
+            this.BTN_Sensor7.Name = "BTN_Sensor7";
             this.BTN_Sensor7.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor7.TabIndex = 7;
             this.BTN_Sensor7.UseVisualStyleBackColor = false;
             // 
-            // btnSensor6
+            // BTN_Sensor6
             // 
             this.BTN_Sensor6.AutoSize = true;
             this.BTN_Sensor6.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor6.Location = new System.Drawing.Point(252, 33);
-            this.BTN_Sensor6.Name = "btnSensor6";
+            this.BTN_Sensor6.Name = "BTN_Sensor6";
             this.BTN_Sensor6.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor6.TabIndex = 6;
             this.BTN_Sensor6.UseVisualStyleBackColor = false;
             // 
-            // btnSensor5
+            // BTN_Sensor5
             // 
             this.BTN_Sensor5.AutoSize = true;
             this.BTN_Sensor5.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor5.Location = new System.Drawing.Point(207, 33);
-            this.BTN_Sensor5.Name = "btnSensor5";
+            this.BTN_Sensor5.Name = "BTN_Sensor5";
             this.BTN_Sensor5.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor5.TabIndex = 5;
             this.BTN_Sensor5.UseVisualStyleBackColor = false;
             // 
-            // btnSensor4
+            // BTN_Sensor4
             // 
             this.BTN_Sensor4.AutoSize = true;
             this.BTN_Sensor4.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor4.Location = new System.Drawing.Point(165, 33);
-            this.BTN_Sensor4.Name = "btnSensor4";
+            this.BTN_Sensor4.Name = "BTN_Sensor4";
             this.BTN_Sensor4.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor4.TabIndex = 4;
             this.BTN_Sensor4.UseVisualStyleBackColor = false;
             // 
-            // btnSensor3
+            // BTN_Sensor3
             // 
             this.BTN_Sensor3.AutoSize = true;
             this.BTN_Sensor3.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor3.Location = new System.Drawing.Point(125, 33);
-            this.BTN_Sensor3.Name = "btnSensor3";
+            this.BTN_Sensor3.Name = "BTN_Sensor3";
             this.BTN_Sensor3.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor3.TabIndex = 3;
             this.BTN_Sensor3.UseVisualStyleBackColor = false;
             // 
-            // btnSensor2
+            // BTN_Sensor2
             // 
             this.BTN_Sensor2.AutoSize = true;
             this.BTN_Sensor2.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor2.Location = new System.Drawing.Point(85, 33);
-            this.BTN_Sensor2.Name = "btnSensor2";
+            this.BTN_Sensor2.Name = "BTN_Sensor2";
             this.BTN_Sensor2.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor2.TabIndex = 2;
             this.BTN_Sensor2.UseVisualStyleBackColor = false;
             // 
-            // btnSensor1
+            // BTN_Sensor1
             // 
             this.BTN_Sensor1.AutoSize = true;
             this.BTN_Sensor1.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor1.Location = new System.Drawing.Point(49, 33);
-            this.BTN_Sensor1.Name = "btnSensor1";
+            this.BTN_Sensor1.Name = "BTN_Sensor1";
             this.BTN_Sensor1.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor1.TabIndex = 1;
             this.BTN_Sensor1.UseVisualStyleBackColor = false;
             // 
-            // btnSensor0
+            // BTN_Sensor0
             // 
             this.BTN_Sensor0.AutoSize = true;
             this.BTN_Sensor0.BackColor = System.Drawing.Color.Black;
             this.BTN_Sensor0.Location = new System.Drawing.Point(9, 33);
-            this.BTN_Sensor0.Name = "btnSensor0";
+            this.BTN_Sensor0.Name = "BTN_Sensor0";
             this.BTN_Sensor0.Size = new System.Drawing.Size(20, 20);
             this.BTN_Sensor0.TabIndex = 0;
             this.BTN_Sensor0.UseVisualStyleBackColor = false;
@@ -1075,97 +1074,97 @@
             this.label8.Text = "Текущее состояние";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cbStatusPin7
+            // CHBOX_StatusPin7
             // 
             this.CHBOX_StatusPin7.AutoSize = true;
             this.CHBOX_StatusPin7.Enabled = false;
             this.CHBOX_StatusPin7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin7.Location = new System.Drawing.Point(9, 165);
-            this.CHBOX_StatusPin7.Name = "cbStatusPin7";
+            this.CHBOX_StatusPin7.Name = "CHBOX_StatusPin7";
             this.CHBOX_StatusPin7.Size = new System.Drawing.Size(75, 20);
             this.CHBOX_StatusPin7.TabIndex = 35;
             this.CHBOX_StatusPin7.Text = "резерв";
             this.CHBOX_StatusPin7.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin7.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin0
+            // CHBOX_StatusPin0
             // 
             this.CHBOX_StatusPin0.AutoSize = true;
             this.CHBOX_StatusPin0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin0.Location = new System.Drawing.Point(9, 25);
-            this.CHBOX_StatusPin0.Name = "cbStatusPin0";
+            this.CHBOX_StatusPin0.Name = "CHBOX_StatusPin0";
             this.CHBOX_StatusPin0.Size = new System.Drawing.Size(115, 20);
             this.CHBOX_StatusPin0.TabIndex = 28;
             this.CHBOX_StatusPin0.Text = "Верхний свет";
             this.CHBOX_StatusPin0.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin0.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin6
+            // CHBOX_StatusPin6
             // 
             this.CHBOX_StatusPin6.AutoSize = true;
             this.CHBOX_StatusPin6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin6.Location = new System.Drawing.Point(9, 145);
-            this.CHBOX_StatusPin6.Name = "cbStatusPin6";
+            this.CHBOX_StatusPin6.Name = "CHBOX_StatusPin6";
             this.CHBOX_StatusPin6.Size = new System.Drawing.Size(75, 20);
             this.CHBOX_StatusPin6.TabIndex = 34;
             this.CHBOX_StatusPin6.Text = "резерв";
             this.CHBOX_StatusPin6.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin6.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin1
+            // CHBOX_StatusPin1
             // 
             this.CHBOX_StatusPin1.AutoSize = true;
             this.CHBOX_StatusPin1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin1.Location = new System.Drawing.Point(9, 45);
-            this.CHBOX_StatusPin1.Name = "cbStatusPin1";
+            this.CHBOX_StatusPin1.Name = "CHBOX_StatusPin1";
             this.CHBOX_StatusPin1.Size = new System.Drawing.Size(149, 20);
             this.CHBOX_StatusPin1.TabIndex = 29;
             this.CHBOX_StatusPin1.Text = "Настольная лампа";
             this.CHBOX_StatusPin1.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin1.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin5
+            // CHBOX_StatusPin5
             // 
             this.CHBOX_StatusPin5.AutoSize = true;
             this.CHBOX_StatusPin5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin5.Location = new System.Drawing.Point(9, 125);
-            this.CHBOX_StatusPin5.Name = "cbStatusPin5";
+            this.CHBOX_StatusPin5.Name = "CHBOX_StatusPin5";
             this.CHBOX_StatusPin5.Size = new System.Drawing.Size(75, 20);
             this.CHBOX_StatusPin5.TabIndex = 33;
             this.CHBOX_StatusPin5.Text = "резерв";
             this.CHBOX_StatusPin5.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin5.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin2
+            // CHBOX_StatusPin2
             // 
             this.CHBOX_StatusPin2.AutoSize = true;
             this.CHBOX_StatusPin2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin2.Location = new System.Drawing.Point(9, 65);
-            this.CHBOX_StatusPin2.Name = "cbStatusPin2";
+            this.CHBOX_StatusPin2.Name = "CHBOX_StatusPin2";
             this.CHBOX_StatusPin2.Size = new System.Drawing.Size(83, 20);
             this.CHBOX_StatusPin2.TabIndex = 30;
             this.CHBOX_StatusPin2.Text = "Ресивер";
             this.CHBOX_StatusPin2.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin2.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin4
+            // CHBOX_StatusPin4
             // 
             this.CHBOX_StatusPin4.AutoSize = true;
             this.CHBOX_StatusPin4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin4.Location = new System.Drawing.Point(9, 105);
-            this.CHBOX_StatusPin4.Name = "cbStatusPin4";
+            this.CHBOX_StatusPin4.Name = "CHBOX_StatusPin4";
             this.CHBOX_StatusPin4.Size = new System.Drawing.Size(84, 20);
             this.CHBOX_StatusPin4.TabIndex = 32;
             this.CHBOX_StatusPin4.Text = "Принтер";
             this.CHBOX_StatusPin4.UseVisualStyleBackColor = true;
             this.CHBOX_StatusPin4.Click += new System.EventHandler(this.ChangeCurrentDeviceStatus);
             // 
-            // cbStatusPin3
+            // CHBOX_StatusPin3
             // 
             this.CHBOX_StatusPin3.AutoSize = true;
             this.CHBOX_StatusPin3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_StatusPin3.Location = new System.Drawing.Point(9, 85);
-            this.CHBOX_StatusPin3.Name = "cbStatusPin3";
+            this.CHBOX_StatusPin3.Name = "CHBOX_StatusPin3";
             this.CHBOX_StatusPin3.Size = new System.Drawing.Size(139, 20);
             this.CHBOX_StatusPin3.TabIndex = 31;
             this.CHBOX_StatusPin3.Text = "Монитор для VLC";
@@ -1202,89 +1201,89 @@
             this.label6.Text = "\"Горячая\" кнопка";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cbHotButtonMask8
+            // CHBOX_HotButtonMask8
             // 
             this.CHBOX_HotButtonMask8.AutoSize = true;
             this.CHBOX_HotButtonMask8.Enabled = false;
             this.CHBOX_HotButtonMask8.Location = new System.Drawing.Point(9, 165);
-            this.CHBOX_HotButtonMask8.Name = "cbHotButtonMask8";
+            this.CHBOX_HotButtonMask8.Name = "CHBOX_HotButtonMask8";
             this.CHBOX_HotButtonMask8.Size = new System.Drawing.Size(71, 20);
             this.CHBOX_HotButtonMask8.TabIndex = 35;
             this.CHBOX_HotButtonMask8.Text = "unused";
             this.CHBOX_HotButtonMask8.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask8.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask1
+            // CHBOX_HotButtonMask1
             // 
             this.CHBOX_HotButtonMask1.AutoSize = true;
             this.CHBOX_HotButtonMask1.Location = new System.Drawing.Point(9, 25);
-            this.CHBOX_HotButtonMask1.Name = "cbHotButtonMask1";
+            this.CHBOX_HotButtonMask1.Name = "CHBOX_HotButtonMask1";
             this.CHBOX_HotButtonMask1.Size = new System.Drawing.Size(83, 20);
             this.CHBOX_HotButtonMask1.TabIndex = 28;
             this.CHBOX_HotButtonMask1.Text = "Top Light";
             this.CHBOX_HotButtonMask1.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask1.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask7
+            // CHBOX_HotButtonMask7
             // 
             this.CHBOX_HotButtonMask7.AutoSize = true;
             this.CHBOX_HotButtonMask7.Location = new System.Drawing.Point(9, 145);
-            this.CHBOX_HotButtonMask7.Name = "cbHotButtonMask7";
+            this.CHBOX_HotButtonMask7.Name = "CHBOX_HotButtonMask7";
             this.CHBOX_HotButtonMask7.Size = new System.Drawing.Size(71, 20);
             this.CHBOX_HotButtonMask7.TabIndex = 34;
             this.CHBOX_HotButtonMask7.Text = "unused";
             this.CHBOX_HotButtonMask7.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask7.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask2
+            // CHBOX_HotButtonMask2
             // 
             this.CHBOX_HotButtonMask2.AutoSize = true;
             this.CHBOX_HotButtonMask2.Location = new System.Drawing.Point(9, 45);
-            this.CHBOX_HotButtonMask2.Name = "cbHotButtonMask2";
+            this.CHBOX_HotButtonMask2.Name = "CHBOX_HotButtonMask2";
             this.CHBOX_HotButtonMask2.Size = new System.Drawing.Size(100, 20);
             this.CHBOX_HotButtonMask2.TabIndex = 29;
             this.CHBOX_HotButtonMask2.Text = "Table Lamp";
             this.CHBOX_HotButtonMask2.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask2.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask6
+            // CHBOX_HotButtonMask6
             // 
             this.CHBOX_HotButtonMask6.AutoSize = true;
             this.CHBOX_HotButtonMask6.Location = new System.Drawing.Point(9, 125);
-            this.CHBOX_HotButtonMask6.Name = "cbHotButtonMask6";
+            this.CHBOX_HotButtonMask6.Name = "CHBOX_HotButtonMask6";
             this.CHBOX_HotButtonMask6.Size = new System.Drawing.Size(71, 20);
             this.CHBOX_HotButtonMask6.TabIndex = 33;
             this.CHBOX_HotButtonMask6.Text = "unused";
             this.CHBOX_HotButtonMask6.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask6.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask3
+            // CHBOX_HotButtonMask3
             // 
             this.CHBOX_HotButtonMask3.AutoSize = true;
             this.CHBOX_HotButtonMask3.Location = new System.Drawing.Point(9, 65);
-            this.CHBOX_HotButtonMask3.Name = "cbHotButtonMask3";
+            this.CHBOX_HotButtonMask3.Name = "CHBOX_HotButtonMask3";
             this.CHBOX_HotButtonMask3.Size = new System.Drawing.Size(79, 20);
             this.CHBOX_HotButtonMask3.TabIndex = 30;
             this.CHBOX_HotButtonMask3.Text = "Subwoof";
             this.CHBOX_HotButtonMask3.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask3.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask5
+            // CHBOX_HotButtonMask5
             // 
             this.CHBOX_HotButtonMask5.AutoSize = true;
             this.CHBOX_HotButtonMask5.Location = new System.Drawing.Point(9, 105);
-            this.CHBOX_HotButtonMask5.Name = "cbHotButtonMask5";
+            this.CHBOX_HotButtonMask5.Name = "CHBOX_HotButtonMask5";
             this.CHBOX_HotButtonMask5.Size = new System.Drawing.Size(92, 20);
             this.CHBOX_HotButtonMask5.TabIndex = 32;
             this.CHBOX_HotButtonMask5.Text = "TV monitor";
             this.CHBOX_HotButtonMask5.UseVisualStyleBackColor = true;
             this.CHBOX_HotButtonMask5.Click += new System.EventHandler(this.CHB_HotButtonMask_Click);
             // 
-            // cbHotButtonMask4
+            // CHBOX_HotButtonMask4
             // 
             this.CHBOX_HotButtonMask4.AutoSize = true;
             this.CHBOX_HotButtonMask4.Location = new System.Drawing.Point(9, 85);
-            this.CHBOX_HotButtonMask4.Name = "cbHotButtonMask4";
+            this.CHBOX_HotButtonMask4.Name = "CHBOX_HotButtonMask4";
             this.CHBOX_HotButtonMask4.Size = new System.Drawing.Size(65, 20);
             this.CHBOX_HotButtonMask4.TabIndex = 31;
             this.CHBOX_HotButtonMask4.Text = "Printer";
@@ -1390,12 +1389,12 @@
             this.checkBox3.TabIndex = 36;
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // cbSleepModeMaskPin8
+            // CHBOX_SleepModeMaskPin8
             // 
             this.CHBOX_SleepModeMaskPin8.Enabled = false;
             this.CHBOX_SleepModeMaskPin8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin8.Location = new System.Drawing.Point(9, 165);
-            this.CHBOX_SleepModeMaskPin8.Name = "cbSleepModeMaskPin8";
+            this.CHBOX_SleepModeMaskPin8.Name = "CHBOX_SleepModeMaskPin8";
             this.CHBOX_SleepModeMaskPin8.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin8.TabIndex = 35;
             this.CHBOX_SleepModeMaskPin8.Text = "резерв";
@@ -1414,11 +1413,11 @@
             this.label7.Text = "Спящий режим";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cbSleepModeMaskPin1
+            // CHBOX_SleepModeMaskPin1
             // 
             this.CHBOX_SleepModeMaskPin1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin1.Location = new System.Drawing.Point(9, 25);
-            this.CHBOX_SleepModeMaskPin1.Name = "cbSleepModeMaskPin1";
+            this.CHBOX_SleepModeMaskPin1.Name = "CHBOX_SleepModeMaskPin1";
             this.CHBOX_SleepModeMaskPin1.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin1.TabIndex = 28;
             this.CHBOX_SleepModeMaskPin1.Text = "Верхний свет";
@@ -1426,11 +1425,11 @@
             this.CHBOX_SleepModeMaskPin1.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin1.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin7
+            // CHBOX_SleepModeMaskPin7
             // 
             this.CHBOX_SleepModeMaskPin7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin7.Location = new System.Drawing.Point(9, 145);
-            this.CHBOX_SleepModeMaskPin7.Name = "cbSleepModeMaskPin7";
+            this.CHBOX_SleepModeMaskPin7.Name = "CHBOX_SleepModeMaskPin7";
             this.CHBOX_SleepModeMaskPin7.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin7.TabIndex = 34;
             this.CHBOX_SleepModeMaskPin7.Text = "резерв";
@@ -1438,11 +1437,11 @@
             this.CHBOX_SleepModeMaskPin7.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin7.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin2
+            // CHBOX_SleepModeMaskPin2
             // 
             this.CHBOX_SleepModeMaskPin2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin2.Location = new System.Drawing.Point(9, 45);
-            this.CHBOX_SleepModeMaskPin2.Name = "cbSleepModeMaskPin2";
+            this.CHBOX_SleepModeMaskPin2.Name = "CHBOX_SleepModeMaskPin2";
             this.CHBOX_SleepModeMaskPin2.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin2.TabIndex = 29;
             this.CHBOX_SleepModeMaskPin2.Text = "Настольная лампа";
@@ -1450,11 +1449,11 @@
             this.CHBOX_SleepModeMaskPin2.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin2.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin6
+            // CHBOX_SleepModeMaskPin6
             // 
             this.CHBOX_SleepModeMaskPin6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin6.Location = new System.Drawing.Point(9, 125);
-            this.CHBOX_SleepModeMaskPin6.Name = "cbSleepModeMaskPin6";
+            this.CHBOX_SleepModeMaskPin6.Name = "CHBOX_SleepModeMaskPin6";
             this.CHBOX_SleepModeMaskPin6.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin6.TabIndex = 33;
             this.CHBOX_SleepModeMaskPin6.Text = "резерв";
@@ -1462,11 +1461,11 @@
             this.CHBOX_SleepModeMaskPin6.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin6.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin3
+            // CHBOX_SleepModeMaskPin3
             // 
             this.CHBOX_SleepModeMaskPin3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin3.Location = new System.Drawing.Point(9, 65);
-            this.CHBOX_SleepModeMaskPin3.Name = "cbSleepModeMaskPin3";
+            this.CHBOX_SleepModeMaskPin3.Name = "CHBOX_SleepModeMaskPin3";
             this.CHBOX_SleepModeMaskPin3.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin3.TabIndex = 30;
             this.CHBOX_SleepModeMaskPin3.Text = "Ресивер";
@@ -1474,11 +1473,11 @@
             this.CHBOX_SleepModeMaskPin3.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin3.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin5
+            // CHBOX_SleepModeMaskPin5
             // 
             this.CHBOX_SleepModeMaskPin5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin5.Location = new System.Drawing.Point(9, 105);
-            this.CHBOX_SleepModeMaskPin5.Name = "cbSleepModeMaskPin5";
+            this.CHBOX_SleepModeMaskPin5.Name = "CHBOX_SleepModeMaskPin5";
             this.CHBOX_SleepModeMaskPin5.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin5.TabIndex = 32;
             this.CHBOX_SleepModeMaskPin5.Text = "Принтер";
@@ -1486,11 +1485,11 @@
             this.CHBOX_SleepModeMaskPin5.UseVisualStyleBackColor = true;
             this.CHBOX_SleepModeMaskPin5.Click += new System.EventHandler(this.CHB_SleepModeMask_Click);
             // 
-            // cbSleepModeMaskPin4
+            // CHBOX_SleepModeMaskPin4
             // 
             this.CHBOX_SleepModeMaskPin4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CHBOX_SleepModeMaskPin4.Location = new System.Drawing.Point(9, 85);
-            this.CHBOX_SleepModeMaskPin4.Name = "cbSleepModeMaskPin4";
+            this.CHBOX_SleepModeMaskPin4.Name = "CHBOX_SleepModeMaskPin4";
             this.CHBOX_SleepModeMaskPin4.Size = new System.Drawing.Size(146, 20);
             this.CHBOX_SleepModeMaskPin4.TabIndex = 31;
             this.CHBOX_SleepModeMaskPin4.Text = "Монитор для VLC";
@@ -1564,12 +1563,12 @@
             this.lblBLUE.TabIndex = 50;
             this.lblBLUE.Text = "0";
             // 
-            // cbAmbilight
+            // CHBOX_Ambilight
             // 
             this.CHBOX_Ambilight.AutoSize = true;
             this.CHBOX_Ambilight.Enabled = false;
             this.CHBOX_Ambilight.Location = new System.Drawing.Point(517, 10);
-            this.CHBOX_Ambilight.Name = "cbAmbilight";
+            this.CHBOX_Ambilight.Name = "CHBOX_Ambilight";
             this.CHBOX_Ambilight.Size = new System.Drawing.Size(15, 14);
             this.CHBOX_Ambilight.TabIndex = 56;
             this.CHBOX_Ambilight.UseVisualStyleBackColor = true;
@@ -1648,12 +1647,12 @@
             this.label29.Text = "Цвет";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // btnColor15
+            // BTN_Color15
             // 
             this.BTN_Color15.AutoSize = true;
             this.BTN_Color15.BackColor = System.Drawing.Color.OrangeRed;
             this.BTN_Color15.Location = new System.Drawing.Point(196, 29);
-            this.BTN_Color15.Name = "btnColor15";
+            this.BTN_Color15.Name = "BTN_Color15";
             this.BTN_Color15.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color15.TabIndex = 48;
             this.BTN_Color15.UseVisualStyleBackColor = false;
@@ -1767,100 +1766,100 @@
             this.textBox31.TabIndex = 1;
             this.textBox31.Text = "12";
             // 
-            // btnColor12
+            // BTN_Color12
             // 
             this.BTN_Color12.AutoSize = true;
             this.BTN_Color12.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color12.Location = new System.Drawing.Point(112, 29);
-            this.BTN_Color12.Name = "btnColor12";
+            this.BTN_Color12.Name = "BTN_Color12";
             this.BTN_Color12.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color12.TabIndex = 2;
             this.BTN_Color12.UseVisualStyleBackColor = false;
             this.BTN_Color12.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor13
+            // BTN_Color13
             // 
             this.BTN_Color13.AutoSize = true;
             this.BTN_Color13.BackColor = System.Drawing.Color.Sienna;
             this.BTN_Color13.Location = new System.Drawing.Point(140, 29);
-            this.BTN_Color13.Name = "btnColor13";
+            this.BTN_Color13.Name = "BTN_Color13";
             this.BTN_Color13.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color13.TabIndex = 14;
             this.BTN_Color13.UseVisualStyleBackColor = false;
             this.BTN_Color13.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor14
+            // BTN_Color14
             // 
             this.BTN_Color14.AutoSize = true;
             this.BTN_Color14.BackColor = System.Drawing.Color.SkyBlue;
             this.BTN_Color14.Location = new System.Drawing.Point(168, 29);
-            this.BTN_Color14.Name = "btnColor14";
+            this.BTN_Color14.Name = "BTN_Color14";
             this.BTN_Color14.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color14.TabIndex = 15;
             this.BTN_Color14.UseVisualStyleBackColor = false;
             this.BTN_Color14.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor16
+            // BTN_Color16
             // 
             this.BTN_Color16.AutoSize = true;
             this.BTN_Color16.BackColor = System.Drawing.Color.Red;
             this.BTN_Color16.Location = new System.Drawing.Point(224, 29);
-            this.BTN_Color16.Name = "btnColor16";
+            this.BTN_Color16.Name = "BTN_Color16";
             this.BTN_Color16.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color16.TabIndex = 49;
             this.BTN_Color16.UseVisualStyleBackColor = false;
             this.BTN_Color16.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor17
+            // BTN_Color17
             // 
             this.BTN_Color17.AutoSize = true;
             this.BTN_Color17.BackColor = System.Drawing.Color.Magenta;
             this.BTN_Color17.Location = new System.Drawing.Point(252, 29);
-            this.BTN_Color17.Name = "btnColor17";
+            this.BTN_Color17.Name = "BTN_Color17";
             this.BTN_Color17.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color17.TabIndex = 50;
             this.BTN_Color17.UseVisualStyleBackColor = false;
             this.BTN_Color17.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor18
+            // BTN_Color18
             // 
             this.BTN_Color18.AutoSize = true;
             this.BTN_Color18.BackColor = System.Drawing.Color.LightSeaGreen;
             this.BTN_Color18.Location = new System.Drawing.Point(280, 29);
-            this.BTN_Color18.Name = "btnColor18";
+            this.BTN_Color18.Name = "BTN_Color18";
             this.BTN_Color18.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color18.TabIndex = 51;
             this.BTN_Color18.UseVisualStyleBackColor = false;
             this.BTN_Color18.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor19
+            // BTN_Color19
             // 
             this.BTN_Color19.AutoSize = true;
             this.BTN_Color19.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color19.Location = new System.Drawing.Point(308, 29);
-            this.BTN_Color19.Name = "btnColor19";
+            this.BTN_Color19.Name = "BTN_Color19";
             this.BTN_Color19.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color19.TabIndex = 52;
             this.BTN_Color19.UseVisualStyleBackColor = false;
             this.BTN_Color19.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor20
+            // BTN_Color20
             // 
             this.BTN_Color20.AutoSize = true;
             this.BTN_Color20.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color20.Location = new System.Drawing.Point(336, 29);
-            this.BTN_Color20.Name = "btnColor20";
+            this.BTN_Color20.Name = "BTN_Color20";
             this.BTN_Color20.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color20.TabIndex = 53;
             this.BTN_Color20.UseVisualStyleBackColor = false;
             this.BTN_Color20.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor21
+            // BTN_Color21
             // 
             this.BTN_Color21.AutoSize = true;
             this.BTN_Color21.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color21.Location = new System.Drawing.Point(364, 29);
-            this.BTN_Color21.Name = "btnColor21";
+            this.BTN_Color21.Name = "BTN_Color21";
             this.BTN_Color21.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color21.TabIndex = 54;
             this.BTN_Color21.UseVisualStyleBackColor = false;
@@ -1971,12 +1970,12 @@
             this.label26.Text = "Время (Ч)";
             this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // btnColor03
+            // BTN_Color03
             // 
             this.BTN_Color03.AutoSize = true;
             this.BTN_Color03.BackColor = System.Drawing.Color.OrangeRed;
             this.BTN_Color03.Location = new System.Drawing.Point(196, 29);
-            this.BTN_Color03.Name = "btnColor03";
+            this.BTN_Color03.Name = "BTN_Color03";
             this.BTN_Color03.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color03.TabIndex = 48;
             this.BTN_Color03.UseVisualStyleBackColor = false;
@@ -2090,128 +2089,128 @@
             this.textBox4.TabIndex = 1;
             this.textBox4.Text = "00";
             // 
-            // btnColor00
+            // BTN_Color00
             // 
             this.BTN_Color00.AutoSize = true;
             this.BTN_Color00.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color00.Location = new System.Drawing.Point(112, 29);
-            this.BTN_Color00.Name = "btnColor00";
+            this.BTN_Color00.Name = "BTN_Color00";
             this.BTN_Color00.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color00.TabIndex = 2;
             this.BTN_Color00.UseVisualStyleBackColor = false;
             this.BTN_Color00.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor01
+            // BTN_Color01
             // 
             this.BTN_Color01.AutoSize = true;
             this.BTN_Color01.BackColor = System.Drawing.Color.Sienna;
             this.BTN_Color01.Location = new System.Drawing.Point(140, 29);
-            this.BTN_Color01.Name = "btnColor01";
+            this.BTN_Color01.Name = "BTN_Color01";
             this.BTN_Color01.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color01.TabIndex = 14;
             this.BTN_Color01.UseVisualStyleBackColor = false;
             this.BTN_Color01.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor02
+            // BTN_Color02
             // 
             this.BTN_Color02.AutoSize = true;
             this.BTN_Color02.BackColor = System.Drawing.Color.SkyBlue;
             this.BTN_Color02.Location = new System.Drawing.Point(168, 29);
-            this.BTN_Color02.Name = "btnColor02";
+            this.BTN_Color02.Name = "BTN_Color02";
             this.BTN_Color02.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color02.TabIndex = 15;
             this.BTN_Color02.UseVisualStyleBackColor = false;
             this.BTN_Color02.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor04
+            // BTN_Color04
             // 
             this.BTN_Color04.AutoSize = true;
             this.BTN_Color04.BackColor = System.Drawing.Color.Red;
             this.BTN_Color04.Location = new System.Drawing.Point(224, 29);
-            this.BTN_Color04.Name = "btnColor04";
+            this.BTN_Color04.Name = "BTN_Color04";
             this.BTN_Color04.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color04.TabIndex = 49;
             this.BTN_Color04.UseVisualStyleBackColor = false;
             this.BTN_Color04.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor05
+            // BTN_Color05
             // 
             this.BTN_Color05.AutoSize = true;
             this.BTN_Color05.BackColor = System.Drawing.Color.Magenta;
             this.BTN_Color05.Location = new System.Drawing.Point(252, 29);
-            this.BTN_Color05.Name = "btnColor05";
+            this.BTN_Color05.Name = "BTN_Color05";
             this.BTN_Color05.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color05.TabIndex = 50;
             this.BTN_Color05.UseVisualStyleBackColor = false;
             this.BTN_Color05.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor06
+            // BTN_Color06
             // 
             this.BTN_Color06.AutoSize = true;
             this.BTN_Color06.BackColor = System.Drawing.Color.LightSeaGreen;
             this.BTN_Color06.Location = new System.Drawing.Point(280, 29);
-            this.BTN_Color06.Name = "btnColor06";
+            this.BTN_Color06.Name = "BTN_Color06";
             this.BTN_Color06.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color06.TabIndex = 51;
             this.BTN_Color06.UseVisualStyleBackColor = false;
             this.BTN_Color06.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor07
+            // BTN_Color07
             // 
             this.BTN_Color07.AutoSize = true;
             this.BTN_Color07.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color07.Location = new System.Drawing.Point(308, 29);
-            this.BTN_Color07.Name = "btnColor07";
+            this.BTN_Color07.Name = "BTN_Color07";
             this.BTN_Color07.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color07.TabIndex = 52;
             this.BTN_Color07.UseVisualStyleBackColor = false;
             this.BTN_Color07.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor08
+            // BTN_Color08
             // 
             this.BTN_Color08.AutoSize = true;
             this.BTN_Color08.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color08.Location = new System.Drawing.Point(336, 29);
-            this.BTN_Color08.Name = "btnColor08";
+            this.BTN_Color08.Name = "BTN_Color08";
             this.BTN_Color08.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color08.TabIndex = 53;
             this.BTN_Color08.UseVisualStyleBackColor = false;
             this.BTN_Color08.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor09
+            // BTN_Color09
             // 
             this.BTN_Color09.AutoSize = true;
             this.BTN_Color09.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color09.Location = new System.Drawing.Point(364, 29);
-            this.BTN_Color09.Name = "btnColor09";
+            this.BTN_Color09.Name = "BTN_Color09";
             this.BTN_Color09.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color09.TabIndex = 54;
             this.BTN_Color09.UseVisualStyleBackColor = false;
             this.BTN_Color09.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor10
+            // BTN_Color10
             // 
             this.BTN_Color10.AutoSize = true;
             this.BTN_Color10.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color10.Location = new System.Drawing.Point(392, 29);
-            this.BTN_Color10.Name = "btnColor10";
+            this.BTN_Color10.Name = "BTN_Color10";
             this.BTN_Color10.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color10.TabIndex = 55;
             this.BTN_Color10.UseVisualStyleBackColor = false;
             this.BTN_Color10.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // btnColor11
+            // BTN_Color11
             // 
             this.BTN_Color11.AutoSize = true;
             this.BTN_Color11.BackColor = System.Drawing.Color.SeaGreen;
             this.BTN_Color11.Location = new System.Drawing.Point(420, 29);
-            this.BTN_Color11.Name = "btnColor11";
+            this.BTN_Color11.Name = "BTN_Color11";
             this.BTN_Color11.Size = new System.Drawing.Size(22, 20);
             this.BTN_Color11.TabIndex = 56;
             this.BTN_Color11.UseVisualStyleBackColor = false;
             this.BTN_Color11.Click += new System.EventHandler(this.BTN_Color_Click);
             // 
-            // cbSheduler
+            // CHBOX_Sheduler
             // 
             this.CHBOX_Sheduler.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -2220,7 +2219,7 @@
             this.CHBOX_Sheduler.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CHBOX_Sheduler.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.CHBOX_Sheduler.Location = new System.Drawing.Point(-2, 0);
-            this.CHBOX_Sheduler.Name = "cbSheduler";
+            this.CHBOX_Sheduler.Name = "CHBOX_Sheduler";
             this.CHBOX_Sheduler.Size = new System.Drawing.Size(106, 20);
             this.CHBOX_Sheduler.TabIndex = 46;
             this.CHBOX_Sheduler.Text = "Расписание";
@@ -2246,7 +2245,7 @@
             this.lblGREEN.TabIndex = 49;
             this.lblGREEN.Text = "0";
             // 
-            // cbRgbSendString
+            // COMBOX_RgbSendString
             // 
             this.COMBOX_RgbSendString.FormattingEnabled = true;
             this.COMBOX_RgbSendString.Items.AddRange(new object[] {
@@ -2254,7 +2253,7 @@
             "EFFECT_CONFIG:02.1.1.1.FF.00.00.10.80",
             "0.1.111"});
             this.COMBOX_RgbSendString.Location = new System.Drawing.Point(6, 235);
-            this.COMBOX_RgbSendString.Name = "cbRgbSendString";
+            this.COMBOX_RgbSendString.Name = "COMBOX_RgbSendString";
             this.COMBOX_RgbSendString.Size = new System.Drawing.Size(209, 24);
             this.COMBOX_RgbSendString.TabIndex = 51;
             // 
@@ -2396,15 +2395,14 @@
             this.tabPageVLC.Controls.Add(this.groupBox3);
             this.tabPageVLC.Controls.Add(this.RBTN_MainVlcPlayList);
             this.tabPageVLC.Controls.Add(this.buttonPlayPause);
-            this.tabPageVLC.Controls.Add(this.BTN_SaveCfg);
             this.tabPageVLC.Controls.Add(this.BTN_Mute);
             this.tabPageVLC.Controls.Add(this.TXTBOX_VlcVolume);
             this.tabPageVLC.Controls.Add(this.buttonVlcStop);
             this.tabPageVLC.Controls.Add(this.rtbVlcLog);
             this.tabPageVLC.Controls.Add(this.RBTN_FavoriteVlcPlayList);
             this.tabPageVLC.Controls.Add(this.label20);
-            this.tabPageVLC.Controls.Add(this.LISTB_VlcPlaylistURLs);
-            this.tabPageVLC.Controls.Add(this.LISTB_VlcFavoriteURLs);
+            this.tabPageVLC.Controls.Add(this.LBOX_VlcPlaylistURLs);
+            this.tabPageVLC.Controls.Add(this.LBOX_VlcFavoriteURLs);
             this.tabPageVLC.Controls.Add(this.LISTB_VlcFavoriteTitles);
             this.tabPageVLC.Controls.Add(this.LISTB_VlcPlaylistTitles);
             this.tabPageVLC.Location = new System.Drawing.Point(4, 25);
@@ -2468,24 +2466,23 @@
             this.lblFullScreen.TabIndex = 71;
             this.lblFullScreen.Text = "На весь экран";
             // 
-            // cbRememberChVol
+            // CHBOX_RememberChVol
             // 
             this.CHBOX_RememberChVol.AutoSize = true;
             this.CHBOX_RememberChVol.Location = new System.Drawing.Point(7, 92);
-            this.CHBOX_RememberChVol.Name = "cbRememberChVol";
+            this.CHBOX_RememberChVol.Name = "CHBOX_RememberChVol";
             this.CHBOX_RememberChVol.Size = new System.Drawing.Size(15, 14);
             this.CHBOX_RememberChVol.TabIndex = 70;
             this.CHBOX_RememberChVol.UseVisualStyleBackColor = true;
-            this.CHBOX_RememberChVol.Click += new System.EventHandler(this.CHB_RememberChVol_Click);
             // 
-            // mtbPlayListPath
+            // MTB_PlayListPath
             // 
             this.MTB_PlayListPath.Location = new System.Drawing.Point(154, 21);
-            this.MTB_PlayListPath.Name = "mtbPlayListPath";
+            this.MTB_PlayListPath.Name = "MTB_PlayListPath";
             this.MTB_PlayListPath.Size = new System.Drawing.Size(237, 22);
             this.MTB_PlayListPath.TabIndex = 32;
             // 
-            // grbVlcGpioSettings
+            // GRBOX_VlcGpioSettings
             // 
             this.GRBOX_VlcGpioSettings.Controls.Add(this.cbVlcMaskPin1);
             this.GRBOX_VlcGpioSettings.Controls.Add(this.cbVlcMaskPin7);
@@ -2498,7 +2495,7 @@
             this.GRBOX_VlcGpioSettings.Controls.Add(this.cbVlcMaskPin4);
             this.GRBOX_VlcGpioSettings.Enabled = false;
             this.GRBOX_VlcGpioSettings.Location = new System.Drawing.Point(11, 133);
-            this.GRBOX_VlcGpioSettings.Name = "grbVlcGpioSettings";
+            this.GRBOX_VlcGpioSettings.Name = "GRBOX_VlcGpioSettings";
             this.GRBOX_VlcGpioSettings.Size = new System.Drawing.Size(298, 57);
             this.GRBOX_VlcGpioSettings.TabIndex = 66;
             this.GRBOX_VlcGpioSettings.TabStop = false;
@@ -2548,7 +2545,7 @@
             this.cbVlcMaskPin0.UseVisualStyleBackColor = true;
             this.cbVlcMaskPin0.Click += new System.EventHandler(this.VlcMaskPinsToInt);
             // 
-            // cbUsedGpioForVlcMask
+            // CHBOX_UsedGpioForVlcMask
             // 
             this.CHBOX_UsedGpioForVlcMask.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -2557,7 +2554,7 @@
             this.CHBOX_UsedGpioForVlcMask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CHBOX_UsedGpioForVlcMask.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.CHBOX_UsedGpioForVlcMask.Location = new System.Drawing.Point(-4, 0);
-            this.CHBOX_UsedGpioForVlcMask.Name = "cbUsedGpioForVlcMask";
+            this.CHBOX_UsedGpioForVlcMask.Name = "CHBOX_UsedGpioForVlcMask";
             this.CHBOX_UsedGpioForVlcMask.Size = new System.Drawing.Size(296, 20);
             this.CHBOX_UsedGpioForVlcMask.TabIndex = 46;
             this.CHBOX_UsedGpioForVlcMask.Text = "Используемые порты платы \"SmartHome\"";
@@ -2639,10 +2636,10 @@
             this.cbVlcMaskPin4.UseVisualStyleBackColor = true;
             this.cbVlcMaskPin4.Click += new System.EventHandler(this.VlcMaskPinsToInt);
             // 
-            // mtbFavoriteListPath
+            // MTB_FavoriteListPath
             // 
             this.MTB_FavoriteListPath.Location = new System.Drawing.Point(154, 45);
-            this.MTB_FavoriteListPath.Name = "mtbFavoriteListPath";
+            this.MTB_FavoriteListPath.Name = "MTB_FavoriteListPath";
             this.MTB_FavoriteListPath.Size = new System.Drawing.Size(237, 22);
             this.MTB_FavoriteListPath.TabIndex = 36;
             // 
@@ -2710,25 +2707,26 @@
             this.lblUseSlaveMonitor.TabIndex = 67;
             this.lblUseSlaveMonitor.Text = "Использовать второй монитор";
             // 
-            // cbUseSlaveMonitor
+            // CHBOX_UseSlaveMonitor
             // 
             this.CHBOX_UseSlaveMonitor.AutoSize = true;
             this.CHBOX_UseSlaveMonitor.Location = new System.Drawing.Point(7, 72);
-            this.CHBOX_UseSlaveMonitor.Name = "cbUseSlaveMonitor";
+            this.CHBOX_UseSlaveMonitor.Name = "CHBOX_UseSlaveMonitor";
             this.CHBOX_UseSlaveMonitor.Size = new System.Drawing.Size(15, 14);
             this.CHBOX_UseSlaveMonitor.TabIndex = 68;
             this.CHBOX_UseSlaveMonitor.UseVisualStyleBackColor = true;
             this.CHBOX_UseSlaveMonitor.Click += new System.EventHandler(this.CHB_UseSlaveMonitor_Click);
             // 
-            // rbMainVlcPlayList
+            // RBTN_MainVlcPlayList
             // 
             this.RBTN_MainVlcPlayList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.RBTN_MainVlcPlayList.Location = new System.Drawing.Point(6, 8);
-            this.RBTN_MainVlcPlayList.Name = "rbMainVlcPlayList";
+            this.RBTN_MainVlcPlayList.Name = "RBTN_MainVlcPlayList";
             this.RBTN_MainVlcPlayList.Size = new System.Drawing.Size(148, 20);
             this.RBTN_MainVlcPlayList.TabIndex = 55;
             this.RBTN_MainVlcPlayList.Text = "Список всех каналов";
             this.RBTN_MainVlcPlayList.UseVisualStyleBackColor = true;
+            this.RBTN_MainVlcPlayList.CheckedChanged += new System.EventHandler(this.RBTN_MainVlcPlayList_CheckedChanged);
             // 
             // buttonPlayPause
             // 
@@ -2739,7 +2737,6 @@
             this.buttonPlayPause.Size = new System.Drawing.Size(46, 20);
             this.buttonPlayPause.TabIndex = 54;
             this.buttonPlayPause.UseVisualStyleBackColor = true;
-            this.buttonPlayPause.Click += new System.EventHandler(this.BTN_PlayPause_Click);
             // 
             // imageList1
             // 
@@ -2750,35 +2747,22 @@
             this.imageList1.Images.SetKeyName(2, "outline_pause_black_18dp.png");
             this.imageList1.Images.SetKeyName(3, "twotone_play_arrow_black_18dp.png");
             // 
-            // btnSaveCfg
-            // 
-            this.BTN_SaveCfg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BTN_SaveCfg.Enabled = false;
-            this.BTN_SaveCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.BTN_SaveCfg.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCfg.Image")));
-            this.BTN_SaveCfg.Location = new System.Drawing.Point(730, 301);
-            this.BTN_SaveCfg.Name = "btnSaveCfg";
-            this.BTN_SaveCfg.Size = new System.Drawing.Size(35, 25);
-            this.BTN_SaveCfg.TabIndex = 30;
-            this.BTN_SaveCfg.UseVisualStyleBackColor = true;
-            this.BTN_SaveCfg.Click += new System.EventHandler(this.BTN_SaveCfg_Click_1);
-            // 
-            // btnMute
+            // BTN_Mute
             // 
             this.BTN_Mute.ImageIndex = 1;
             this.BTN_Mute.ImageList = this.imageList1;
             this.BTN_Mute.Location = new System.Drawing.Point(701, 10);
-            this.BTN_Mute.Name = "btnMute";
+            this.BTN_Mute.Name = "BTN_Mute";
             this.BTN_Mute.Size = new System.Drawing.Size(45, 20);
             this.BTN_Mute.TabIndex = 53;
             this.BTN_Mute.UseVisualStyleBackColor = true;
             this.BTN_Mute.Click += new System.EventHandler(this.BTN_Mute_Click);
             // 
-            // tbVlcVolume
+            // TXTBOX_VlcVolume
             // 
             this.TXTBOX_VlcVolume.Location = new System.Drawing.Point(519, 8);
             this.TXTBOX_VlcVolume.Maximum = 255;
-            this.TXTBOX_VlcVolume.Name = "tbVlcVolume";
+            this.TXTBOX_VlcVolume.Name = "TXTBOX_VlcVolume";
             this.TXTBOX_VlcVolume.Size = new System.Drawing.Size(176, 45);
             this.TXTBOX_VlcVolume.TabIndex = 50;
             this.TXTBOX_VlcVolume.ValueChanged += new System.EventHandler(this.TRBAR_VlcVolume_ValueChanged);
@@ -2801,13 +2785,13 @@
             this.rtbVlcLog.TabIndex = 48;
             this.rtbVlcLog.Text = "";
             // 
-            // rbFavoriteVlcPlayList
+            // RBTN_FavoriteVlcPlayList
             // 
             this.RBTN_FavoriteVlcPlayList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.RBTN_FavoriteVlcPlayList.Image = ((System.Drawing.Image)(resources.GetObject("rbFavoriteVlcPlayList.Image")));
+            this.RBTN_FavoriteVlcPlayList.Image = ((System.Drawing.Image)(resources.GetObject("RBTN_FavoriteVlcPlayList.Image")));
             this.RBTN_FavoriteVlcPlayList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.RBTN_FavoriteVlcPlayList.Location = new System.Drawing.Point(164, 8);
-            this.RBTN_FavoriteVlcPlayList.Name = "rbFavoriteVlcPlayList";
+            this.RBTN_FavoriteVlcPlayList.Name = "RBTN_FavoriteVlcPlayList";
             this.RBTN_FavoriteVlcPlayList.Size = new System.Drawing.Size(146, 24);
             this.RBTN_FavoriteVlcPlayList.TabIndex = 47;
             this.RBTN_FavoriteVlcPlayList.Text = "Избранные";
@@ -2823,47 +2807,47 @@
             this.label20.Size = new System.Drawing.Size(0, 16);
             this.label20.TabIndex = 43;
             // 
-            // lbVlcPlaylistURLs
+            // LBOX_VlcPlaylistURLs
             // 
-            this.LISTB_VlcPlaylistURLs.FormattingEnabled = true;
-            this.LISTB_VlcPlaylistURLs.ItemHeight = 16;
-            this.LISTB_VlcPlaylistURLs.Location = new System.Drawing.Point(13, 215);
-            this.LISTB_VlcPlaylistURLs.Name = "lbVlcPlaylistURLs";
-            this.LISTB_VlcPlaylistURLs.Size = new System.Drawing.Size(126, 52);
-            this.LISTB_VlcPlaylistURLs.TabIndex = 27;
-            this.LISTB_VlcPlaylistURLs.Visible = false;
+            this.LBOX_VlcPlaylistURLs.FormattingEnabled = true;
+            this.LBOX_VlcPlaylistURLs.ItemHeight = 16;
+            this.LBOX_VlcPlaylistURLs.Location = new System.Drawing.Point(13, 215);
+            this.LBOX_VlcPlaylistURLs.Name = "LBOX_VlcPlaylistURLs";
+            this.LBOX_VlcPlaylistURLs.Size = new System.Drawing.Size(126, 52);
+            this.LBOX_VlcPlaylistURLs.TabIndex = 27;
+            this.LBOX_VlcPlaylistURLs.Visible = false;
             // 
-            // lbVlcFavoriteURLs
+            // LBOX_VlcFavoriteURLs
             // 
-            this.LISTB_VlcFavoriteURLs.FormattingEnabled = true;
-            this.LISTB_VlcFavoriteURLs.ItemHeight = 16;
-            this.LISTB_VlcFavoriteURLs.Location = new System.Drawing.Point(172, 215);
-            this.LISTB_VlcFavoriteURLs.Name = "lbVlcFavoriteURLs";
-            this.LISTB_VlcFavoriteURLs.Size = new System.Drawing.Size(124, 52);
-            this.LISTB_VlcFavoriteURLs.TabIndex = 42;
-            this.LISTB_VlcFavoriteURLs.Visible = false;
+            this.LBOX_VlcFavoriteURLs.FormattingEnabled = true;
+            this.LBOX_VlcFavoriteURLs.ItemHeight = 16;
+            this.LBOX_VlcFavoriteURLs.Location = new System.Drawing.Point(172, 215);
+            this.LBOX_VlcFavoriteURLs.Name = "LBOX_VlcFavoriteURLs";
+            this.LBOX_VlcFavoriteURLs.Size = new System.Drawing.Size(124, 52);
+            this.LBOX_VlcFavoriteURLs.TabIndex = 42;
+            this.LBOX_VlcFavoriteURLs.Visible = false;
             // 
-            // lbVlcFavoriteTitles
+            // LISTB_VlcFavoriteTitles
             // 
             this.LISTB_VlcFavoriteTitles.ContextMenuStrip = this.contextMenuStripPlaylist;
             this.LISTB_VlcFavoriteTitles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.LISTB_VlcFavoriteTitles.FormattingEnabled = true;
             this.LISTB_VlcFavoriteTitles.ItemHeight = 20;
             this.LISTB_VlcFavoriteTitles.Location = new System.Drawing.Point(160, 34);
-            this.LISTB_VlcFavoriteTitles.Name = "lbVlcFavoriteTitles";
+            this.LISTB_VlcFavoriteTitles.Name = "LISTB_VlcFavoriteTitles";
             this.LISTB_VlcFavoriteTitles.Size = new System.Drawing.Size(150, 284);
             this.LISTB_VlcFavoriteTitles.TabIndex = 36;
             this.LISTB_VlcFavoriteTitles.Click += new System.EventHandler(this.LBOX_VlcFavoriteList_Click);
             this.LISTB_VlcFavoriteTitles.DoubleClick += new System.EventHandler(this.LBOX_VlcFavoriteTitles_DoubleClick);
             // 
-            // lbVlcPlaylistTitles
+            // LISTB_VlcPlaylistTitles
             // 
             this.LISTB_VlcPlaylistTitles.ContextMenuStrip = this.contextMenuStripPlaylist;
             this.LISTB_VlcPlaylistTitles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.LISTB_VlcPlaylistTitles.FormattingEnabled = true;
             this.LISTB_VlcPlaylistTitles.ItemHeight = 20;
             this.LISTB_VlcPlaylistTitles.Location = new System.Drawing.Point(4, 34);
-            this.LISTB_VlcPlaylistTitles.Name = "lbVlcPlaylistTitles";
+            this.LISTB_VlcPlaylistTitles.Name = "LISTB_VlcPlaylistTitles";
             this.LISTB_VlcPlaylistTitles.Size = new System.Drawing.Size(150, 284);
             this.LISTB_VlcPlaylistTitles.TabIndex = 35;
             this.LISTB_VlcPlaylistTitles.Click += new System.EventHandler(this.LBOX_VlcPlayList_Click);
@@ -3221,10 +3205,10 @@
             this.tabPageLogger.Text = "Debug/Logger";
             this.tabPageLogger.UseVisualStyleBackColor = true;
             // 
-            // mtbLogFilePath
+            // MTB_LogFilePath
             // 
             this.MTB_LogFilePath.Location = new System.Drawing.Point(161, 268);
-            this.MTB_LogFilePath.Name = "mtbLogFilePath";
+            this.MTB_LogFilePath.Name = "MTB_LogFilePath";
             this.MTB_LogFilePath.Size = new System.Drawing.Size(311, 22);
             this.MTB_LogFilePath.TabIndex = 29;
             // 
@@ -3522,14 +3506,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ответ";
             // 
-            // comboBoxHttpMethod
+            // COMBOX_HttpMethod
             // 
             this.COMBOX_HttpMethod.FormattingEnabled = true;
             this.COMBOX_HttpMethod.Items.AddRange(new object[] {
             "GET /",
             "POST /"});
             this.COMBOX_HttpMethod.Location = new System.Drawing.Point(12, 19);
-            this.COMBOX_HttpMethod.Name = "comboBoxHttpMethod";
+            this.COMBOX_HttpMethod.Name = "COMBOX_HttpMethod";
             this.COMBOX_HttpMethod.Size = new System.Drawing.Size(64, 24);
             this.COMBOX_HttpMethod.TabIndex = 4;
             this.COMBOX_HttpMethod.SelectedValueChanged += new System.EventHandler(this.CB_HttpMethod_SelectedValueChanged);
@@ -3543,11 +3527,11 @@
             this.button3.Text = "Отправить";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // textBoxHttpMethod
+            // TBOX_HttpMethod
             // 
             this.TBOX_HttpMethod.Location = new System.Drawing.Point(82, 19);
             this.TBOX_HttpMethod.MaxLength = 3;
-            this.TBOX_HttpMethod.Name = "textBoxHttpMethod";
+            this.TBOX_HttpMethod.Name = "TBOX_HttpMethod";
             this.TBOX_HttpMethod.Size = new System.Drawing.Size(43, 22);
             this.TBOX_HttpMethod.TabIndex = 0;
             // 
@@ -3574,7 +3558,7 @@
             this.btnRescanDevices.UseVisualStyleBackColor = true;
             this.btnRescanDevices.Click += new System.EventHandler(this.BTN_RescanDevices_Click);
             // 
-            // serialPortRgbTape
+            // SERIALPORT_RgbTape
             // 
             this.SERIALPORT_RgbTape.BaudRate = 115200;
             this.SERIALPORT_RgbTape.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortRgbTapeDevice_DataReceived);
@@ -3592,7 +3576,7 @@
             this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip1.ToolTipTitle = "СписочеГ";
             // 
-            // timerAmbilight
+            // TMR_Ambilight
             // 
             this.TMR_Ambilight.Interval = 1000;
             this.TMR_Ambilight.Tick += new System.EventHandler(this.TMR_Ambilight_Tick);
@@ -3682,6 +3666,7 @@
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -3787,9 +3772,8 @@
         private System.Windows.Forms.ListBox LISTB_VlcPlaylistTitles;
         private System.Windows.Forms.Button btnRescanDevices;
         private System.Windows.Forms.ListBox LISTB_VlcFavoriteTitles;
-        private System.Windows.Forms.ListBox LISTB_VlcFavoriteURLs;
+        private System.Windows.Forms.ListBox LBOX_VlcFavoriteURLs;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button BTN_SaveCfg;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button buttonVlcPlayListPath;
         private System.Windows.Forms.Label label21;
@@ -3971,7 +3955,7 @@
         private System.Windows.Forms.Label lblMiddleMax;
         private System.Windows.Forms.ProgressBar pbHighFreq;
         private System.Windows.Forms.ProgressBar pbMiddleFreq;
-        private System.Windows.Forms.ListBox LISTB_VlcPlaylistURLs;
+        private System.Windows.Forms.ListBox LBOX_VlcPlaylistURLs;
     }
 }
 
