@@ -4,8 +4,8 @@ This is my first training project in Visual Studio C#.NET
 This software useing device driver on stm32 for communicate with power, encoders, and other sensors... Project placed: https://gitlab.com/sergiklutsk/SmartHome_v2
 
 Application main tabs:
-1. SmartHome device settings/control page - project on stm32 MCU development board. project link: http://
-2. RGB-Tape device settings/control page - project on stm32f103 MCu dev. board, project link: http://
+1. SmartHome device settings/control page - project on stm32 MCU https://github.com/hatabulin/SmartHome_v2
+2. RGB-Tape device settings/control page - project on stm32f103 MCU https://github.com/hatabulin/RGB_Tape
 3. VLC player (Favorites, Main lists, controlled with IR-Remote connected to SmartHome device).
 4. Audio tools page (under construction) - for calculate frequency and synchronize with RGB-Tape controller.
 5. Log page
