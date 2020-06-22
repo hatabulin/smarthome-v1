@@ -1,4 +1,5 @@
-# SmartHome_v1 - front-end software for SmartHome_v2 device driver
+# SmartHome_v1 - front-end software, used SmartHome_v2 device driver, RGB device driver for control devices and LED strip.
+
 This is my first training project in Visual Studio C#.NET
 This software useing device driver on stm32 for communicate with power, encoders, and other sensors... Project placed: https://gitlab.com/sergiklutsk/SmartHome_v2
 
