@@ -1,4 +1,4 @@
-# SmartHome_v1
+# SmartHome_v1_front-end_software_for_SmartHome_v2_device_driver
 This is my first training project in Visual Studio C#.NET
 This software useing device driver on stm32 for communicate with power, encoders, and other sensors... Project placed: https://gitlab.com/sergiklutsk/SmartHome_v2
 
