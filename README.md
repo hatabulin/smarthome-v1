@@ -6,7 +6,7 @@ This software useing device driver on stm32 for communicate with power, encoders
 Application features:
 - SmartHome device settings, control page - project on stm32 series mcu https://github.com/hatabulin/SmartHome_device
 - RGB-Tape device (project on stm32f103c8 mcu https://github.com/hatabulin/RGB_Tape) settings, control, features page (sheduler for change RGB color, ambilight - in progress, color music show).
-- VLC player (Favorite playlist, main playlist. Playlists controlled with IR-Remote via IR sensor connected to SmartHome device (https://github.com/hatabulin/SmartHome_device).Using second monitor option for video play. Volume change for each channel.
+- VLC player (Favorite playlist, main playlist. Playlists controlled with IR-Remote via IR sensor connected to SmartHome device (https://github.com/hatabulin/SmartHome_device). Using second monitor option for video play. Volume change for each channel.
 - Audio tools page (under construction) - for calculate frequency and synchronize with RGB-Tape controller (https://github.com/hatabulin/RGB_Tape).
 - Log page.
 - Esp8266 module - smart room (Page under construction) - project on esp8266 MCU connected to stm32 SmartHome device via UART. (WiFi GET/POST Web server for future controlling from network)
